@@ -1,4 +1,4 @@
-package et.hms.exceptions;
+package et.hrms.exceptions;
 
 public class GuestException extends RuntimeException{
 

@@ -1,4 +1,4 @@
-package et.hms.dal.model;
+package et.hrms.dal.model;
 
 
 import lombok.*;

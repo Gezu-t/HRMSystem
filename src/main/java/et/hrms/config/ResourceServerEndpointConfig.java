@@ -1,4 +1,4 @@
-package et.hms.config;
+package et.hrms.config;
 
 
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;

@@ -1,13 +1,23 @@
-package et.hms.dal.model;
+package et.hrms.dal.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.List;
 
+
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "employee", schema = "public")
 public class Employee {
 
+    @Id
+    @SequenceGenerator(name = "employee_id_seq", sequenceName = "employee_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_id_seq")
     private Long id;
     private String firstName;
     private String middleName;
@@ -15,7 +25,6 @@ public class Employee {
 
     private String dateOfBirth;
     private String dateOfJoining;
-
     private String dateOfLeaving;
     private String dateOfResignation;
     private String dateOfLastPromotion;
@@ -32,10 +41,13 @@ public class Employee {
 
     @ManyToMany (mappedBy = "employees")
     private List<Address> addresses;
-    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
     private Appearance appearance;
-    @OneToMany (mappedBy = "employee" , cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "education_id")
     private Education education;
-    @OneToMany (mappedBy = "employee" , cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
     private Family family;
 }
