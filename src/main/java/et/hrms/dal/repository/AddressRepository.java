@@ -1,4 +1,4 @@
-package et.hrms.repository;
+package et.hrms.dal.repository;
 
 
 import et.hrms.dal.model.Address;
