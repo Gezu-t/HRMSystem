@@ -7,9 +7,13 @@ import org.springframework.web.service.annotation.GetExchange;
 import java.util.List;
 
 public interface EducationService {
-    Education createEducation(EducationDTO educationDTO);
+    void createEducation(EducationDTO educationDTO);
 
+
+    EducationDTO updateEducationInfo(EducationDTO educationDTO) throws Exception;
+
+     EducationDTO getEducationByInstitution(String name);
 
     @GetExchange
-    List<EducationDTO> getAllEducationList();
+    List<EducationDTO> getAllEducationList(int page, int size);
 }

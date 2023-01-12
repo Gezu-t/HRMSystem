@@ -10,4 +10,6 @@ public interface FamilyService {
     List<FamilyDTO> getAllFamilyList();
 
     FamilyDTO getFamilyById(Long id);
+
+    List<FamilyDTO> getAllFamily(int page, int size);
 }

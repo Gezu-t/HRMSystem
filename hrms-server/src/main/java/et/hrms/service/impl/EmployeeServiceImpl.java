@@ -1,39 +1,40 @@
 package et.hrms.service.impl;
 
 import et.hrms.dal.dto.*;
-import et.hrms.dal.mapping.AddressMapper;
-import et.hrms.dal.mapping.AppearanceMapper;
-import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.mapping.FamilyMapper;
+import et.hrms.dal.mapping.*;
 import et.hrms.dal.model.*;
 import et.hrms.dal.repository.EmployeeRepository;
+import et.hrms.service.EmployeeAddressManagementService;
+import et.hrms.service.EmployeeDepartmentsService;
+import et.hrms.service.EmployeeEducationManagementService;
 import et.hrms.service.EmployeeService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
-
-    private final EmployeeRepository employeeRepository;
     private final FamilyMapper familyMapper;
-    private final DepartmentMapper departmentMapper;
     private final AddressMapper addressMapper;
+
+    private final EmployeeMapper employeeMapper;
     private final AppearanceMapper appearanceMapper;
+    private final DepartmentMapper departmentMapper;
+    private final EmployeeRepository employeeRepository;
 
 
+    private final EmployeeEducationManagementService employeeEducationManagementService;
+
+    private final EmployeeDepartmentsService employeeDepartmentsService;
+
+    private final EmployeeAddressManagementService employeeAddressManagementService;
 
 
     @Override
@@ -42,7 +43,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                                FamilyDTO familyDTO,
                                AppearanceDTO appearanceDTO,
                                List<DepartmentDTO> departmentDTOS,
-                               List<AddressDTO> addressDTOS) {
+                               List<AddressDTO> addressDTOS,
+                               List<EducationDTO> educationDTOS) {
         var employee = new Employee();
         employee.setEmployeeNumber(employeeDTO.getEmployeeNo());
         employee.setFirstName(employeeDTO.getFirstName());
@@ -56,28 +58,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         Appearance appearance = appearanceMapper.toAppearance(appearanceDTO);
         employee.setAppearance(appearance);
 
-        List<Department> departments = departmentMapper.toDepartmentList(departmentDTOS);
-        var employeeDepartment = new EmployeeDepartmentManagement();
-        Set<EmployeeDepartmentManagement> employeeDepartmentManagements = new HashSet<>();
-        for(Department department: departments){
-            employeeDepartment.setDepartment(department);
-            employeeDepartmentManagements.add(employeeDepartment);
-        }
-        employee.setEmployeeDepartmentManagements(employeeDepartmentManagements);
+        employeeEducationManagementService.saveEmployeeWithEducation(employeeDTO, educationDTOS);
+        employeeAddressManagementService.saveEmployeeWithAddress(employeeDTO, addressDTOS);
+        employeeDepartmentsService.saveEmployeeWithDepartments(employeeDTO, departmentDTOS);
 
-
-        List<Address> addresses = addressMapper.toAddressList(addressDTOS);
-        var employeeAddressManagement = new EmployeeAddressManagement();
-        Set<EmployeeAddressManagement> employeeAddressManagements = new HashSet<>();
-        for(Address address: addresses){
-            employeeAddressManagement.setAddress(address);
-            employeeAddressManagements.add(employeeAddressManagement);
-        }
-        employee.setEmployeeAddressManagements(employeeAddressManagements);
-
-        if(employee.getEmployeeNumber().isEmpty()) {
-            logger.error(employee.getEmployeeNumber().formatted("Employee number is:"));
-        }
 
         employeeRepository.save(employeeRepository.save(employee));
 
@@ -101,6 +85,48 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDTOS.add(employeeDTO);
         }
         return employeeDTOS;
+
+    }
+
+
+    @Override
+    public List<DepartmentDTO> getDepartmentsForEmployee(Long employeeId) {
+        // Retrieve the employee from the database
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if (employee == null) {
+            return Collections.emptyList();
+        }
+
+        // Retrieve the departments for the employee
+        Set<EmployeeDepartmentManagement> departments = employee.getEmployeeDepartmentManagements();
+
+        // Convert the departments to department DTOs and return the list
+        return departments.stream().map(department -> {
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            departmentDTO.setDepartmentId(department.getId());
+            departmentDTO.setDepartmentName(department.getDepartment().getDepartmentName());
+            return departmentDTO;
+        }).toList();
+    }
+
+    @Override
+    public EmployeeDTO getEmployeeById(Long id) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        Set<EmployeeDepartmentManagement> department = employeeDepartmentsService.getEmployeeDepartmentByEmployeeId(id);
+        Set<EmployeeAddressManagement> employeeAddress = employeeAddressManagementService.getEmployeeAddressByEmployeeId(id);
+
+        return employeeMapper.toEmployeeDTO(employee);
+    }
+
+
+    @Override
+    public EmployeeDTO getEmployeeByEmployeeNo(String employeeNo) {
+
+        Employee employee = employeeRepository.findByEmployeeNumber(employeeNo);
+
+        return employeeMapper.toEmployeeDTO(employee);
 
     }
 

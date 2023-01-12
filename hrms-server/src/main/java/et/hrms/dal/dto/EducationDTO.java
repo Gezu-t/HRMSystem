@@ -22,7 +22,8 @@ public class EducationDTO {
     @NotNull
     private String educationLevel;
     @NotNull
-    private String educationInstitutionName;
+    private String institution;
+    private String degree;
     private String educationMajor;
     private String educationMinor;
     private String educationGrade;
@@ -31,6 +32,10 @@ public class EducationDTO {
     private String award;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate awardDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate educationStartDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate educationEndDate;
     private String awardDescription;
 
 

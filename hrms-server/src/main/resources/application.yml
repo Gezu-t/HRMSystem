@@ -1,5 +1,14 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    metrics:
+      enabled: true
+
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /hrms
 
@@ -8,7 +17,7 @@ spring:
     url: jdbc:mysql://localhost:3306/hrms?serverTimezone=UTC
     username: root
     password: admin
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   # JPA and Hibernate #####
   jpa:
@@ -22,4 +31,7 @@ spring:
         format_sql: true
 
 
-
+logging:
+  level:
+    sql: debug
+    org.hibernate.orm.jdbc.bind: trace

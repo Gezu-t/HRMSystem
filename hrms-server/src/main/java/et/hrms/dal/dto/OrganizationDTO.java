@@ -1,10 +1,8 @@
 package et.hrms.dal.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
 @Setter
 @Getter
@@ -13,7 +11,15 @@ import lombok.Setter;
 public class OrganizationDTO {
 
 
+
+    @NotEmpty
+    @NonNull
+    private Long OrganizationId;
     private String organizationName;
     private String address;
     private String establishmentDate;
+
+    private String owner;
+
+
 }

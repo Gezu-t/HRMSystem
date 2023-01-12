@@ -7,12 +7,21 @@ import java.util.List;
 
 public interface EmployeeService {
 
+
+
     @Transactional
     void createEmployee(EmployeeDTO employeeDTO,
                         FamilyDTO familyDTO,
                         AppearanceDTO appearanceDTO,
                         List<DepartmentDTO> departmentDTOS,
-                        List<AddressDTO> addressDTOS);
+                        List<AddressDTO> addressDTOS,
+                        List<EducationDTO> educationDTOS);
 
     List<EmployeeDTO> getListOfEmployee();
+
+    List<DepartmentDTO> getDepartmentsForEmployee(Long employeeId);
+
+    EmployeeDTO getEmployeeById(Long id);
+
+    EmployeeDTO getEmployeeByEmployeeNo(String employeeNo);
 }

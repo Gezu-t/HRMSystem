@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -25,7 +27,8 @@ public class Education {
     private Long id;
     private String educationCompletionDate;
     private String educationLevel;
-    private String educationInstitution;
+    private String institution;
+    private String degree;
     private String educationMajor;
     private String educationMinor;
     private String educationGrade;
@@ -36,11 +39,17 @@ public class Education {
     private String academicYear;
     private String educationType;
     private String educationStatus;
-    private String educationStatusDate;
-    private String educationStatusDescription;
+    private LocalDate educationStartDate;
+    private LocalDate educationEndDate;
     private String award;
-    private String awardDate;
+    private LocalDate awardDate;
     private String awardDescription;
+
+
+    // auditing
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
 
 
     @OneToMany(mappedBy = "education", fetch = FetchType.LAZY)

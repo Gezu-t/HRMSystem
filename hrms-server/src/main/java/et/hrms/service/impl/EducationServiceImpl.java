@@ -1,13 +1,17 @@
 package et.hrms.service.impl;
 
 import et.hrms.dal.dto.EducationDTO;
+import et.hrms.dal.mapping.EducationMapper;
 import et.hrms.dal.model.Education;
 import et.hrms.dal.repository.EducationRepository;
 import et.hrms.service.EducationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,37 +22,61 @@ public class EducationServiceImpl implements EducationService {
 
     private final EducationRepository educationRepository;
 
+    private final EducationMapper educationMapper;
+
 
 
     @Override
-    public Education createEducation(EducationDTO educationDTO) {
+    public void createEducation(EducationDTO educationDTO) {
 
-        Education education = new Education();
-        education.setEducationInstitution(educationDTO.getEducationInstitutionName());
-        education.setEducationLevel(educationDTO.getEducationLevel());
-        education.setEducationMajor(educationDTO.getEducationMajor());
-        education.setEducationMinor(educationDTO.getEducationMinor());
-        education.setEducationType(educationDTO.getEducationType());
+        Education education = educationMapper.toEducation(educationDTO);
+        education.setCreatedAt(LocalDateTime.now());
         educationRepository.save(education);
 
-        return education;
     }
 
 
+    @Override
+    public EducationDTO updateEducationInfo(EducationDTO educationDTO) throws Exception {
+// retrieve the existing education record from the database
+        Education education = educationRepository.findById(educationDTO.getEducationId())
+                .orElseThrow(Exception::new);
+
+        // update the fields of the education record with the new values from the DTO
+        education.setInstitution(educationDTO.getInstitution());
+        education.setEducationMajor(educationDTO.getEducationMajor());
+        education.setEducationMinor(educationDTO.getEducationMinor());
+        education.setEducationLevel(educationDTO.getEducationLevel());
+        education.setAward(educationDTO.getAward());
+        education.setAwardDate(educationDTO.getAwardDate());
+        education.setEducationStartDate(educationDTO.getEducationStartDate());
+        education.setEducationEndDate(educationDTO.getEducationEndDate());
+
+        // add updated date for current information
+        education.setUpdatedAt(LocalDateTime.now());
+
+        // save the updated education record to the database
+        education = educationRepository.save(education);
+
+        // map the updated education record to a DTO and return it
+        return educationMapper.toEducationDTO(education);
+    }
+
 
     @Override
-    public List<EducationDTO> getAllEducationList() {
-        List<EducationDTO> educationDTOS = new ArrayList<>();
-        List<Education> educations = educationRepository.findAll();
-        EducationDTO educationDTO = new EducationDTO();
-        for (Education education : educations) {
-            educationDTO.setEducationId(education.getId());
-            educationDTO.setEducationMinor(education.getEducationMajor());
-            educationDTO.setEducationMinor(education.getEducationMinor());
-            educationDTO.setEducationLevel(education.getEducationLevel());
-            educationDTOS.add(educationDTO);
-        }
-        return educationDTOS;
+    public EducationDTO getEducationByInstitution(String name){
+        Education education = educationRepository.findByInstitution(name);
+        return educationMapper.toEducationDTO(education);
+    }
+
+
+    @Override
+    public List<EducationDTO> getAllEducationList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Education> educations = educationRepository.findAll(pageable);
+        return educations.stream()
+                .map(educationMapper::toEducationDTO)
+                .toList();
     }
 
 

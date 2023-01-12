@@ -6,6 +6,9 @@ import et.hrms.dal.model.Family;
 import et.hrms.dal.repository.FamilyRepository;
 import et.hrms.service.FamilyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,16 +29,8 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public void createFamily(FamilyDTO familyDTO) {
-        Family family = new Family();
-        family.setFamilyFirstName(familyDTO.getFamilyFirstName());
-        family.setFamilyLastName(familyDTO.getFamilyLastName());
-        family.setGender(familyDTO.getGender());
-        family.setDate_Birth(familyDTO.getDateOfBirth());
-        family.setNationality(familyDTO.getNationality());
-
+        Family family = familyMapper.toFamily(familyDTO);
          familyRepository.save(family);
-
-
     }
 
 
@@ -65,5 +60,15 @@ public class FamilyServiceImpl implements FamilyService {
             familyDTO = familyMapper.toFamilyDTO(family.get());
 
         return familyDTO;
+    }
+
+
+    @Override
+    public List<FamilyDTO> getAllFamily(int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Family> families = familyRepository.findAll(pageable);
+        return families.stream()
+                .map(familyMapper::toFamilyDTO)
+                .toList();
     }
 }

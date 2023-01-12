@@ -22,9 +22,12 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "job_id_gen")
     private Long id;
-    private String jobTitle;
+    private String title;
+    private Integer maxSalary;
 
-    private String jobResponsibility;
+    private Integer minSalary;
+
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "job_level_id")
