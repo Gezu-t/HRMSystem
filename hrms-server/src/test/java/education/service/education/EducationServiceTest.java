@@ -4,19 +4,24 @@ import et.hrms.dal.dto.EducationDTO;
 import et.hrms.dal.mapping.EducationMapper;
 import et.hrms.dal.model.Education;
 import et.hrms.dal.repository.EducationRepository;
+import et.hrms.exceptions.RecordNotFoundException;
 import et.hrms.service.EducationService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+
+@Slf4j
 @RunWith(MockitoJUnitRunner.class)
 public class EducationServiceTest {
 
@@ -25,6 +30,7 @@ public class EducationServiceTest {
     private EducationRepository educationRepository;
     // Create an instance of the EducationService implementation class
 
+    @InjectMocks
     private final EducationMapper educationMapper = mock(EducationMapper.class);
 
     @Mock
@@ -36,19 +42,24 @@ public class EducationServiceTest {
         EducationDTO educationDTO = new EducationDTO();
         educationDTO.setEducationType("Master's Degree");
         educationDTO.setEducationMajor("Education Science");
+        educationDTO.setDegree("Science");
         educationDTO.setInstitution("University of Calabria");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
         educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
 
-        Education education1 = educationMapper.toEducation(educationDTO);
-//        when(educationRepository.save(education1)).thenReturn(education1);
+        Education education = new Education();
+        education = educationMapper.toEducation(educationDTO);
 
-        // Call the updateEducationInfo method and assert that it returns the expected result
-//        verify(educationMapper).createEducation(new Education(null, "High School", "XYZ High School"));
+        assertEquals(education.getDegree(),(educationDTO.getDegree()));
+        when(educationRepository.save(education)).thenThrow(RecordNotFoundException.class);
+        try{
+            educationService.createEducation(educationDTO);
+        }catch(RecordNotFoundException e){
+            log.error(e.getMessage());
+        }
 
-//        assertEquals(educationDTO, result);
     }
 
     @Test
@@ -56,14 +67,6 @@ public class EducationServiceTest {
         // create a new EducationDTO object with the updated education information
 
         EducationDTO educationDTO = new EducationDTO();
-//        when(educationRepository.findById(1L)).thenReturn(Optional.of(new Education()));
-//        educationDTO.setEducationId(1L); // set the ID of the education record to update
-//        educationDTO.setEducationType("Bachelor's Degree");
-//        educationDTO.setEducationMajor("Computer Science");
-//        educationDTO.setEducationInstitutionName("University of XYZ");
-//        educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020"));
-//        educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023"));
-
         // Update the mock EducationInfo object
         educationDTO.setEducationType("Master's Degree");
         educationDTO.setEducationMajor("Education Science");
@@ -73,16 +76,19 @@ public class EducationServiceTest {
         educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
         educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
 
-        Education education1 = educationMapper.toEducation(educationDTO);
-
-//        when(educationRepository.save(education1)).thenReturn(education1);
-
-        // Call the updateEducationInfo method and assert that it returns the expected result
         EducationDTO result = educationService.updateEducationInfo(educationDTO);
         if (result != null) {
-
-            Assertions.assertEquals(educationDTO, result);
+            assertEquals(educationDTO, result);
         }
+
+    }
+
+
+    @Test
+    public void testGetAllEducationInfo() {
+        EducationDTO educationDTO = new EducationDTO();
+        //update the mock EducationInfo object
+
 
     }
 

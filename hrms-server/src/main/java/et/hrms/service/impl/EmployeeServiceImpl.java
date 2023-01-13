@@ -1,7 +1,9 @@
 package et.hrms.service.impl;
 
 import et.hrms.dal.dto.*;
-import et.hrms.dal.mapping.*;
+import et.hrms.dal.mapping.AppearanceMapper;
+import et.hrms.dal.mapping.EmployeeMapper;
+import et.hrms.dal.mapping.FamilyMapper;
 import et.hrms.dal.model.*;
 import et.hrms.dal.repository.EmployeeRepository;
 import et.hrms.service.EmployeeAddressManagementService;
@@ -13,7 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -22,13 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     private final FamilyMapper familyMapper;
-    private final AddressMapper addressMapper;
-
     private final EmployeeMapper employeeMapper;
     private final AppearanceMapper appearanceMapper;
-    private final DepartmentMapper departmentMapper;
     private final EmployeeRepository employeeRepository;
-
 
     private final EmployeeEducationManagementService employeeEducationManagementService;
 
@@ -45,12 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                                List<DepartmentDTO> departmentDTOS,
                                List<AddressDTO> addressDTOS,
                                List<EducationDTO> educationDTOS) {
-        var employee = new Employee();
-        employee.setEmployeeNumber(employeeDTO.getEmployeeNo());
-        employee.setFirstName(employeeDTO.getFirstName());
-        employee.setLastName(employeeDTO.getLastName());
-        employee.setDateOfBirth(employeeDTO.getDateOfBirth());
-        employee.setDateOfJoining(employeeDTO.getDateOfJoining());
+        var employee = employeeMapper.toEmployee(employeeDTO);
 
         Family family = familyMapper.toFamily(familyDTO);
         employee.setFamily(family);
@@ -63,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDepartmentsService.saveEmployeeWithDepartments(employeeDTO, departmentDTOS);
 
 
-        employeeRepository.save(employeeRepository.save(employee));
+        employeeRepository.save(employee);
 
 
     }
@@ -115,8 +111,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         Set<EmployeeDepartmentManagement> department = employeeDepartmentsService.getEmployeeDepartmentByEmployeeId(id);
+        employee.setEmployeeDepartmentManagements(department);
         Set<EmployeeAddressManagement> employeeAddress = employeeAddressManagementService.getEmployeeAddressByEmployeeId(id);
-
+        employee.setEmployeeAddressManagements(employeeAddress);
         return employeeMapper.toEmployeeDTO(employee);
     }
 

@@ -12,6 +12,7 @@ import et.hrms.service.DepartmentService;
 import et.hrms.service.OrganizationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +34,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final OrganizationService organizationService;
 
 
+    @SneakyThrows
     @Override
     public Department createDepartment(DepartmentDTO departmentDTO,
-                                       OrganizationDTO organizationDTO) throws Exception {
+                                       OrganizationDTO organizationDTO) {
 
         Department department = departmentMapper.toDepartment(departmentDTO);
 
@@ -59,8 +61,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.toDepartmentDTO(department);
     }
 
+    @SneakyThrows
     @Override
-    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) throws Exception {
+    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
 
         Department department = departmentRepository.findById(departmentDTO.getDepartmentId())
                 .orElseThrow(EntityNotFoundException::new);

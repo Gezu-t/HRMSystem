@@ -5,8 +5,6 @@ import et.hrms.dal.dto.DepartmentDTO;
 import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.model.Department;
 import et.hrms.service.DepartmentService;
-import io.swagger.annotations.Authorization;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ public class DepartmentControllerImpl implements DepartmentController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public Department createDepartment(@RequestBody DepartmentDTO departmentDTO,
-                                       @RequestBody OrganizationDTO organizationDTO) throws Exception {
+                                       @RequestBody OrganizationDTO organizationDTO)  {
 
 
         return departmentService.createDepartment(departmentDTO, organizationDTO);
@@ -45,7 +43,7 @@ public class DepartmentControllerImpl implements DepartmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long id,
-                                                              @RequestBody DepartmentDTO departmentDTO) throws Exception {
+                                                              @RequestBody DepartmentDTO departmentDTO) {
         if (departmentService.getDepartmentById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

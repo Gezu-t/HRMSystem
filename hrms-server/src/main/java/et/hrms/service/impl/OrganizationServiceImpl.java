@@ -4,7 +4,9 @@ import et.hrms.dal.dto.AddressDTO;
 import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.mapping.AddressMapper;
 import et.hrms.dal.mapping.OrganizationMapper;
-import et.hrms.dal.model.*;
+import et.hrms.dal.model.Address;
+import et.hrms.dal.model.Organization;
+import et.hrms.dal.model.OrganizationAddressManagement;
 import et.hrms.dal.repository.OrganizationRepository;
 import et.hrms.service.OrganizationAddressManagementService;
 import et.hrms.service.OrganizationService;
@@ -49,8 +51,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
     @Override
-    public OrganizationDTO getOrganizationById(Long id) throws Exception {
-        Organization organization = organizationRepository.findById(id).orElseThrow(Exception::new);
+    public OrganizationDTO getOrganizationById(Long id)  {
+        Organization organization = organizationRepository.findById(id).orElseThrow();
 
         if (organization != null) {
             return organizationMapper.toOrganizationDTO(organization);

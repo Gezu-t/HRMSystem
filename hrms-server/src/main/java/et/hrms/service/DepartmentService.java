@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface DepartmentService {
     Department createDepartment(DepartmentDTO departmentDTO,
-                                OrganizationDTO organizationDTO) throws Exception;
+                                OrganizationDTO organizationDTO);
 
     DepartmentDTO getDepartmentById(Long id);
 
-    DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) throws Exception;
+    DepartmentDTO updateDepartment(DepartmentDTO departmentDTO);
 
     List<DepartmentDTO> getAllDepartment(int page, int size);
 }
