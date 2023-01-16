@@ -7,7 +7,7 @@
 /bazel-out
 
 # Node
-/hrms-client-ui/node_modules
+/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -36,8 +36,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-./node_modules
-./node
 
 # System files
 .DS_Store

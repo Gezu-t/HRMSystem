@@ -3,20 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { EducationFormComponent } from './education-form/education-form.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileCardComponent } from './profile-card/profile-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeeFormComponent,
-    EducationFormComponent
+    EducationFormComponent,
+    HeaderComponent,
+    FooterComponent,
+    ProfileCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

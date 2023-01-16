@@ -1,9 +1,9 @@
 {
-  "$schema": "hrms-client-ui/node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hrms-client-ui": {
+    "hrms-client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hrms-client-ui",
+            "outputPath": "dist/hrms-client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hrms-client-ui:build:production"
+              "browserTarget": "hrms-client:build:production"
             },
             "development": {
-              "browserTarget": "hrms-client-ui:build:development"
+              "browserTarget": "hrms-client:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hrms-client-ui:build"
+            "browserTarget": "hrms-client:build"
           }
         },
         "test": {
