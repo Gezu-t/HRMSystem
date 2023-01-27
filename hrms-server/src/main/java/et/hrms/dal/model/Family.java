@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 
 @Setter
 @Getter
@@ -25,7 +27,7 @@ public class Family {
 
     private String nationality;
     private String payGrade;
-    private String date_Birth;
+    private LocalDate dateBirth;
     private String gender;
     private String familyFirstName;
     private String familyLastName;

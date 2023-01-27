@@ -5,7 +5,9 @@ import et.hrms.dal.dto.FamilyDTO;
 import java.util.List;
 
 public interface FamilyService {
-    void createFamily(FamilyDTO familyDTO);
+
+
+    void createEmployeeFamily(Long employeeId, FamilyDTO familyDTO);
 
     List<FamilyDTO> getAllFamilyList();
 
