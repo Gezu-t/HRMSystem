@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 public interface AppearanceRepository extends JpaRepository<Appearance, Long> {
     @Query("select a from Appearance a where a.employee.id = :id")
