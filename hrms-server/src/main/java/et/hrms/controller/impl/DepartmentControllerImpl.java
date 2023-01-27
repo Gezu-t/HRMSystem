@@ -2,16 +2,15 @@ package et.hrms.controller.impl;
 
 import et.hrms.controller.DepartmentController;
 import et.hrms.dal.dto.DepartmentDTO;
-import et.hrms.dal.dto.OrganizationDTO;
-import et.hrms.dal.model.Department;
 import et.hrms.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Set;
 
 
 @RestController
@@ -23,27 +22,33 @@ public class DepartmentControllerImpl implements DepartmentController {
     private final DepartmentService departmentService;
 
 
-
-    @PostMapping("/add")
+    @Override
+    @PostMapping(value = "/add/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Department createDepartment(@RequestBody DepartmentDTO departmentDTO,
-                                       @RequestBody OrganizationDTO organizationDTO)  {
+    public List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
+                                                @RequestBody DepartmentDTO departmentDTO) {
+        return departmentService.createDepartmentByBranchId(branchId, departmentDTO);
+    }
 
-
-        return departmentService.createDepartment(departmentDTO, organizationDTO);
+    @Override
+    @PostMapping(value = "/add/{orgName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Set<DepartmentDTO> createDepartmentByOrganizationId(@PathVariable Long organizationId,
+                                                @RequestBody DepartmentDTO departmentDTO) {
+        return departmentService.createDepartmentByOrganizationId(organizationId, departmentDTO);
     }
 
 
-
-
-    @GetMapping("/all")
+    @Override
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size) {
         return departmentService.getAllDepartment(page, size);
     }
 
-    @GetMapping("/{id}")
+    @Override
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long id,
-                                                              @RequestBody DepartmentDTO departmentDTO) {
+                                                          @RequestBody DepartmentDTO departmentDTO) {
         if (departmentService.getDepartmentById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -13,11 +13,14 @@ import lombok.Setter;
 @Getter
 public class DepartmentDTO {
 
-
-    @NotEmpty
     private Long departmentId;
+    @NotEmpty
     private String locations;
+    @NotEmpty
     private String departmentName;
-    private Long organizationId;
+    @NotEmpty
+    private Long branchId;
+
+
 
 }

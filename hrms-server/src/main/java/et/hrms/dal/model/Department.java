@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -25,19 +24,21 @@ public class Department {
             generator = "department_id_gen")
     private Long id;
     private String departmentNumber;
-    private String locations;
     private String departmentName;
-
+    private String locations;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
+
+    @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    private Set<EmployeeDepartmentManagement> employeeDepartmentManagements;
 
 
 }

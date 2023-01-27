@@ -2,24 +2,26 @@ package et.hrms.service.impl;
 
 
 import et.hrms.dal.dto.DepartmentDTO;
-import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.mapping.OrganizationMapper;
+import et.hrms.dal.model.Branch;
 import et.hrms.dal.model.Department;
 import et.hrms.dal.model.Organization;
+import et.hrms.dal.repository.BranchRepository;
 import et.hrms.dal.repository.DepartmentRepository;
+import et.hrms.dal.repository.OrganizationRepository;
 import et.hrms.service.DepartmentService;
-import et.hrms.service.OrganizationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,28 +30,40 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
-
-    private final OrganizationMapper organizationMapper;
-
-    private final OrganizationService organizationService;
+    private final BranchRepository branchRepository;
+    private final OrganizationRepository organizationRepository;
 
 
-    @SneakyThrows
     @Override
-    public Department createDepartment(DepartmentDTO departmentDTO,
-                                       OrganizationDTO organizationDTO) {
+    public List<DepartmentDTO> createDepartmentByBranchId(long branchId, DepartmentDTO departmentDTO) {
+
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch information is not found by this id: " + branchId));
 
         Department department = departmentMapper.toDepartment(departmentDTO);
+        Set<Department> departments = new LinkedHashSet<>();
 
-        OrganizationDTO organizationDTOdb = organizationService.getOrganizationById(organizationDTO.getOrganizationId());
+        department.setBranch(branch);
+        departments.add(department);
 
-        Organization organization = organizationMapper.toOrganization(organizationDTOdb);
+        return departmentMapper.toDepartmentList(departmentRepository.saveAll(departments));
+    }
 
+
+    @Override
+    public Set<DepartmentDTO> createDepartmentByOrganizationId(Long organizationId, DepartmentDTO departmentDTO) {
+
+        Set<Department> departments = new LinkedHashSet<>();
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Organization is not found by this name{0}: ", organizationId)));
+
+        Department department = departmentMapper.toDepartment(departmentDTO);
         department.setOrganization(organization);
+        departments.add(department);
 
-        departmentRepository.save(department);
-
-        return department;
+        List<Department> departmentList = departmentRepository.saveAll(departmentRepository.saveAll(departments));
+        Set<Department> departmentSet = Set.copyOf(departmentList);
+        return departmentMapper.toDepartmentSet(departmentSet);
     }
 
 
@@ -61,20 +75,23 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.toDepartmentDTO(department);
     }
 
-    @SneakyThrows
+
     @Override
     public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
 
         Department department = departmentRepository.findById(departmentDTO.getDepartmentId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                MessageFormat.format("Department information is not found by this id {0}."
+                                        , departmentDTO.getDepartmentId())));
 
         // update the fields of the education record with the new values from the DTO
         department.setDepartmentName(departmentDTO.getDepartmentName());
         department.setLocations(departmentDTO.getLocations());
 
-        OrganizationDTO organizationDTO = organizationService.getOrganizationById(department.getOrganization().getId());
-        Organization organization = organizationMapper.toOrganization(organizationDTO);
-        department.setOrganization(organization);
+        Branch branch = branchRepository.findById(departmentDTO.getBranchId())
+                .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Branch is not found by this id {0}. ", departmentDTO.getBranchId())));
+        department.setBranch(branch);
 
 
         // add updated date for current information
@@ -96,6 +113,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .map(departmentMapper::toDepartmentDTO)
                 .toList();
     }
+
 
 
 }
