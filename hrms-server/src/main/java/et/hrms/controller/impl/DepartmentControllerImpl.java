@@ -4,6 +4,7 @@ import et.hrms.controller.DepartmentController;
 import et.hrms.dal.dto.DepartmentDTO;
 import et.hrms.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class DepartmentControllerImpl implements DepartmentController {
     @PostMapping(value = "/add/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
-                                                @RequestBody DepartmentDTO departmentDTO) {
+                                                          @RequestBody DepartmentDTO departmentDTO) {
         return departmentService.createDepartmentByBranchId(branchId, departmentDTO);
     }
 
@@ -34,7 +35,7 @@ public class DepartmentControllerImpl implements DepartmentController {
     @PostMapping(value = "/add/{orgName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Set<DepartmentDTO> createDepartmentByOrganizationId(@PathVariable Long organizationId,
-                                                @RequestBody DepartmentDTO departmentDTO) {
+                                                               @RequestBody DepartmentDTO departmentDTO) {
         return departmentService.createDepartmentByOrganizationId(organizationId, departmentDTO);
     }
 
@@ -55,4 +56,20 @@ public class DepartmentControllerImpl implements DepartmentController {
         departmentDTO.setDepartmentId(id);
         return new ResponseEntity<>(departmentService.updateDepartment(departmentDTO), HttpStatus.OK);
     }
+
+
+    @Override
+    @GetMapping(path = "/organization/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DepartmentDTO> getDepartmentByOrganization(@PathVariable Long organizationId, @RequestParam Sort sort) {
+        return departmentService.getDepartmentByOrganization(organizationId, sort);
+    }
+
+
+
+    @Override
+    @GetMapping(path = "/branch/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DepartmentDTO> getDepartmentByBranch(Long branchId, Sort sort) {
+        return departmentService.getDepartmentByBranch(branchId, sort);
+    }
+
 }

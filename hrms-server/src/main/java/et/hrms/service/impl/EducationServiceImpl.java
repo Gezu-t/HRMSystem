@@ -4,6 +4,7 @@ import et.hrms.dal.dto.EducationDTO;
 import et.hrms.dal.mapping.EducationMapper;
 import et.hrms.dal.model.Education;
 import et.hrms.dal.repository.EducationRepository;
+import et.hrms.exceptions.EntityNotFoundException;
 import et.hrms.service.EducationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,10 +38,10 @@ public class EducationServiceImpl implements EducationService {
 
 
     @Override
-    public EducationDTO updateEducationInfo(EducationDTO educationDTO) throws Exception {
+    public EducationDTO updateEducationInfo(EducationDTO educationDTO) {
 // retrieve the existing education record from the database
         Education education = educationRepository.findById(educationDTO.getEducationId())
-                .orElseThrow(Exception::new);
+                .orElseThrow(() -> new EntityNotFoundException("Education information is not found by this id: " + educationDTO.getEducationId()));
 
         // update the fields of the education record with the new values from the DTO
         education.setInstitution(educationDTO.getInstitution());

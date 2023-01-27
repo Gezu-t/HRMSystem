@@ -23,7 +23,7 @@ public class JobLevel {
             generator = "job_level_id_sequence")
     private Long id;
 
-    private String levelName;
+    private String levelName; //team leader
 
     private String levelPeriod;
 

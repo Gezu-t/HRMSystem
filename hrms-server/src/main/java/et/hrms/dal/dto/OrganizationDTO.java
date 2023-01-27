@@ -1,25 +1,26 @@
 package et.hrms.dal.dto;
 
 
-import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+import java.time.LocalDate;
+
+@Data
 public class OrganizationDTO {
 
-
-
-    @NotEmpty
-    @NonNull
-    private Long OrganizationId;
+    private Long organizationId;
+    @NotNull
+    @UniqueElements(message = "duplicate organization name exist")
     private String organizationName;
-    private String address;
-    private String establishmentDate;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate establishmentDate;
+    @NotNull
+    private String ownerName;
 
-    private String owner;
-
-
+    @NotNull
+    private OrganizationAddressDTO organizationAddressDTO;
 }

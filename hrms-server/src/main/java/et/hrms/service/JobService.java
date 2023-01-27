@@ -9,7 +9,7 @@ public interface JobService {
 
     JobDTO updateJob(JobDTO jobDTO);
 
-    JobDTO getJobById(Long id) throws Exception;
+    JobDTO getJobById(Long id);
 
     List<JobDTO> getAllJobs(int page, int size);
 }

@@ -19,5 +19,7 @@ public class AppearanceDTO {
     private String skinColor;
     private String bloodGroup;
 
+    private Long employeeId;
+
 
 }

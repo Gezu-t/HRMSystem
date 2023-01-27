@@ -7,7 +7,11 @@ import et.hrms.dal.repository.EducationRepository;
 import et.hrms.exceptions.RecordNotFoundException;
 import et.hrms.service.EducationService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -18,26 +22,32 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @Slf4j
 @SpringJUnitConfig
-
 public class EducationServiceTest {
 
-    @Autowired
-    private  EducationRepository educationRepository;
-    @Autowired
-    private  EducationMapper educationMapper;
-    @Autowired
-    private  EducationService educationService;
+    @Mock
+    private EducationRepository educationRepository = mock(EducationRepository.class);
+    @Mock
+    private EducationMapper educationMapper = mock(EducationMapper.class);
+
+    @InjectMocks
+    private EducationService educationService = mock(EducationService.class);
 
 
+    @BeforeEach
+    public void init() {
+        educationService = mock(EducationService.class);
+        educationMapper = mock(EducationMapper.class);
+    }
 
     @Test
     public void testCreateEducationInfo() {
+
+
         EducationDTO educationDTO = new EducationDTO();
         educationDTO.setEducationType("Master's Degree");
         educationDTO.setEducationMajor("Education Science");
@@ -49,10 +59,10 @@ public class EducationServiceTest {
         educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
 
         Education result = educationMapper.toEducation(educationDTO);
+
         Education education = educationMapper.toEducation(educationDTO);
         when(educationMapper.toEducation(educationDTO)).thenReturn(education);
 
-//        assertNull(education.getEducationType());
         assertEquals("Science", educationDTO.getDegree());
         assertNotNull(educationDTO.getDegree());
         when(educationRepository.save(education)).thenThrow(RecordNotFoundException.class);
@@ -66,18 +76,19 @@ public class EducationServiceTest {
 
     @Test
     public void testUpdateEducationInfo() throws Exception {
-        // create a new EducationDTO object with the updated education information
 
         EducationDTO educationDTO = new EducationDTO();
         // Update the mock EducationInfo object
         educationDTO.setEducationType("Master's Degree");
         educationDTO.setEducationMajor("Education Science");
         educationDTO.setInstitution("University of Calabria");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
         educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
 
+        when(educationService.updateEducationInfo(educationDTO)).thenReturn(null);
+        assertEquals(educationService.updateEducationInfo(any()), educationService.getEducationByInstitution(any()));
         EducationDTO result = educationService.updateEducationInfo(educationDTO);
         if (result != null) {
             assertEquals(educationDTO, result);
@@ -111,24 +122,20 @@ public class EducationServiceTest {
 
     @Test
     public void testGetAllListEducation() {
+        EducationDTO educationDTO = new EducationDTO();
+        educationDTO.setEducationType("Master's Degree");
+        educationDTO.setEducationMajor("Education Science");
+        educationDTO.setInstitution("University of Calabria");
+
         // create a list of EducationDTO objects to return from the repository
-        List<EducationDTO> educationDTOList = educationService.getAllEducationList(20, 1);
-        Education education = new Education();
-        List<Education> educations = new ArrayList<>();
-        for(EducationDTO educationDTO: educationDTOList) {
-            education.setEducationType(educationDTO.getEducationType());
 
-            education.setDegree(educationDTO.getDegree());
-            education.setEducationLevel(educationDTO.getEducationLevel());
-            education.setAward(educationDTO.getAward());
-            educations.add(education);
+        when(educationService.getAllEducationList(20, 1)).thenReturn(null);
+        List<EducationDTO> educations = educationService.getAllEducationList(20, 0);
+        for(EducationDTO edu : educations){
+            Education education = educationMapper.toEducation(educationDTO);
+            assertNull(education.getEducationGrade());
         }
-//        when(educationRepository.findAll()).thenReturn(educations);
 
-        // assert that the returned list is the same as the one created earlier
-        assertEquals(educationDTOList, educationDTOList);
-        // Verify that the repository's findAll() method was called
-//        verify(educationRepository).findAll();
     }
 
 

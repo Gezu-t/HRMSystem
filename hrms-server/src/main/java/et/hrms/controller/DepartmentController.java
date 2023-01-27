@@ -1,6 +1,7 @@
 package et.hrms.controller;
 
 import et.hrms.dal.dto.DepartmentDTO;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,4 +23,7 @@ public interface DepartmentController {
 
     ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long id,
                                                    @RequestBody DepartmentDTO departmentDTO);
+    List<DepartmentDTO> getDepartmentByOrganization(@PathVariable Long organizationId, @RequestParam Sort sort);
+
+    List<DepartmentDTO> getDepartmentByBranch(Long branchId, Sort sort);
 }

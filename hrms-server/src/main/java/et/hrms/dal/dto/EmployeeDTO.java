@@ -3,24 +3,19 @@ package et.hrms.dal.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class EmployeeDTO {
 
     private Long employeeId;
 
     @NotEmpty(message = "Employee number cannot be empty!")
-    private String employeeNo;
+    private String employeeNumber;
 
     @NotEmpty(message = "Employee first name cannot be empty!")
     private String firstName;
@@ -30,24 +25,18 @@ public class EmployeeDTO {
 
     @NotEmpty(message = "Employee Date of birth cannot be empty!")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotEmpty(message = "Employee joining date cannot be empty!")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private String dateOfJoining;
+    private LocalDate dateOfJoining;
 
-    private List<DepartmentDTO> departmentDTOS;
 
-    private List<EducationDTO>  educationDTOS;
+    private List<EmployeeAddressDTO> employeeAddressDTOS;
 
-    private FamilyDTO familyDTO;
+    private List<EmployeeDetailDTO> employeeDetailDTOS;
 
-    @NotEmpty(message = "Address must be specified")
-    private List<AddressDTO> addressDTOS;
 
-    private AppearanceDTO appearanceDTO;
-
-    private List<EmployeePositionDTO> employeePositionDTOS;
 
 
 }

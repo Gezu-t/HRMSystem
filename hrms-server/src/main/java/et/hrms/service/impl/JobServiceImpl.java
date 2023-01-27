@@ -51,9 +51,9 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public JobDTO getJobById(Long id) throws Exception {
+    public JobDTO getJobById(Long id)  {
         Job job = jobRepository.findById(id)
-                .orElseThrow(Exception::new);
+                .orElseThrow(() -> new EntityNotFoundException("Job detail is not found by this id: " + id));
 
         return jobMapper.toJobDTO(job);
     }

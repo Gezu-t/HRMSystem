@@ -7,21 +7,10 @@ import java.util.List;
 
 public interface EmployeeService {
 
+    EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
 
+    List<EmployeeDTO> findEmployeeByDepartmentName(String departmentName, int page, int size);
 
-    @Transactional
-    void createEmployee(EmployeeDTO employeeDTO,
-                        FamilyDTO familyDTO,
-                        AppearanceDTO appearanceDTO,
-                        List<DepartmentDTO> departmentDTOS,
-                        List<AddressDTO> addressDTOS,
-                        List<EducationDTO> educationDTOS);
+    List<EmployeeDTO> getAllEmployeeList(int page, int size);
 
-    List<EmployeeDTO> getListOfEmployee();
-
-    List<DepartmentDTO> getDepartmentsForEmployee(Long employeeId);
-
-    EmployeeDTO getEmployeeById(Long id);
-
-    EmployeeDTO getEmployeeByEmployeeNo(String employeeNo);
 }

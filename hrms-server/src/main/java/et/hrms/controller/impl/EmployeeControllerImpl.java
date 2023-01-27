@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,52 +19,40 @@ public class EmployeeControllerImpl implements EmployeeController {
     private final EmployeeService employeeService;
 
 
-
-
     @Override
-    @PostMapping(value= "/add", produces = MediaType.APPLICATION_JSON_VALUE )
-    public void createEmployee(@RequestBody EmployeeDTO employeeDTO,
-                               @RequestBody AppearanceDTO appearanceDTO,
-                               @RequestBody FamilyDTO familyDTO,
-                               @RequestBody List<DepartmentDTO> departmentDTOS,
-                               @RequestBody List<AddressDTO> addressDTOS,
-                               @RequestBody List<EducationDTO> educationDTOS) {
-
-
-        employeeService.createEmployee(employeeDTO, familyDTO, appearanceDTO, departmentDTOS, addressDTOS, educationDTOS);
+    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createEmployee(employeeDTO);
 
     }
 
 
-
     @Override
-    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<EmployeeDTO> getListOfEmployee() {
-        return employeeService.getListOfEmployee();
+    @GetMapping(value = "/all/{page}/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<EmployeeDTO> getAllEmployeeList(@RequestParam int page, @RequestParam int size) {
+        return employeeService.getAllEmployeeList(page, size);
     }
 
 
-
     @Override
-    @Operation(description = "get employee by using id")
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
-        EmployeeDTO employee = employeeService.getEmployeeById(id);
-        if (employee == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(employee, HttpStatus.OK);
+    @Operation(description = "List of Employee based on the department name")
+    @GetMapping(value = "/employeeList/{departmentName}/{page}/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<EmployeeDTO> findEmployeeByDepartmentName(@PathVariable String departmentName,
+                                                          @PathVariable int page,
+                                                          @PathVariable int size) {
+        return employeeService.findEmployeeByDepartmentName(departmentName, page, size);
     }
-
-    @Override
-    @Operation(description = "get employee by using employee number")
-    @GetMapping(value = "/{employeeNo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeeDTO> getEmployeeByEmployeeNumber(@PathVariable String employeeNo) {
-        EmployeeDTO employee = employeeService.getEmployeeByEmployeeNo(employeeNo);
-        if (employee == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(employee, HttpStatus.OK);
-    }
+//
+//    @Override
+//    @Operation(description = "get employee by using employee number")
+//    @GetMapping(value = "/{employeeNo}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<EmployeeDTO> getEmployeeByEmployeeNumber(@PathVariable String employeeNo) {
+//        EmployeeDTO employee = employeeService.getEmployeeByEmployeeNo(employeeNo);
+//        if (employee == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(employee, HttpStatus.OK);
+//    }
 
 }

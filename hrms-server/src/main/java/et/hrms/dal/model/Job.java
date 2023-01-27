@@ -22,6 +22,7 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "job_id_gen")
     private Long id;
+    private String jobCode;
     private String title;
     private Integer maxSalary;
 

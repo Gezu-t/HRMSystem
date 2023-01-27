@@ -1,30 +1,46 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EmployeeFormComponent } from './employee-form/employee-form.component';
-import { EducationFormComponent } from './education-form/education-form.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { EmployeeComponent } from './components/employee/employee.component';
+import { EducationComponent } from './components/education/education.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ProfileCardComponent } from './profile-card/profile-card.component';
+import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
+import {CdkTableModule} from '@angular/cdk/table';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
+import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeFormComponent,
-    EducationFormComponent,
+    EmployeeComponent,
+    EducationComponent,
     HeaderComponent,
     FooterComponent,
-    ProfileCardComponent
+    EmployeeListComponent,
+    EmployeeDetailsComponent,
+    EmployeeRegistrationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatAutocompleteModule,
+    MatListModule,
+    CdkTableModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+ }

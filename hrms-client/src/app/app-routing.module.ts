@@ -2,24 +2,20 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { EmployeeFormComponent } from './employee-form/employee-form.component'
-import { EducationFormComponent } from './education-form/education-form.component'
+import { EmployeeComponent } from './components/employee/employee.component'
+import { EducationComponent } from './components/education/education.component'
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
+import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
 
 const routes: Routes = [
 
-    {
-      path: '',
-       redirectTo: '/home',
-          pathMatch: 'full'
-        },
-        {
-          path: 'Employee',
-          component: EmployeeFormComponent,
-        },
-        {
-          path: 'Education',
-          component: EducationFormComponent,
-        },
+  { path: 'employee', component: EmployeeComponent },
+  { path: 'education', component: EducationComponent },
+  { path: 'employee-list', component: EmployeeListComponent },
+  { path: 'employee-details/:id', component: EmployeeDetailsComponent },
+  { path: 'employee-registration', component: EmployeeRegistrationComponent },
+  { path: '', redirectTo: '/employee-list', pathMatch: 'full' }
 
 ];
 

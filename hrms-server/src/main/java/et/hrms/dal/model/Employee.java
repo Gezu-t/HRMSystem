@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "employee")
+@Table(name = "employee", schema = "public")
 public class Employee {
 
     @Id
@@ -30,36 +33,49 @@ public class Employee {
     private String employeeNumber;
     private String firstName;
     private String lastName;
-    private String dateOfBirth;
-    private String dateOfJoining;
-    private String dateOfLeaving;
-    private String dateOfResignation;
+    private LocalDate dateOfBirth;
+    private LocalDate dateOfJoining;
+    private LocalDate dateOfLeaving;
+    private LocalDate dateOfResignation;
     private Boolean employeeStatus;
-    private String employeeStatusDate;
+    private LocalDate employeeStatusDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
-    private Address addresses;
+
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Appearance appearance;
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Family family;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<EmployeeDepartmentManagement> employeeDepartmentManagements;
+
+
+
+//    @ManyToMany
+//    @JoinTable(name = "employee_education",
+//    joinColumns = {@JoinColumn(name = "employee_id")},
+//    inverseJoinColumns = {@JoinColumn(name = "education_id")})
+//    @SortNatural
+//    private SortedSet<Education> educations = new TreeSet<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<EmployeeEducationManagement> employeeEducationManagements;
+    private Set<EmployeePositionManagement> employeePositionManagements = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<EmployeePositionManagement> employeePositionManagements;
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<EmployeeAddressManagement> employeeAddressManagements;
 
-    @OneToMany(fetch = FetchType.LAZY)
+//    @ManyToMany
+//    @JoinTable(name = "employee_address",
+//    joinColumns = {@JoinColumn(name = "employee_id")},
+//    inverseJoinColumns = {@JoinColumn(name = "address_id")})
+//    private Set<OrganizationAddress> addresses;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EmployeeEvaluation> employeeEvaluation;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<EmployeeAddress> employeeAddresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<EmployeeDetail> employeeDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EmployeePromotion> employeePromotion;
 
 }

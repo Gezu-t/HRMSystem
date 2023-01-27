@@ -1,18 +1,17 @@
 package et.hrms.service;
 
-import et.hrms.dal.dto.AddressDTO;
 import et.hrms.dal.dto.OrganizationDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface OrganizationService {
 
-    void createOrganization(OrganizationDTO organizationDTO, List<AddressDTO> addressDTOS);
+    void createOrganization(OrganizationDTO organizationDTO);
 
-    OrganizationDTO getOrganizationById(Long id) throws Exception;
+    OrganizationDTO getOrganizationById(Long id);
 
-    OrganizationDTO updateOrganization(OrganizationDTO organizationDTO);
+
+    OrganizationDTO updateOrganization(Long id, OrganizationDTO organizationDTO);
 
     List<OrganizationDTO> getAllOrganization(int page, int size);
 }

@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: development
+  # Security configuration
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5433/hrms # the port number must depend on the local db of postgres
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    max-active: 20
+    max-idle: 8
+    min-idle: 8
+  # JPA properties
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+# Logger configuration
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework: info
+    org.hibernate: debug
+# Server configuration
+server:
+  port: 8080 #set your port

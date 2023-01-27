@@ -8,7 +8,8 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.time.Year;
+import java.util.List;
 
 
 @Setter
@@ -36,7 +37,7 @@ public class Education {
     private String educationGradePointAverage;
     private String educationGradePointAverageOutOf;
     private String educationGradePointAverageOutOfScale;
-    private String academicYear;
+    private Year academicYear;
     private String educationType;
     private String educationStatus;
     private LocalDate educationStartDate;
@@ -51,8 +52,5 @@ public class Education {
     private LocalDateTime updatedAt;
 
 
-
-    @OneToMany(mappedBy = "education", fetch = FetchType.LAZY)
-    private Set<EmployeeEducationManagement> employeeEducationManagementSet;
 
 }

@@ -27,7 +27,6 @@ public class EmployeePositionManagement {
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
-
     @ManyToOne
     @JoinColumn(name = "employeePositionId")
     private EmployeePosition employeePosition;
