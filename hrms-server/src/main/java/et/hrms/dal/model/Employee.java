@@ -42,7 +42,7 @@ public class Employee {
 
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Appearance appearance;
+    private EmployeeAppearance employeeAppearance;
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Family family;
 

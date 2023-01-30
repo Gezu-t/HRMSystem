@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,8 @@ public interface BranchController {
 
     BranchDTO updateBranch(@PathVariable long branchId, @RequestBody BranchDTO branchDTO);
 
-    List<BranchDTO> getAllBranchInformation(@RequestParam("page") int page,
-                                            @RequestParam("size") int size,
-                                            UriComponentsBuilder uriBuilder,
-                                            HttpServletResponse response);
+    public ResponseEntity<List<BranchDTO>> getAllBranchInformation(@RequestParam("page") int page,
+                                                                    @RequestParam("size") int size,
+                                                                    UriComponentsBuilder uriBuilder,
+                                                                    HttpServletResponse response);
 }

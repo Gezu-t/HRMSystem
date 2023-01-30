@@ -9,16 +9,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/branch")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/branch")
 public class BranchControllerImpl implements BranchController {
 
 
@@ -53,12 +56,19 @@ public class BranchControllerImpl implements BranchController {
 
     @Override
     @GetMapping(params = { "page", "size" }, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BranchDTO> getAllBranchInformation(@RequestParam("page") int page,
-                                                   @RequestParam("size") int size,
-                                                   UriComponentsBuilder uriBuilder,
-                                                   HttpServletResponse response){
-
-        return branchService.getAllBranchInformation(page, size);
+    public ResponseEntity<List<BranchDTO>> getAllBranchInformation(@RequestParam("page") int page,
+                                                                   @RequestParam("size") int size,
+                                                                   UriComponentsBuilder uriBuilder,
+                                                                   HttpServletResponse response){
+        List<BranchDTO> branchDTOS = branchService.getAllBranchInformation(page, size);
+        HttpHeaders headers = new HttpHeaders();
+        URI location = uriBuilder.path("/branches")
+                .queryParam("page", page)
+                .queryParam("size", size)
+                .build()
+                .toUri();
+        headers.setLocation(location);
+        return new ResponseEntity<>(branchDTOS, headers, HttpStatus.OK);
     }
 
 }

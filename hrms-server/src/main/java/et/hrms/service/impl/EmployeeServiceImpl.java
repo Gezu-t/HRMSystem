@@ -1,18 +1,13 @@
 package et.hrms.service.impl;
 
-import et.hrms.dal.dto.DepartmentDTO;
-import et.hrms.dal.dto.EmployeeAddressDTO;
-import et.hrms.dal.dto.EmployeeDTO;
-import et.hrms.dal.dto.EmployeeDetailDTO;
-import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.mapping.EmployeeAddressMapper;
-import et.hrms.dal.mapping.EmployeeDetailMapper;
-import et.hrms.dal.mapping.EmployeeMapper;
+import et.hrms.dal.dto.*;
+import et.hrms.dal.mapping.*;
 import et.hrms.dal.model.*;
 import et.hrms.dal.repository.DepartmentRepository;
 import et.hrms.dal.repository.EmployeeAddressRepository;
 import et.hrms.dal.repository.EmployeeDetailRepository;
 import et.hrms.dal.repository.EmployeeRepository;
+import et.hrms.exceptions.EmployeeNotFoundException;
 import et.hrms.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -37,7 +33,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final DepartmentRepository departmentRepository;
     private final EmployeeAddressRepository employeeAddressRepository;
     private final EmployeeDetailRepository employeeDetailRepository;
-    private final EmployeeAddressMapper employeeAddressMapper;
     private final DepartmentMapper departmentMapper;
 
 
@@ -87,21 +82,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDTO> findEmployeeByDepartmentName(String departmentName, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<EmployeeDetail> employeeDetails = employeeDetailRepository.findEmployeeByDepartmentName(departmentName, pageable);
-        List<EmployeeDetailDTO> employeeDetailDTOS = new ArrayList<>();
-        for(EmployeeDetail employeeDetail: employeeDetails){
-            EmployeeDetailDTO employeeDetailDTO = new EmployeeDetailDTO();
-            EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employeeDetail.getEmployee());
-            DepartmentDTO departmentDTO = departmentMapper.toDepartmentDTO(employeeDetail.getDepartment());
-            employeeDetailDTO.setDepartmentDTO(departmentDTO);
-            employeeDetailDTO.setEmployeeDTO(employeeDTO);
-            employeeDetailDTOS.add(employeeDetailDTO);
-        }
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
-
-
+        for (EmployeeDetail employeeDetail : employeeDetails) {
+            EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employeeDetail.getEmployee());
+            employeeDTOS.add(employeeDTO);
+        }
         return employeeDTOS;
     }
-
 
     @Override
     public List<EmployeeDTO> getAllEmployeeList(int page, int size) {
@@ -111,31 +98,35 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .toList();
     }
 
+    @Override
+    public EmployeeDTO getEmployeeById(Long id) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
+        }
+        Employee employee = employeeOptional.get();
+        List<EmployeeDetailDTO> employeeDetailDTOS = new ArrayList<>();
+        for (EmployeeDetail employeeDetail : employee.getEmployeeDetails()) {
 
-//    @Override
-//    public EmployeeDTO getEmployeeById(Long id) {
-//
-//        Employee employee = employeeRepository.findById(id)
-//                .orElseThrow(EntityNotFoundException::new);
-//        if (employee != null) {
-//            List<DepartmentDTO> departments = departmentService.getDepartmentByEmployeeId(id);
-//            if (departments != null) {
-//                employee.setDepartments(departmentMapper.toDepartmentDTOs(departments));
-//            } else {
-//                throw new NullPointerException("Department is not found by this employee id:" + id);
-//            }
-//            Set<OrganizationAddressDTO> employeeAddress = addressService.getAddressByEmployeeId(id);
-//            if (employeeAddress != null) {
-//                employee.setAddresses(addressMapper.toAddressDTOset(employeeAddress));
-//            } else {
-//                throw new NullPointerException("OrganizationAddress is not found by this employee id:" + id);
-//            }
-//            return employeeMapper.toEmployeeDTO(employee);
-//        } else {
-//            throw new NullPointerException("Employee is not found by this id:" + id);
-//        }
-//    }
-//
+            Department department = employeeDetail.getDepartment();
+            DepartmentDTO departmentDTO = departmentMapper.toDepartmentDTO(department);
+            EmployeeDetailDTO employeeDetailDTO = employeeDetailMapper.toEmployeeDetailDTO(employeeDetail);
+            employeeDetailDTO.setDepartmentDTO(departmentDTO);
+
+            employeeDetailDTOS.add(employeeDetailDTO);
+        }
+        EmployeeAppearance employeeAppearance = employee.getEmployeeAppearance();
+        EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employee);
+        List<EmployeeAddressDTO> employeeAddressDTOS = new ArrayList<>();
+        for(EmployeeAddress employeeAddress: employee.getEmployeeAddresses()){
+            employeeAddressDTOS.add(EmployeeAddressMapper.INSTANCE.toEmployeeAddressDTO(employeeAddress));
+        }
+        employeeDTO.setEmployeeDetailDTOS(employeeDetailDTOS);
+        employeeDTO.setEmployeeAddressDTOS(employeeAddressDTOS);
+        return employeeDTO;
+    }
+
+
 //
 //    @Override
 //    public EmployeeDTO getEmployeeByEmployeeNo(String employeeNo) {

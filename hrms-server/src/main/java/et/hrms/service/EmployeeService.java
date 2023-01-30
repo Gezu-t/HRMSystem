@@ -13,4 +13,5 @@ public interface EmployeeService {
 
     List<EmployeeDTO> getAllEmployeeList(int page, int size);
 
+    EmployeeDTO getEmployeeById(Long id);
 }
