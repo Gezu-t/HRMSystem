@@ -16,6 +16,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EmployeeListComponent } from './components/employee-list/employee-list.component';
 import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
 import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
+import { BranchComponent } from './src/app/components/branch/branch.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EmployeeRegistrationComponent } from './components/employee-registratio
     FooterComponent,
     EmployeeListComponent,
     EmployeeDetailsComponent,
-    EmployeeRegistrationComponent
+    EmployeeRegistrationComponent,
+    BranchComponent
   ],
   imports: [
     BrowserModule,

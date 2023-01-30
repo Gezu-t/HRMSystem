@@ -1,0 +1,23 @@
+<h2>Employee List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees">
+      <td>{{employee.id}}</td>
+      <td>{{employee.name}}</td>
+      <td>{{employee.email}}</td>
+      <td>
+        <a routerLink="/employee-details/{{employee.id}}">Details</a>
+        <a (click)="deleteEmployee(employee.id)">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<a routerLink="/employee-registration">Add Employee</a>
