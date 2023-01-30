@@ -21,7 +21,9 @@
   </properties>
 
 
-  <build>
+  
+
+ <!--  <build>
 
     <plugins>
       <plugin>
@@ -32,8 +34,8 @@
           <workingDirectory>./</workingDirectory>
           <nodeVersion>${node.version}</nodeVersion>
           <npmVersion>${npm.version}</npmVersion>
-          <nodeDownloadRoot>http://nodejs.org/dist/</nodeDownloadRoot>
-          <npmDownloadRoot>http://registry.npmjs.org/npm/-/</npmDownloadRoot>
+          <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
+          <npmDownloadRoot>https://registry.npmjs.org/npm/-/</npmDownloadRoot>
           <installDirectory>./</installDirectory>
         </configuration>
         <executions>
@@ -70,5 +72,5 @@
 
 
   </build>
-
+ -->
 </project>
