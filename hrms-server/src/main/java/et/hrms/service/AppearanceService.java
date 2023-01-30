@@ -1,6 +1,6 @@
 package et.hrms.service;
 
-import et.hrms.dal.dto.AppearanceDTO;
+import et.hrms.dal.dto.EmployeeAppearanceDTO;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Sort;
 
@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface AppearanceService {
 
-    void createEmployeeAppearance(Long employeeId, AppearanceDTO appearanceDTO);
+    void createEmployeeAppearance(Long employeeId, EmployeeAppearanceDTO employeeAppearanceDTO);
 
-    AppearanceDTO getAppearanceById(long id);
+    EmployeeAppearanceDTO getAppearanceById(long id);
 
-    AppearanceDTO updateAppearance(long appearanceId, AppearanceDTO appearanceDTO);
+    EmployeeAppearanceDTO updateAppearance(long appearanceId, EmployeeAppearanceDTO employeeAppearanceDTO);
 
     @SneakyThrows
-    List<AppearanceDTO> getAllAppearanceLists(int page, int size, Sort sort);
+    List<EmployeeAppearanceDTO> getAllAppearanceLists(int page, int size, Sort sort);
 }

@@ -1,6 +1,6 @@
 package et.hrms.controller;
 
-import et.hrms.dal.dto.AppearanceDTO;
+import et.hrms.dal.dto.EmployeeAppearanceDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,15 +12,15 @@ import java.util.List;
 public interface AppearanceController {
 
     void createAppearance(@Valid @PathVariable Long employeeId,
-                          @RequestBody AppearanceDTO appearanceDTO);
+                          @RequestBody EmployeeAppearanceDTO employeeAppearanceDTO);
 
 
-    AppearanceDTO updateAppearance(@Valid @PathVariable long employeeId,
-                                   @RequestBody AppearanceDTO appearanceDTO);
+    EmployeeAppearanceDTO updateAppearance(@Valid @PathVariable long employeeId,
+                                           @RequestBody EmployeeAppearanceDTO employeeAppearanceDTO);
 
-    AppearanceDTO getAppearanceInformation(@PathVariable long appearanceId);
+    EmployeeAppearanceDTO getAppearanceInformation(@PathVariable long appearanceId);
 
-    List<AppearanceDTO> getAllAppearanceList(@RequestParam("page") int page,
-                                             @RequestParam("size") int size,
-                                             @RequestParam("sort") Sort sort);
+    List<EmployeeAppearanceDTO> getAllAppearanceList(@RequestParam("page") int page,
+                                                     @RequestParam("size") int size,
+                                                     @RequestParam("sort") Sort sort);
 }

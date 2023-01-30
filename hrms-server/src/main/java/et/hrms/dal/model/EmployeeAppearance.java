@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "appearance")
-public class Appearance {
+@Table(name = "employee_appearance")
+public class EmployeeAppearance {
 
     @Id
     @SequenceGenerator(name = "appearance_id_seq",

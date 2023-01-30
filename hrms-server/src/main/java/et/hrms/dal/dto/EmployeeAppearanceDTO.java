@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppearanceDTO {
+public class EmployeeAppearanceDTO {
 
     private Long appearanceId;
     private String height;
