@@ -1,0 +1,27 @@
+{
+    "employeeId": 1,
+    "employeeNumber": "E123",
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "01-01-1980",
+    "dateOfJoining": "01-01-2000",
+    "employeeAddressDTOS": [
+      {
+        "addressId": 1,
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 2",
+        "city": "New York",
+        "state": "NY",
+        "zipCode": "10001"
+      }
+    ],
+    "employeeDetailDTOS": [
+      {
+        "employeeDetailId": 1,
+        "employeeId": 1,
+        "email": "johndoe@email.com",
+        "phone": "123-456-7890"
+      }
+    ]
+  }
+  

@@ -1,0 +1,31 @@
+<div class="grid p-fluid">
+	
+	<div class="col-12">
+		<div class="card">
+			<h5>Employee Information</h5>
+			<div class="grid">
+				<div class="col-12 md:col-6">
+					<div class="p-inputgroup">
+						<input type="text" pInputText placeholder="Employee Number" class="form-control">
+					</div>
+				</div>
+				<div class="col-12 md:col-6">
+					<div class="p-inputgroup">
+						<input type="text" pInputText placeholder="First Name" class="form-control">
+					</div>
+				</div>
+				<div class="col-12 md:col-6">
+					<div class="p-inputgroup">
+						<input type="text" pInputText placeholder="Last Name" class="form-control">
+					</div>
+				</div>
+				
+				<h5>Date of Birth</h5>
+				<p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+
+				<h5>Date of Joining</h5>
+				<p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+			</div>
+		</div>
+	</div>
+</div>

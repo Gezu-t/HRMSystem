@@ -1,48 +1,27 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-
-import { AppRoutingModule } from './app-routing.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
-import { EmployeeComponent } from './components/employee/employee.component';
-import { EducationComponent } from './components/education/education.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatListModule} from '@angular/material/list';
-import {MatTableModule} from '@angular/material/table';
-import {CdkTableModule} from '@angular/cdk/table';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { EmployeeListComponent } from './components/employee-list/employee-list.component';
-import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
-import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
-import { BranchComponent } from './src/app/components/branch/branch.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppLayoutModule } from './layout/app.layout.module';
+import { PhotoService } from './services/photo.service';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { CountryService } from './services/country.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeComponent,
-    EducationComponent,
-    HeaderComponent,
-    FooterComponent,
-    EmployeeListComponent,
-    EmployeeDetailsComponent,
-    EmployeeRegistrationComponent,
-    BranchComponent
+    NotfoundComponent, 
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    NoopAnimationsModule,
-    MatAutocompleteModule,
-    MatListModule,
-    CdkTableModule,
-    MatTableModule,
+    AppLayoutModule
+  
   ],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy},
+    CountryService, PhotoService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-
-
- }
+export class AppModule { }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import  { PrimeNGConfig } from 'primeng/api';
 
 
 
@@ -9,7 +9,16 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  constructor(private primengConfig: PrimeNGConfig) { }
+
+  ngOnInit() {
+      this.primengConfig.ripple = true;
+  }
 
 
 }

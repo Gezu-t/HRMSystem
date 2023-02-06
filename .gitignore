@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+hrms-client/node/npm/*
+

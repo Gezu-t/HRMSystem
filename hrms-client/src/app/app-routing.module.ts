@@ -2,20 +2,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { EmployeeComponent } from './components/employee/employee.component'
-import { EducationComponent } from './components/education/education.component'
-import { EmployeeListComponent } from './components/employee-list/employee-list.component';
-import { EmployeeDetailsComponent } from './components/employee-details/employee-details.component';
-import { EmployeeRegistrationComponent } from './components/employee-registration/employee-registration.component';
+
+import { AppLayoutComponent } from "./layout/app.layout.component";
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
 
-  { path: 'employee', component: EmployeeComponent },
-  { path: 'education', component: EducationComponent },
-  { path: 'employee-list', component: EmployeeListComponent },
-  { path: 'employee-details/:id', component: EmployeeDetailsComponent },
-  { path: 'employee-registration', component: EmployeeRegistrationComponent },
-  { path: '', redirectTo: '/employee-list', pathMatch: 'full' }
+  {
+    path: '', component: AppLayoutComponent,
+    children: [
+        { path: '', loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+        { path: 'pages', loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule) }     
+    ]
+  },
+
+  { path: 'auth', loadChildren: () => import('./components/auth/auth.module').then(m => m.AuthModule) },
+  { path: 'landing', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },
+  { path: 'notfound', component: NotfoundComponent },
+  { path: '**', redirectTo: '/notfound' },
 
 ];
 
