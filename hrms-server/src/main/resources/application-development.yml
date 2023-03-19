@@ -1,0 +1,36 @@
+# Endpoints configuration
+endpoints:
+  web:
+    exposure:
+      include: "*"
+  metrics:
+    enabled: true
+
+# Spring Boot configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/hrms
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    max-active: 20
+    max-idle: 8
+    min-idle: 8
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+logging:
+  level:
+    org.springframework: info
+    org.hibernate: info
