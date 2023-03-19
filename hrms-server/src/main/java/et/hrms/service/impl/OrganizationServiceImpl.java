@@ -1,5 +1,6 @@
 package et.hrms.service.impl;
 
+import et.hrms.dal.dto.OrganizationAddressDTO;
 import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.mapping.OrganizationAddressMapper;
 import et.hrms.dal.mapping.OrganizationMapper;
@@ -20,31 +21,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
-
     private final OrganizationMapper organizationMapper;
-
     private final OrganizationAddressMapper organizationAddressMapper;
-
-
     private final OrganizationAddressRepository organizationAddressRepository;
-
     private final AuditService auditService;
-
 
     @Override
     @Transactional
     public void createOrganization(OrganizationDTO organizationDTO) {
-        Organization organization = OrganizationMapper.INSTANCE.toOrganization(organizationDTO);
+        Organization organization = organizationMapper.toOrganization(organizationDTO);
         OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(organizationDTO.getOrganizationAddressDTO());
+
         organizationAddress.setOrganization(organization);
         organization.setOrganizationAddress(organizationAddress);
+
         if (organization.getId() != null) {
             log.debug("Organization object: {}", organization);
 
@@ -53,28 +51,18 @@ public class OrganizationServiceImpl implements OrganizationService {
                 organization = existingOrganization.get();
             }
         }
-        Organization org = organizationRepository.save(organization);
 
-        log.debug("Saved organization object: {}", org);
-        auditService.logAction("username", "Organization", "Create", org.getId());
-
+        Organization savedOrganization = organizationRepository.save(organization);
+        log.info("Saved organization object: {}", savedOrganization);
+        auditService.logAction("username", "Organization", "Create", savedOrganization.getId());
     }
-
 
     @Override
     public OrganizationDTO getOrganizationById(Long id) {
         Organization organization = organizationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Organization not found by this id:" + id));
-
-        if (organization != null) {
-            return organizationMapper.toOrganizationDTO(organization);
-        } else {
-            // do something else, or throw a different exception
-            throw new EntityNotFoundException("Organization information is not found by this id:" + id);
-        }
-
+        return organizationMapper.toOrganizationDTO(organization);
     }
-
 
     @Override
     public OrganizationDTO updateOrganization(Long id, OrganizationDTO organizationDTO) {
@@ -85,22 +73,25 @@ public class OrganizationServiceImpl implements OrganizationService {
         OrganizationAddress existingOrganizationAddress = organizationAddressRepository.findById(addressId)
                 .orElseThrow(() -> new EntityNotFoundException("OrganizationAddress not found by this id: " + addressId));
 
-        if (existingOrganizationAddress != null) {
-            existingOrganization = organizationMapper.toOrganization(organizationDTO);
-            existingOrganization.setId(id);
+        existingOrganization = updateExistingOrganization(existingOrganization, organizationDTO);
+        existingOrganizationAddress = updateExistingOrganizationAddress(existingOrganizationAddress, organizationDTO.getOrganizationAddressDTO(), existingOrganization);
 
-            // update with new addresses
-            existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(organizationDTO.getOrganizationAddressDTO());
-            existingOrganizationAddress.setId(addressId);
+        auditService.logAction("username", "Organization", "Update", existingOrganization.getId());
+        return organizationMapper.toOrganizationDTO(organizationRepository.save(existingOrganization));
+    }
 
-            existingOrganizationAddress.setOrganization(existingOrganization);
+    private Organization updateExistingOrganization(Organization existingOrganization, OrganizationDTO organizationDTO) {
+        existingOrganization = organizationMapper.toOrganization(organizationDTO);
+        existingOrganization.setId(existingOrganization.getId());
+        return existingOrganization;
+    }
 
-            existingOrganization.setOrganizationAddress(existingOrganizationAddress);
-            auditService.logAction("username", "Organization", "Update", existingOrganization.getId());
-            return organizationMapper.toOrganizationDTO(organizationRepository.save(existingOrganization));
-        } else {
-            throw new EntityNotFoundException("Organization information is not found");
-        }
+    private OrganizationAddress updateExistingOrganizationAddress(OrganizationAddress existingOrganizationAddress, OrganizationAddressDTO organizationAddressDTO, Organization existingOrganization) {
+        existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(organizationAddressDTO);
+        existingOrganizationAddress.setId(existingOrganization.getOrganizationAddress().getId());
+        existingOrganizationAddress.setOrganization(existingOrganization);
+        existingOrganization.setOrganizationAddress(existingOrganizationAddress);
+        return existingOrganizationAddress;
     }
 
     @Override
@@ -111,5 +102,5 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .map(organizationMapper::toOrganizationDTO)
                 .toList();
     }
-
 }
+

@@ -2,8 +2,11 @@ package et.hrms.service.impl;
 
 
 import et.hrms.dal.dto.BranchDTO;
+import et.hrms.dal.dto.OrganizationAddressDTO;
+import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.mapping.BranchMapper;
 import et.hrms.dal.mapping.OrganizationAddressMapper;
+import et.hrms.dal.mapping.OrganizationMapper;
 import et.hrms.dal.model.Branch;
 import et.hrms.dal.model.Organization;
 import et.hrms.dal.model.OrganizationAddress;
@@ -38,9 +41,11 @@ public class BranchServiceImpl implements BranchService {
     private final OrganizationAddressMapper organizationAddressMapper;
     private final OrganizationAddressRepository organizationAddressRepository;
     private final LogService logService;
+    private final OrganizationMapper organizationMapper;
 
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<BranchDTO> createBranch(long organizationId, BranchDTO branchDTO) {
 
         Organization organization = organizationRepository.findById(organizationId)
@@ -59,15 +64,22 @@ public class BranchServiceImpl implements BranchService {
 
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public BranchDTO getBranchById(long branchId) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch is not found by this id: " + branchId));
+        OrganizationAddressDTO organizationAddressDTO = organizationAddressMapper.toOrganizationAddressDTO(branch.getOrganizationAddress());
+        OrganizationDTO organizationDTO = organizationMapper.toOrganizationDTO(branch.getOrganization());
+        BranchDTO branchDTO = branchMapper.toBranchDTO(branch);
+        branchDTO.setOrganizationAddressDTO(organizationAddressDTO);
+        branchDTO.setOrganizationId(organizationDTO.getOrganizationId());
 
-        return branchMapper.toBranchDTO(branch);
+        return branchDTO;
     }
 
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public BranchDTO updateBranch(long branchId, BranchDTO branchDTO) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch with ID " + branchId + " not found"));
@@ -82,7 +94,6 @@ public class BranchServiceImpl implements BranchService {
         branch.setOrganizationAddress(existingOrganizationAddress);
         existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
         existingOrganizationAddress.setId(addressId);
-
         existingOrganizationAddress.setBranch(branch);
 
         branch.setOrganizationAddress(existingOrganizationAddress);
