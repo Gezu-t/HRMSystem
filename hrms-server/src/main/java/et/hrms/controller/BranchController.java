@@ -6,25 +6,25 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 public interface BranchController {
 
-    List<BranchDTO> createBranch(@Valid @RequestBody BranchDTO branchDTO,
-                                 @PathVariable(name = "organizationId") long organizationId);
 
-    BranchDTO getBranchById(@PathVariable long id);
+    @PostMapping("/{organizationId}")
+    ResponseEntity<List<BranchDTO>> createBranch(@PathVariable long organizationId, @RequestBody BranchDTO branchDTO);
 
-    BranchDTO updateBranch(@PathVariable long branchId, @RequestBody BranchDTO branchDTO);
+    @GetMapping("/{branchId}")
+    ResponseEntity<BranchDTO> getBranchById(@PathVariable long branchId);
 
-    public ResponseEntity<List<BranchDTO>> getAllBranchInformation(@RequestParam("page") int page,
-                                                                    @RequestParam("size") int size,
-                                                                    UriComponentsBuilder uriBuilder,
-                                                                    HttpServletResponse response);
+    @PutMapping("/{branchId}")
+    ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId, @RequestBody BranchDTO branchDTO);
+
+    @GetMapping
+    ResponseEntity<List<BranchDTO>> getAllBranchInformation(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size);
 }

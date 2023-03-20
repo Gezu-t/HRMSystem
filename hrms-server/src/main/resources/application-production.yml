@@ -1,7 +1,7 @@
 # Spring Boot configuration for production environment
 spring:
   datasource:
-    url: jdbc:postgresql://production-db-host:5433/hrms_production
+    url: jdbc:postgresql://production-db-host:5433/hrms_production #db
     username: postgres
     password: production_password # change the password
     driver-class-name: org.postgresql.Driver

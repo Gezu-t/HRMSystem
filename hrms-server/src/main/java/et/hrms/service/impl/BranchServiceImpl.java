@@ -65,14 +65,13 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public BranchDTO getBranchById(long branchId) {
+    public BranchDTO getDetailOfBranchById(long branchId) {
         Branch branch = branchRepository.findById(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch is not found by this id: " + branchId));
         OrganizationAddressDTO organizationAddressDTO = organizationAddressMapper.toOrganizationAddressDTO(branch.getOrganizationAddress());
-        OrganizationDTO organizationDTO = organizationMapper.toOrganizationDTO(branch.getOrganization());
         BranchDTO branchDTO = branchMapper.toBranchDTO(branch);
         branchDTO.setOrganizationAddressDTO(organizationAddressDTO);
-        branchDTO.setOrganizationId(organizationDTO.getOrganizationId());
+        branchDTO.setOrganizationId(branch.getOrganization().getId());
 
         return branchDTO;
     }
@@ -81,33 +80,46 @@ public class BranchServiceImpl implements BranchService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public BranchDTO updateBranch(long branchId, BranchDTO branchDTO) {
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch with ID " + branchId + " not found"));
-
-        branch.setBranchCode(branchDTO.getBranchCode());
-        branch.setBranchName(branchDTO.getBranchName());
-        Long addressId = branch.getOrganizationAddress().getId();
-
-        OrganizationAddress existingOrganizationAddress = organizationAddressRepository.findById(addressId)
-                .orElseThrow(() -> new EntityNotFoundException("OrganizationAddress not found by this id: " + addressId));
-
-        branch.setOrganizationAddress(existingOrganizationAddress);
-        existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
-        existingOrganizationAddress.setId(addressId);
-        existingOrganizationAddress.setBranch(branch);
-
-        branch.setOrganizationAddress(existingOrganizationAddress);
-
-        Organization organization = organizationRepository.findById(branchDTO.getOrganizationId())
-                .orElseThrow(() -> new EntityNotFoundException("Organization with ID " + branchDTO.getOrganizationId() + " not found"));
-
-        branch.setOrganization(organization);
+        Branch branch = getBranchById(branchId);
+        updateBranchDetails(branch, branchDTO);
+        updateOrganizationAddress(branch, branchDTO.getOrganizationAddressDTO());
+        updateOrganization(branch, branchDTO.getOrganizationId());
 
         branch = branchRepository.save(branch);
 
         auditService.logAction("username", "Branch", "Update", branch.getId());
         return branchMapper.toBranchDTO(branch);
     }
+
+    private Branch getBranchById(long branchId) {
+        return branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch with ID " + branchId + " not found"));
+    }
+
+    private void updateBranchDetails(Branch branch, BranchDTO branchDTO) {
+        branch.setBranchCode(branchDTO.getBranchCode());
+        branch.setBranchName(branchDTO.getBranchName());
+    }
+
+    private void updateOrganizationAddress(Branch branch, OrganizationAddressDTO organizationAddressDTO) {
+        Long addressId = branch.getOrganizationAddress().getId();
+        OrganizationAddress existingOrganizationAddress = organizationAddressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("OrganizationAddress not found by this id: " + addressId));
+
+        existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(organizationAddressDTO);
+        existingOrganizationAddress.setId(addressId);
+        existingOrganizationAddress.setBranch(branch);
+
+        branch.setOrganizationAddress(existingOrganizationAddress);
+    }
+
+    private void updateOrganization(Branch branch, Long organizationId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new EntityNotFoundException("Organization with ID " + organizationId + " not found"));
+
+        branch.setOrganization(organization);
+    }
+
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

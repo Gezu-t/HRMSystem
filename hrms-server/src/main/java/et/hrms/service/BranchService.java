@@ -9,7 +9,7 @@ public interface BranchService {
 
     List<BranchDTO> createBranch(long organizationId, BranchDTO branchDTOs);
 
-    BranchDTO getBranchById(long branchId);
+    BranchDTO getDetailOfBranchById(long branchId);
 
     BranchDTO updateBranch(long branchId, BranchDTO branchDTO);
 
