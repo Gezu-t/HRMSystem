@@ -1,4 +1,4 @@
-package education.service.employee;
+package employee;
 
 
 import et.hrms.dal.model.Employee;

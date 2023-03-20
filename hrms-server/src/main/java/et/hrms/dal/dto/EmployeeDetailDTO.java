@@ -20,10 +20,4 @@ public class EmployeeDetailDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
-
-
-
-
-
 }

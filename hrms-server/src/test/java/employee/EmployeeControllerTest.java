@@ -1,4 +1,4 @@
-package education.controller.employee;
+package employee;
 
 public class EmployeeControllerTest {
 }

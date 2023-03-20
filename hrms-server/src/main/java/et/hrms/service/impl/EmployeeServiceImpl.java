@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,118 +36,90 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDetailRepository employeeDetailRepository;
     private final DepartmentMapper departmentMapper;
 
-
     @Override
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
-        var employeeInfo = new AtomicReference<>(new Employee());
         var employee = employeeMapper.toEmployee(employeeDTO);
 
         if (employee.getId() == null && employeeDTO != null) {
+            employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetailDTOS()));
+            employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddressDTOS()));
 
-            List<EmployeeDetail> employeeDetails = new ArrayList<>();
-            for (EmployeeDetailDTO employeeDetailDTO : employeeDTO.getEmployeeDetailDTOS()) {
-                var employeeDetail = employeeDetailMapper.toEmployeeDetail(employeeDetailDTO);
-                if (employeeDetail != null) {
+            if (!employee.getEmployeeAddresses().isEmpty() && !employee.getEmployeeDetails().isEmpty()) {
+                employee = employeeRepository.save(employee);
+                employeeAddressRepository.saveAll(employee.getEmployeeAddresses());
+                employeeDetailRepository.saveAll(employee.getEmployeeDetails());
+            } else {
+                throw new EntityNotFoundException("Employee has some problem persisting");
+            }
+        }
+
+        return employeeMapper.toEmployeeDTO(employee);
+    }
+
+    private List<EmployeeDetail> createEmployeeDetails(Employee employee, List<EmployeeDetailDTO> employeeDetailDTOS) {
+        return employeeDetailDTOS.stream()
+                .map(employeeDetailDTO -> {
+                    var employeeDetail = employeeDetailMapper.toEmployeeDetail(employeeDetailDTO);
                     var department = departmentRepository.findById(employeeDetailDTO.getDepartmentDTO().getDepartmentId())
                             .orElseThrow(() -> new EntityNotFoundException("Department information is not found"));
                     employeeDetail.setDepartment(department);
-                } else {
-                    throw new EntityNotFoundException("Department information does not exist");
-                }
-                employeeDetail.setEmployee(employee);
-                employeeDetails.add(employeeDetail);
-            }
-
-            List<EmployeeAddress> employeeAddresses = new ArrayList<>();
-            for (EmployeeAddressDTO addressDTO : employeeDTO.getEmployeeAddressDTOS()) {
-                var address = addressMapper.toEmployeeAddress(addressDTO);
-                address.setEmployee(employee);
-                employeeAddresses.add(address);
-            }
-            employee.setEmployeeDetails(employeeDetails);
-            employee.setEmployeeAddresses(employeeAddresses);
-            if (!employee.getEmployeeAddresses().isEmpty() && !employee.getEmployeeDetails().isEmpty()) {
-                employeeInfo.set(employeeRepository.save(employee));
-                employeeAddressRepository.saveAll(employeeAddresses);
-                employeeDetailRepository.saveAll(employeeDetails);
-            }
-
-        } else {
-            throw new EntityNotFoundException("Employee has some problem persisting");
-        }
-        return employeeMapper.toEmployeeDTO(employeeInfo.get());
+                    employeeDetail.setEmployee(employee);
+                    return employeeDetail;
+                })
+                .collect(Collectors.toList());
     }
 
+    private List<EmployeeAddress> createEmployeeAddresses(Employee employee, List<EmployeeAddressDTO> employeeAddressDTOS) {
+        return employeeAddressDTOS.stream()
+                .map(addressDTO -> {
+                    var address = addressMapper.toEmployeeAddress(addressDTO);
+                    address.setEmployee(employee);
+                    return address;
+                })
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<EmployeeDTO> findEmployeeByDepartmentName(String departmentName, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<EmployeeDetail> employeeDetails = employeeDetailRepository.findEmployeeByDepartmentName(departmentName, pageable);
-        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        for (EmployeeDetail employeeDetail : employeeDetails) {
-            EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employeeDetail.getEmployee());
-            employeeDTOS.add(employeeDTO);
-        }
-        return employeeDTOS;
+        return employeeDetails.stream()
+                .map(EmployeeDetail::getEmployee)
+                .map(employeeMapper::toEmployeeDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getAllEmployeeList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Employee> employees = employeeRepository.findAll(pageable);
-        return employees.stream().map(employeeMapper::toEmployeeDTO)
-                .toList();
+        return employees.stream()
+                .map(employeeMapper::toEmployeeDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public EmployeeDTO getEmployeeById(Long id) {
-        Optional<Employee> employeeOptional = employeeRepository.findById(id);
-        if (employeeOptional.isEmpty()) {
-            throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
-        }
-        Employee employee = employeeOptional.get();
-        List<EmployeeDetailDTO> employeeDetailDTOS = new ArrayList<>();
-        for (EmployeeDetail employeeDetail : employee.getEmployeeDetails()) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
 
-            Department department = employeeDetail.getDepartment();
-            DepartmentDTO departmentDTO = departmentMapper.toDepartmentDTO(department);
-            EmployeeDetailDTO employeeDetailDTO = employeeDetailMapper.toEmployeeDetailDTO(employeeDetail);
-            employeeDetailDTO.setDepartmentDTO(departmentDTO);
+        List<EmployeeDetailDTO> employeeDetailDTOS = employee.getEmployeeDetails().stream()
+                .map(employeeDetail -> {
+                    DepartmentDTO departmentDTO = departmentMapper.toDepartmentDTO(employeeDetail.getDepartment());
+                    EmployeeDetailDTO employeeDetailDTO = employeeDetailMapper.toEmployeeDetailDTO(employeeDetail);
+                    employeeDetailDTO.setDepartmentDTO(departmentDTO);
+                    return employeeDetailDTO;
+                })
+                .collect(Collectors.toList());
 
-            employeeDetailDTOS.add(employeeDetailDTO);
-        }
-        EmployeeAppearance employeeAppearance = employee.getEmployeeAppearance();
+        List<EmployeeAddressDTO> employeeAddressDTOS = employee.getEmployeeAddresses().stream()
+                .map(EmployeeAddressMapper.INSTANCE::toEmployeeAddressDTO)
+                .collect(Collectors.toList());
+
         EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employee);
-        List<EmployeeAddressDTO> employeeAddressDTOS = new ArrayList<>();
-        for(EmployeeAddress employeeAddress: employee.getEmployeeAddresses()){
-            employeeAddressDTOS.add(EmployeeAddressMapper.INSTANCE.toEmployeeAddressDTO(employeeAddress));
-        }
         employeeDTO.setEmployeeDetailDTOS(employeeDetailDTOS);
         employeeDTO.setEmployeeAddressDTOS(employeeAddressDTOS);
+
         return employeeDTO;
     }
-
-
-//
-//    @Override
-//    public EmployeeDTO getEmployeeByEmployeeNo(String employeeNo) {
-//
-//        Employee employee = employeeRepository.findByEmployeeNumber(employeeNo);
-//
-//        if (employee != null) {
-//            List<DepartmentDTO> departments = departmentService.getDepartmentByEmployeeId(employee.getId());
-//            if (departments != null) {
-//                employee.setDepartments(departmentMapper.toDepartmentDTOs(departments));
-//            }
-//            Set<OrganizationAddressDTO> employeeAddress = addressService.getAddressByEmployeeId(employee.getId());
-//            if (employeeAddress != null) {
-//                employee.setAddresses(addressMapper.toAddressDTOset(employeeAddress));
-//            }
-//            return employeeMapper.toEmployeeDTO(employee);
-//        } else {
-//            throw new EntityNotFoundException("Employee is not found by Employee Number" + employeeNo);
-//        }
-//    }
-
-
 }
