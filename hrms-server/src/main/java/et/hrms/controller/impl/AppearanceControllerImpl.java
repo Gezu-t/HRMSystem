@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/appearance")
+@RequestMapping("/api/appearances")
 @RequiredArgsConstructor
 public class AppearanceControllerImpl implements AppearanceController {
 

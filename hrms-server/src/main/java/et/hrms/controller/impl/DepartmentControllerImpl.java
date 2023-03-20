@@ -15,7 +15,7 @@ import java.util.Set;
 
 
 @RestController
-@RequestMapping("/api/v1/departments")
+@RequestMapping("/api/departments")
 @RequiredArgsConstructor
 public class DepartmentControllerImpl implements DepartmentController {
 
