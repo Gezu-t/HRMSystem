@@ -1,4 +1,4 @@
-package education.controller.education;
+package education;
 
 public class EducationControllerTest {
 

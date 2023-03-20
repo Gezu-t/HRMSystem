@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/v1/family")
+@RequestMapping(value = "/api/families")
 public class FamilyControllerImpl implements FamilyController {
 
 

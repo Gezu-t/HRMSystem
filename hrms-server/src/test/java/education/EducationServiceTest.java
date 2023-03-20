@@ -1,4 +1,4 @@
-package education.service.education;
+package education;
 
 import et.hrms.dal.dto.EducationDTO;
 import et.hrms.dal.mapping.EducationMapper;
@@ -37,18 +37,17 @@ public class EducationServiceTest {
     @InjectMocks
     private EducationService educationService = mock(EducationService.class);
 
+private Education education;
+private EducationDTO educationDTO;
+
 
     @BeforeEach
     public void init() {
-        educationService = mock(EducationService.class);
-        educationMapper = mock(EducationMapper.class);
-    }
 
-    @Test
-    public void testCreateEducationInfo() {
+        education = new Education();
+        education.setDegree("Science");
 
-
-        EducationDTO educationDTO = new EducationDTO();
+        educationDTO = new EducationDTO();
         educationDTO.setEducationType("Master's Degree");
         educationDTO.setEducationMajor("Education Science");
         educationDTO.setDegree("Science");
@@ -58,11 +57,17 @@ public class EducationServiceTest {
         educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
         educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
 
-        Education result = educationMapper.toEducation(educationDTO);
 
-        Education education = educationMapper.toEducation(educationDTO);
+        educationService = mock(EducationService.class);
+        educationMapper = mock(EducationMapper.class);
+
+
+    }
+
+    @Test
+    public void testCreateEducationInfo() {
+        education = educationMapper.toEducation(educationDTO);
         when(educationMapper.toEducation(educationDTO)).thenReturn(education);
-
         assertEquals("Science", educationDTO.getDegree());
         assertNotNull(educationDTO.getDegree());
         when(educationRepository.save(education)).thenThrow(RecordNotFoundException.class);
@@ -76,17 +81,7 @@ public class EducationServiceTest {
 
     @Test
     public void testUpdateEducationInfo() throws Exception {
-
-        EducationDTO educationDTO = new EducationDTO();
-        // Update the mock EducationInfo object
-        educationDTO.setEducationType("Master's Degree");
-        educationDTO.setEducationMajor("Education Science");
-        educationDTO.setInstitution("University of Calabria");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
-        educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
-
+        education = educationMapper.toEducation(educationDTO);
         when(educationService.updateEducationInfo(educationDTO)).thenReturn(null);
         assertEquals(educationService.updateEducationInfo(any()), educationService.getEducationByInstitution(any()));
         EducationDTO result = educationService.updateEducationInfo(educationDTO);
@@ -99,20 +94,7 @@ public class EducationServiceTest {
 
     @Test
     public void testGetAllEducationInfo() {
-        EducationDTO educationDTO = new EducationDTO();
-        educationDTO.setEducationType("Master's Degree");
-        educationDTO.setEducationMajor("Education Science");
-        educationDTO.setInstitution("University of Calabria");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        educationDTO.setEducationStartDate(LocalDate.parse("01-03-2020", formatter));
-        educationDTO.setEducationEndDate(LocalDate.parse("01-03-2023", formatter));
-
-        Education education = educationMapper.toEducation(educationDTO);
         List<Education> someList = Collections.singletonList(education);
-
-//        when(educationRepository.findAll()).thenReturn(someList);
-
         List<EducationDTO> returnedList = educationService.getAllEducationList(2, 1);
         assertNotNull(returnedList);
         assertTrue(returnedList.isEmpty());
@@ -122,13 +104,6 @@ public class EducationServiceTest {
 
     @Test
     public void testGetAllListEducation() {
-        EducationDTO educationDTO = new EducationDTO();
-        educationDTO.setEducationType("Master's Degree");
-        educationDTO.setEducationMajor("Education Science");
-        educationDTO.setInstitution("University of Calabria");
-
-        // create a list of EducationDTO objects to return from the repository
-
         when(educationService.getAllEducationList(20, 1)).thenReturn(null);
         List<EducationDTO> educations = educationService.getAllEducationList(20, 0);
         for(EducationDTO edu : educations){

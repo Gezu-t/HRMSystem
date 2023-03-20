@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/educations")
+@RequestMapping("/api/educations")
 public class EducationControllerImpl implements EducationController {
 
 
