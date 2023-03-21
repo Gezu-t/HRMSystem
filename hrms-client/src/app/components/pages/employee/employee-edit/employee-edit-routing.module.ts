@@ -7,9 +7,8 @@ import { EmployeeEditFormComponent } from "./employee-edit.component";
 @NgModule({
 	imports: [
 		RouterModule.forChild([
-		
 		{ 
-			path: 'edit', component: EmployeeEditFormComponent
+			path: '', component: EmployeeEditFormComponent
 		}
 		
 	])],

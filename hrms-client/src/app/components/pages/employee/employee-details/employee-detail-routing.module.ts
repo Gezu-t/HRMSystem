@@ -10,7 +10,7 @@ import { EmployeeDetailsComponent } from "./employee-details.component";
 	imports: [
 		RouterModule.forChild([	
 		{ 
-            path: 'detail', component: EmployeeDetailsComponent
+            path: '', component: EmployeeDetailsComponent
 
 		}
 		

@@ -8,6 +8,7 @@ export class EmployeeDTO {
     lastName!: string;
     dateOfBirth!: Date;
     dateOfJoining!: Date;
+    genderStatus!: string;
     employeeAddressDTOS!: EmployeeAddressDTO[];
     employeeDetailDTOS!: EmployeeDetailDTO[];
   }

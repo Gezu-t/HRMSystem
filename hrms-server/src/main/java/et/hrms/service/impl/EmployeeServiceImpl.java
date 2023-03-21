@@ -1,8 +1,16 @@
 package et.hrms.service.impl;
 
-import et.hrms.dal.dto.*;
-import et.hrms.dal.mapping.*;
-import et.hrms.dal.model.*;
+import et.hrms.dal.dto.DepartmentDTO;
+import et.hrms.dal.dto.EmployeeAddressDTO;
+import et.hrms.dal.dto.EmployeeDTO;
+import et.hrms.dal.dto.EmployeeDetailDTO;
+import et.hrms.dal.mapping.DepartmentMapper;
+import et.hrms.dal.mapping.EmployeeAddressMapper;
+import et.hrms.dal.mapping.EmployeeDetailMapper;
+import et.hrms.dal.mapping.EmployeeMapper;
+import et.hrms.dal.model.Employee;
+import et.hrms.dal.model.EmployeeAddress;
+import et.hrms.dal.model.EmployeeDetail;
 import et.hrms.dal.repository.DepartmentRepository;
 import et.hrms.dal.repository.EmployeeAddressRepository;
 import et.hrms.dal.repository.EmployeeDetailRepository;
@@ -15,11 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 
@@ -37,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final DepartmentMapper departmentMapper;
 
     @Override
+    @Transactional
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
         var employee = employeeMapper.toEmployee(employeeDTO);
 
@@ -46,8 +53,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             if (!employee.getEmployeeAddresses().isEmpty() && !employee.getEmployeeDetails().isEmpty()) {
                 employee = employeeRepository.save(employee);
-                employeeAddressRepository.saveAll(employee.getEmployeeAddresses());
-                employeeDetailRepository.saveAll(employee.getEmployeeDetails());
             } else {
                 throw new EntityNotFoundException("Employee has some problem persisting");
             }

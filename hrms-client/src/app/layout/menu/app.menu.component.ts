@@ -1,5 +1,4 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 
 
@@ -22,30 +21,29 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Employee Information',
+                label: 'Organization',
                 icon: 'pi pi-fw pi-card',
                 items: [
                     {
-                        label: 'Employee Registration', 
+                        label: 'Employee', 
                         icon: 'pi pi-fw pi-id-card', 
-                        routerLink: ['/pages/register'] 
+                        routerLink: ['/pages/employee-register'] 
                     },
-
                     {
                         label: 'Employee List', 
                         icon: 'pi pi-fw pi-id-card', 
-                        routerLink: ['/pages/list'] 
-                   },
-                   {
-                        label: 'Employee Details', 
+                        routerLink: ['/pages/employee-list'] 
+                    },
+                    {
+                        label: 'Employee Detail', 
                         icon: 'pi pi-fw pi-id-card', 
-                        routerLink: ['/pages/detail'] 
-                    },  
-                   {
+                        routerLink: ['/pages/employee-detail'] 
+                    },
+                    {
                         label: 'Employee Edit', 
                         icon: 'pi pi-fw pi-id-card', 
-                        routerLink: ['/pages/edit'] 
-                   }                     
+                        routerLink: ['/pages/employee-edit'] 
+                    }
                 ]
             },
 
@@ -107,7 +105,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee Registration',
                         icon: 'pi pi-fw pi-id-card',
-                        routerLink: ['/pages/employee-registration']
+                        routerLink: ['/pages/employee-register']
                     },
                     {
                         label: 'Employee List',

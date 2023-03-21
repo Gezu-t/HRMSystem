@@ -1,66 +1,56 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
 
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { ChipModule } from "primeng/chip";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
-import { RatingModule } from 'primeng/rating';
-import { KnobModule } from 'primeng/knob';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { TabViewModule } from 'primeng/tabview';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { ColorPickerModule } from 'primeng/colorpicker';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { SliderModule } from 'primeng/slider';
-import { EmployeeRegistrationComponent } from './employee-registration.component';
+import { EmployeeRegisterComponent } from './employee-register.component';
 import { EmployeeRegisterRoutingModule } from './employee-register-routing.module';
 
+import { ImageModule } from 'primeng/image';
 
-
+import { FileUploadModule } from 'primeng/fileupload';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		EmployeeRegisterRoutingModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		ColorPickerModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		ToggleButtonModule,
-		SliderModule,
-		InputTextareaModule,
-		RadioButtonModule,
-		InputTextModule,
-		RatingModule,
-		ChipModule,
-		KnobModule,
-		InputSwitchModule,
-		ListboxModule,
-		SelectButtonModule,
-		CheckboxModule,
-		ButtonModule
-	],
-	declarations: [
-        EmployeeRegistrationComponent
-    ]
-})
+    imports: [
+        FileUploadModule,
+        HttpClientModule,
+        FormsModule,
+        EmployeeRegisterRoutingModule,
+        AutoCompleteModule,
+        CalendarModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        ImageModule,
+        TableModule,
+        CommonModule,
+        ReactiveFormsModule,
+        InputTextareaModule,
+        RadioButtonModule,
+        InputTextModule,
 
+        ListboxModule,
+        SelectButtonModule,
+        CheckboxModule,
+
+        TabViewModule,
+        ButtonModule,
+    ],
+    declarations: [EmployeeRegisterComponent],
+})
 export class EmployeeRegisterModule {}

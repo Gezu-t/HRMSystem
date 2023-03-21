@@ -8,10 +8,8 @@ import { EmployeeListComponent } from "./employee-list.component";
 @NgModule({
 	imports: [
 		RouterModule.forChild([
-		
 		{ 
-            path: 'list', component: EmployeeListComponent
-
+            path: '', component: EmployeeListComponent
 		}
 		
 	])],

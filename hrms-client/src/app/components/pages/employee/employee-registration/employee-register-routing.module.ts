@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { EmployeeRegistrationComponent } from "./employee-registration.component";
+import { EmployeeRegisterComponent } from "./employee-register.component";
 
 
 
@@ -9,7 +9,7 @@ import { EmployeeRegistrationComponent } from "./employee-registration.component
 	imports: [
 		RouterModule.forChild([
 		{ 
-			path: 'registration', component: EmployeeRegistrationComponent
+			path: '', component: EmployeeRegisterComponent
 		}
 		
 	])],
