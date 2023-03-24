@@ -40,7 +40,8 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleBadRequest(final ConstraintViolationException ex,
                                                    final WebRequest webRequest) {
         List<String> errors = new ArrayList<>();
-        ApiError apiError = new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiError apiError = new ApiError(LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         log.error("Constraint Violation: ", ex);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getHttpStatus());
 

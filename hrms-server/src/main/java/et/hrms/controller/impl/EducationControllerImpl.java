@@ -6,15 +6,17 @@ import et.hrms.dal.dto.EducationDTO;
 import et.hrms.service.EducationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/educations")
+@RequestMapping("/api/education")
 public class EducationControllerImpl implements EducationController {
 
 
@@ -22,19 +24,36 @@ public class EducationControllerImpl implements EducationController {
 
 
     @Override
-    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createEducation(@Valid @RequestBody EducationDTO educationDTO) {
-
+    @PostMapping
+    public ResponseEntity<Void> createEducation(@Valid @RequestBody EducationDTO educationDTO) {
         educationService.createEducation(educationDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Override
+    @PutMapping
+    public ResponseEntity<EducationDTO> updateEducationInfo(@Valid @RequestBody EducationDTO educationDTO) {
+        EducationDTO updatedEducationDTO = educationService.updateEducationInfo(educationDTO);
+        return ResponseEntity.ok(updatedEducationDTO);
+    }
 
     @Override
-    @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<EducationDTO> getAllEducation(@RequestParam("page") int page, @RequestParam("size") int size) {
+    @GetMapping("/institution/{name}")
+    public ResponseEntity<EducationDTO> getEducationByInstitution(@PathVariable String name) {
+        EducationDTO educationDTO = educationService.getEducationByInstitution(name);
+        if (educationDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(educationDTO);
+    }
 
-        return educationService.getAllEducationList(page, size);
-
+    @Override
+    @GetMapping
+    public ResponseEntity<List<EducationDTO>> getAllEducationList(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "sort", required = false) Sort sort) {
+        List<EducationDTO> educationDTOs = educationService.getAllEducationList(page, size, sort);
+        return ResponseEntity.ok(educationDTOs);
     }
 }

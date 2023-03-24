@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
-@Component
 public interface EducationMapper {
 
     EducationMapper INSTANCE = Mappers.getMapper(EducationMapper.class);

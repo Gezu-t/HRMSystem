@@ -2,9 +2,7 @@ package et.hrms.dal.model;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,11 +10,13 @@ import java.time.Year;
 import java.util.List;
 
 
+@AllArgsConstructor
 @Setter
 @Getter
 @ToString
 @Entity
 @Table(name = "education")
+@NoArgsConstructor
 public class Education {
 
     @Id
@@ -26,7 +26,7 @@ public class Education {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
     generator = "education_id_gen")
     private Long id;
-    private String educationCompletionDate;
+    private LocalDate educationCompletionDate;
     private String educationLevel;
     private String institution;
     private String degree;
