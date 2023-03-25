@@ -2,7 +2,6 @@ package education;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import et.hrms.controller.EducationController;
 import et.hrms.controller.impl.EducationControllerImpl;
 import et.hrms.dal.dto.EducationDTO;
 import et.hrms.service.EducationService;
@@ -18,9 +17,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,64 +28,55 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class EducationControllerTest {
+class EducationControllerTest {
 
     @Mock
     private EducationService educationService;
-
     @InjectMocks
     private EducationControllerImpl educationController;
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private MockMvc mockMvc;
-    private ObjectMapper objectMapper;
-
     private EducationDTO educationDTO;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(educationController).build();
-        objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule()); // Add this line
 
-        educationDTO = new EducationDTO();
-        educationDTO.setEducationId(1L);
-        educationDTO.setInstitution("Institution");
-        educationDTO.setDegree("Degree");
-        String startDate = "01-09-2021";
-        String endDate = "12-05-2023";
         String completionDate = "01-01-2022";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        LocalDate educationStartDate = LocalDate.parse(startDate, formatter);
-        LocalDate educationEndDate = LocalDate.parse(endDate, formatter);
         LocalDate completionDate1 = LocalDate.parse(completionDate, formatter);
 
-        educationDTO.setEducationStartDate(educationStartDate);
-        educationDTO.setEducationEndDate(educationEndDate);
-
+        educationDTO = new EducationDTO();
+        educationDTO.setEducationCompletionDate(completionDate1);
+        educationDTO.setEducationLevel("Bachelor");
+        educationDTO.setInstitution("Test University");
+        educationDTO.setDegree("Bachelor of Science");
+        educationDTO.setEducationMajor("Computer Science");
+        educationDTO.setEducationMinor("Mathematics");
+        educationDTO.setEducationGrade("A");
+        educationDTO.setEducationType("Full-time");
+        educationDTO.setEducationStatus("Ongoing");
+        educationDTO.setAward("Dean's List");
+        educationDTO.setAwardDate(LocalDate.now().plusYears(2));
+        educationDTO.setEducationStartDate(LocalDate.now());
+        educationDTO.setEducationEndDate(LocalDate.now().plusYears(4));
+        educationDTO.setAwardDescription("Top 10% of students in the faculty");
 
     }
 
-
+    // Test case for creating a new Education record
     @Test
-    public void testCreateEducation() throws Exception {
-        // In the test method or @BeforeEach setup method, depending on your use case
-        EducationDTO educationDTO = new EducationDTO();
-        educationDTO.setInstitution("Institution");
-        educationDTO.setDegree("Degree");
-// Set other fields as needed
-
-        doNothing().when(educationService).createEducation(educationDTO);
-
+    void testCreateEducation() throws Exception {
+        doNothing().when(educationService).createEducation(any(EducationDTO.class));
         MvcResult result = mockMvc.perform(post("/api/education")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(educationDTO)))
-                .andExpect(status().is(any(Integer.class)))
+                .andExpect(status().isCreated()) // Or status().isOk() if appropriate
                 .andReturn();
 
         System.out.println(result.getResponse().getStatus());
         System.out.println(result.getResponse().getContentAsString());
-
 
         String responseContent = result.getResponse().getContentAsString();
         System.out.println("Response content: " + responseContent);
@@ -95,17 +84,11 @@ public class EducationControllerTest {
         verify(educationService, times(1)).createEducation(any(EducationDTO.class));
     }
 
-
+    // Test case for updating an existing Education record
     @Test
-    public void testUpdateEducationInfo() throws Exception {
-        // In the test method or @BeforeEach setup method, depending on your use case
-        EducationDTO educationDTO = new EducationDTO();
-        educationDTO.setInstitution("Institution");
-        educationDTO.setDegree("Degree");
-        // Set other fields as needed
-
+    void testUpdateEducationInfo() throws Exception {
+        educationDTO.setEducationId(1L);
         when(educationService.updateEducationInfo(any(EducationDTO.class))).thenReturn(educationDTO);
-
         mockMvc.perform(put("/api/education")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(educationDTO)))
@@ -115,8 +98,9 @@ public class EducationControllerTest {
                 .andExpect(jsonPath("$.degree").value(educationDTO.getDegree()));
     }
 
+    // Test case for fetching an Education record by institution name
     @Test
-    public void testGetEducationByInstitution() throws Exception {
+    void testGetEducationByInstitution() throws Exception {
         when(educationService.getEducationByInstitution(educationDTO.getInstitution())).thenReturn(educationDTO);
 
         mockMvc.perform(get("/api/education/institution/{name}", educationDTO.getInstitution())
@@ -127,9 +111,10 @@ public class EducationControllerTest {
                 .andExpect(jsonPath("$.degree").value(educationDTO.getDegree()));
     }
 
+    // Test case for fetching all Education records with pagination
     @Test
-    public void testGetAllEducationList() throws Exception {
-        List<EducationDTO> educationDTOs = Arrays.asList(educationDTO);
+    void testGetAllEducationList() throws Exception {
+        List<EducationDTO> educationDTOs = Collections.singletonList(educationDTO);
         when(educationService.getAllEducationList(0, 5, null)).thenReturn(educationDTOs);
 
         mockMvc.perform(get("/api/education?page=0&size=5")
@@ -139,23 +124,19 @@ public class EducationControllerTest {
                 .andExpect(jsonPath("$[0].institution").value(educationDTO.getInstitution()))
                 .andExpect(jsonPath("$[0].degree").value(educationDTO.getDegree()));
     }
+
+    // Test case for creating a new Education record with invalid input
     @Test
-    public void testCreateEducationInvalidInput() throws Exception {
-        // In the test method or @BeforeEach setup method, depending on your use case
-        EducationDTO educationDTO = new EducationDTO();
-        educationDTO.setInstitution("Institution");
-        educationDTO.setDegree("Degree");
-        // Set other fields as needed
-
-
+    void testCreateEducationInvalidInput() throws Exception {
         mockMvc.perform(post("/api/education")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(null)))
                 .andExpect(status().isBadRequest());
     }
 
+    // Test case for updating an existing Education record with invalid input
     @Test
-    public void testUpdateEducationInfoInvalidInput() throws Exception {
+    void testUpdateEducationInfoInvalidInput() throws Exception {
         EducationDTO invalidEducationDTO = new EducationDTO();
         invalidEducationDTO.setEducationId(1L);
         invalidEducationDTO.setInstitution(null);
@@ -167,8 +148,9 @@ public class EducationControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    // Test case for fetching an Education record by institution name when it's not found
     @Test
-    public void testGetEducationByInstitutionNotFound() throws Exception {
+    void testGetEducationByInstitutionNotFound() throws Exception {
         String nonExistentInstitution = "Non-existent Institution";
         when(educationService.getEducationByInstitution(nonExistentInstitution)).thenReturn(null);
 

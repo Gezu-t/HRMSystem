@@ -1,4 +1,5 @@
 package education;
+
 import et.hrms.dal.dto.EducationDTO;
 import et.hrms.dal.mapping.EducationMapper;
 import et.hrms.dal.model.Education;
@@ -15,25 +16,21 @@ import org.springframework.data.domain.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class EducationServiceImplTest {
-
+class EducationServiceImplTest {
 
     @Mock
     private EducationRepository educationRepository;
-
     @Mock
     private EducationMapper educationMapper;
-
     @InjectMocks
     private EducationServiceImpl educationService;
 
@@ -41,7 +38,7 @@ public class EducationServiceImplTest {
     private Education education;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         String startDate = "01-09-2021";
         String endDate = "12-05-2023";
         String completionDate = "01-01-2022";
@@ -78,7 +75,7 @@ public class EducationServiceImplTest {
     }
 
     @Test
-    public void testCreateEducation() {
+    void testCreateEducation() {
         when(educationMapper.toEducation(educationDTO)).thenReturn(education);
         when(educationRepository.save(education)).thenReturn(education);
 
@@ -88,7 +85,7 @@ public class EducationServiceImplTest {
     }
 
     @Test
-    public void testUpdateEducationInfo() {
+    void testUpdateEducationInfo() {
         when(educationRepository.findById(1L)).thenReturn(Optional.of(education));
         when(educationRepository.save(education)).thenReturn(education);
         when(educationMapper.toEducationDTO(education)).thenReturn(educationDTO);
@@ -102,7 +99,7 @@ public class EducationServiceImplTest {
     }
 
     @Test
-    public void testGetEducationByInstitution() {
+    void testGetEducationByInstitution() {
         when(educationRepository.findByInstitution("Institution")).thenReturn(education);
         when(educationMapper.toEducationDTO(education)).thenReturn(educationDTO);
 
@@ -114,8 +111,8 @@ public class EducationServiceImplTest {
     }
 
     @Test
-    public void testGetAllEducationList() {
-        List<Education> educations = Arrays.asList(education);
+    void testGetAllEducationList() {
+        List<Education> educations = Collections.singletonList(education);
         Page<Education> educationPage = new PageImpl<>(educations);
         Pageable pageable = PageRequest.of(0, 5, Sort.by("institution").ascending());
 
@@ -130,26 +127,9 @@ public class EducationServiceImplTest {
         verify(educationMapper, times(1)).toEducationDTO(education);
     }
 
-//    @Test
-//    public void testValidateEducationDTOInvalidStartDate() {
-//        String startDate = "01-09-2021";
-//        String endDate = "12-05-2023";
-//        String completionDate = "01-01-2022";
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//
-//        LocalDate educationStartDate = LocalDate.parse(startDate, formatter);
-//        LocalDate educationEndDate = LocalDate.parse(endDate, formatter);
-//        LocalDate completionDate1 = LocalDate.parse(completionDate, formatter);
-//
-//        educationDTO.setEducationStartDate(educationStartDate);
-//        educationDTO.setEducationEndDate(educationEndDate);
-//
-//        assertThrows(IllegalArgumentException.class, () -> educationService.createEducation(educationDTO));
-//        assertThrows(IllegalArgumentException.class, () -> educationService.updateEducationInfo(educationDTO));
-//    }
 
     @Test
-    public void testValidateEducationDTOInvalidInstitution() {
+    void testValidateEducationDTOInvalidInstitution() {
         educationDTO.setInstitution(null);
 
         assertThrows(NullPointerException.class, () -> educationService.createEducation(educationDTO));
@@ -157,13 +137,12 @@ public class EducationServiceImplTest {
     }
 
     @Test
-    public void testValidateEducationDTOInvalidDegree() {
+    void testValidateEducationDTOInvalidDegree() {
         educationDTO.setDegree(null);
 
         assertThrows(NullPointerException.class, () -> educationService.createEducation(educationDTO));
         assertThrows(NullPointerException.class, () -> educationService.updateEducationInfo(educationDTO));
     }
-
 
 
 }
