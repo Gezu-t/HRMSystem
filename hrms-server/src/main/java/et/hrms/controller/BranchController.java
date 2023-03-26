@@ -1,13 +1,8 @@
 package et.hrms.controller;
 
 import et.hrms.dal.dto.BranchDTO;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 

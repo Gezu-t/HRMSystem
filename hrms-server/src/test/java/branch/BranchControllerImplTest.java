@@ -13,12 +13,13 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BranchControllerImplTest {
+class BranchControllerImplTest {
 
     @Mock
     private BranchService branchService;
@@ -34,7 +35,7 @@ public class BranchControllerImplTest {
 
         ResponseEntity<List<BranchDTO>> response = branchController.createBranch(organizationId, branchDTO);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(1, response.getBody().size());
+        assertEquals(1, Objects.requireNonNull(response.getBody()).size());
         assertEquals(branchDTO, response.getBody().get(0));
 
         verify(branchService, times(1)).createBranch(organizationId, branchDTO);
@@ -76,7 +77,7 @@ public class BranchControllerImplTest {
 
         ResponseEntity<List<BranchDTO>> response = branchController.getAllBranchInformation(page, size);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().size());
+        assertEquals(1, Objects.requireNonNull(response.getBody()).size());
         assertEquals(branchDTO, response.getBody().get(0));
 
         verify(branchService, times(1)).getAllBranchInformation(page, size);

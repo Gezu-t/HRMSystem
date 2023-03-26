@@ -3,10 +3,8 @@ package et.hrms.service.impl;
 
 import et.hrms.dal.dto.BranchDTO;
 import et.hrms.dal.dto.OrganizationAddressDTO;
-import et.hrms.dal.dto.OrganizationDTO;
 import et.hrms.dal.mapping.BranchMapper;
 import et.hrms.dal.mapping.OrganizationAddressMapper;
-import et.hrms.dal.mapping.OrganizationMapper;
 import et.hrms.dal.model.Branch;
 import et.hrms.dal.model.Organization;
 import et.hrms.dal.model.OrganizationAddress;
@@ -41,7 +39,6 @@ public class BranchServiceImpl implements BranchService {
     private final OrganizationAddressMapper organizationAddressMapper;
     private final OrganizationAddressRepository organizationAddressRepository;
     private final LogService logService;
-    private final OrganizationMapper organizationMapper;
 
 
     @Override
@@ -106,12 +103,15 @@ public class BranchServiceImpl implements BranchService {
         OrganizationAddress existingOrganizationAddress = organizationAddressRepository.findById(addressId)
                 .orElseThrow(() -> new EntityNotFoundException("OrganizationAddress not found by this id: " + addressId));
 
-        existingOrganizationAddress = organizationAddressMapper.toOrganizationAddress(organizationAddressDTO);
-        existingOrganizationAddress.setId(addressId);
-        existingOrganizationAddress.setBranch(branch);
+        // Update the existingOrganizationAddress with properties from the organizationAddressDTO
+        organizationAddressMapper.updateOrganizationAddressFromDto(organizationAddressDTO, existingOrganizationAddress);
 
+        existingOrganizationAddress.setBranch(branch);
         branch.setOrganizationAddress(existingOrganizationAddress);
     }
+
+
+
 
     private void updateOrganization(Branch branch, Long organizationId) {
         Organization organization = organizationRepository.findById(organizationId)
