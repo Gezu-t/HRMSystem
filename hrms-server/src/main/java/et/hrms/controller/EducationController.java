@@ -3,7 +3,6 @@ package et.hrms.controller;
 import et.hrms.dal.dto.EducationDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

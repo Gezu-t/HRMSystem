@@ -2,7 +2,6 @@ package et.hrms.service;
 
 import et.hrms.dal.dto.EducationDTO;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;
 

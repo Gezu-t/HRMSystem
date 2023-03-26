@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -43,7 +42,6 @@ public class EducationServiceImpl implements EducationService {
     @Override
     public EducationDTO updateEducationInfo(EducationDTO educationDTO) {
         validateEducationDTO(educationDTO);
-        Optional<Education> optionalEducation = educationRepository.findById(educationDTO.getEducationId());
         Education education = educationRepository.findById(educationDTO.getEducationId())
                 .orElseThrow(() -> new EntityNotFoundException("Education information is not found by this id: " + educationDTO.getEducationId()));
 
@@ -57,10 +55,9 @@ public class EducationServiceImpl implements EducationService {
     private void validateEducationDTO(EducationDTO educationDTO) {
         Objects.requireNonNull(educationDTO.getInstitution(), "Institution name must not be null");
         Objects.requireNonNull(educationDTO.getDegree(), "Degree must not be null");
-        if (educationDTO.getEducationStartDate() != null && educationDTO.getEducationEndDate() != null) {
-            if (educationDTO.getEducationStartDate().isAfter(educationDTO.getEducationEndDate())) {
-                throw new IllegalArgumentException("Education start date must be before education end date");
-            }
+        if (!(educationDTO.getEducationStartDate() == null || educationDTO.getEducationEndDate() == null)) {
+            throw new IllegalArgumentException("Education start date must be before education end date");
+
         }
     }
 
