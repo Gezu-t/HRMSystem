@@ -33,6 +33,8 @@ public class Employee {
     private String employeeNumber;
     private String firstName;
     private String lastName;
+    private GenderStatus genderStatus;
+    private MaritalStatus maritalStatus;
     private LocalDate dateOfBirth;
     private LocalDate dateOfJoining;
     private LocalDate dateOfLeaving;
@@ -40,31 +42,13 @@ public class Employee {
     private Boolean employeeStatus;
     private LocalDate employeeStatusDate;
 
-
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private EmployeeAppearance employeeAppearance;
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Family family;
 
-
-
-
-//    @ManyToMany
-//    @JoinTable(name = "employee_education",
-//    joinColumns = {@JoinColumn(name = "employee_id")},
-//    inverseJoinColumns = {@JoinColumn(name = "education_id")})
-//    @SortNatural
-//    private SortedSet<Education> educations = new TreeSet<>();
-
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<EmployeePositionManagement> employeePositionManagements = new LinkedHashSet<>();
-
-
-//    @ManyToMany
-//    @JoinTable(name = "employee_address",
-//    joinColumns = {@JoinColumn(name = "employee_id")},
-//    inverseJoinColumns = {@JoinColumn(name = "address_id")})
-//    private Set<OrganizationAddress> addresses;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EmployeeEvaluation> employeeEvaluation;

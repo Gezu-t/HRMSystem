@@ -12,7 +12,6 @@ import et.hrms.dal.model.Employee;
 import et.hrms.dal.model.EmployeeAddress;
 import et.hrms.dal.model.EmployeeDetail;
 import et.hrms.dal.repository.DepartmentRepository;
-import et.hrms.dal.repository.EmployeeAddressRepository;
 import et.hrms.dal.repository.EmployeeDetailRepository;
 import et.hrms.dal.repository.EmployeeRepository;
 import et.hrms.exceptions.EmployeeNotFoundException;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -38,7 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeAddressMapper addressMapper;
     private final EmployeeDetailMapper employeeDetailMapper;
     private final DepartmentRepository departmentRepository;
-    private final EmployeeAddressRepository employeeAddressRepository;
     private final EmployeeDetailRepository employeeDetailRepository;
     private final DepartmentMapper departmentMapper;
 
@@ -71,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employeeDetail.setEmployee(employee);
                     return employeeDetail;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private List<EmployeeAddress> createEmployeeAddresses(Employee employee, List<EmployeeAddressDTO> employeeAddressDTOS) {
@@ -81,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     address.setEmployee(employee);
                     return address;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -91,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDetails.stream()
                 .map(EmployeeDetail::getEmployee)
                 .map(employeeMapper::toEmployeeDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -100,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Page<Employee> employees = employeeRepository.findAll(pageable);
         return employees.stream()
                 .map(employeeMapper::toEmployeeDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -115,11 +112,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employeeDetailDTO.setDepartmentDTO(departmentDTO);
                     return employeeDetailDTO;
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         List<EmployeeAddressDTO> employeeAddressDTOS = employee.getEmployeeAddresses().stream()
                 .map(EmployeeAddressMapper.INSTANCE::toEmployeeAddressDTO)
-                .collect(Collectors.toList());
+                .toList();
 
         EmployeeDTO employeeDTO = employeeMapper.toEmployeeDTO(employee);
         employeeDTO.setEmployeeDetailDTOS(employeeDetailDTOS);

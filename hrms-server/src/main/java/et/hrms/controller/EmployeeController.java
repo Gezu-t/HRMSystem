@@ -1,7 +1,6 @@
 package et.hrms.controller;
 
-import et.hrms.dal.dto.*;
-import org.springframework.http.MediaType;
+import et.hrms.dal.dto.EmployeeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
