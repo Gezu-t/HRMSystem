@@ -4,12 +4,12 @@ import et.hrms.dal.dto.OrganizationAddressDTO;
 import et.hrms.dal.model.OrganizationAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 
 @Mapper(componentModel = "spring")
 public interface OrganizationAddressMapper {
-
 
     OrganizationAddressMapper INSTANCE = Mappers.getMapper(OrganizationAddressMapper.class);
 
@@ -19,7 +19,7 @@ public interface OrganizationAddressMapper {
     @Mapping(target = "addressId", source = "id")
     OrganizationAddressDTO toOrganizationAddressDTO(OrganizationAddress organizationAddress);
 
-
-
+    void updateOrganizationAddressFromDto(OrganizationAddressDTO organizationAddressDTO,
+                                          @MappingTarget OrganizationAddress existingOrganizationAddress);
 
 }
