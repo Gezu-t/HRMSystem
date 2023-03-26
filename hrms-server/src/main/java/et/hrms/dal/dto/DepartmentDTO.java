@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DepartmentDTO {
-
     private Long departmentId;
     @NotEmpty
     private String locations;
@@ -20,7 +19,5 @@ public class DepartmentDTO {
     private String departmentName;
     @NotEmpty
     private Long branchId;
-
-
 
 }

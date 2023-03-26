@@ -1,6 +1,7 @@
 package et.hrms.controller;
 
 import et.hrms.dal.dto.DepartmentDTO;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Set;
 
 public interface DepartmentController {
 
 
     List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
-                                                   @RequestBody DepartmentDTO departmentDTO);
+                                                   @RequestBody List<DepartmentDTO> departmentDTO);
 
-    Set<DepartmentDTO> createDepartmentByOrganizationId(@PathVariable Long organizationId,
-                                                        @RequestBody DepartmentDTO departmentDTO);
+    ResponseEntity<List<DepartmentDTO>> createDepartmentByOrganizationId(
+            @PathVariable Long organizationId,
+            @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests);
 
     List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size);
 

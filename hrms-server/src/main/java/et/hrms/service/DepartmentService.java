@@ -4,14 +4,14 @@ import et.hrms.dal.dto.DepartmentDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Set;
 
 public interface DepartmentService {
 
 
-    List<DepartmentDTO> createDepartmentByBranchId(long branchId, DepartmentDTO departmentDTO);
+    List<DepartmentDTO> createDepartmentByBranchId(long branchId, List<DepartmentDTO> departmentDTO);
 
-    Set<DepartmentDTO> createDepartmentByOrganizationId(Long organizationId, DepartmentDTO departmentDTO);
+
+    List<DepartmentDTO> createDepartmentByOrganizationId(Long organizationId, List<DepartmentDTO> departmentDTOs);
 
     DepartmentDTO getDepartmentById(Long id);
 

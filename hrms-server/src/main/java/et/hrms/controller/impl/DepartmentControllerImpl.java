@@ -3,6 +3,7 @@ package et.hrms.controller.impl;
 import et.hrms.controller.DepartmentController;
 import et.hrms.dal.dto.DepartmentDTO;
 import et.hrms.service.DepartmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -27,16 +27,17 @@ public class DepartmentControllerImpl implements DepartmentController {
     @PostMapping(value = "/add/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
-                                                          @RequestBody DepartmentDTO departmentDTO) {
+                                                          @RequestBody List<DepartmentDTO> departmentDTO) {
         return departmentService.createDepartmentByBranchId(branchId, departmentDTO);
     }
 
-    @Override
-    @PostMapping(value = "/add/{orgName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public Set<DepartmentDTO> createDepartmentByOrganizationId(@PathVariable Long organizationId,
-                                                               @RequestBody DepartmentDTO departmentDTO) {
-        return departmentService.createDepartmentByOrganizationId(organizationId, departmentDTO);
+    @PostMapping("/organization/{organizationId}")
+    public ResponseEntity<List<DepartmentDTO>> createDepartmentByOrganizationId(
+            @PathVariable Long organizationId,
+            @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests) {
+        List<DepartmentDTO> departmentDTOs = departmentService.createDepartmentByOrganizationId(
+                organizationId, departmentCreateRequests);
+        return ResponseEntity.ok(departmentDTOs);
     }
 
 
