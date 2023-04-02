@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "vacancy_notice", schema = "public")
 public class VacancyNotice {
 
     @Id
@@ -21,7 +22,6 @@ public class VacancyNotice {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "vacancy_notice_id_gen")
     private Long id;
-
     private String jobTitle;
     private String jobDescription;
     private Integer numberOfPositions;

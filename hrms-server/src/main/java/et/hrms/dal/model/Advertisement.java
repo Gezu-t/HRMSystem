@@ -13,23 +13,24 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "advertisement", schema = "public")
 public class Advertisement {
 
-    @Id
-    @SequenceGenerator(name = "advertisement_id_gen",
-            sequenceName = "advertisement_id_seq",
-            allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "advertisement_id_gen")
-    private Long id;
+  @Id
+  @SequenceGenerator(name = "advertisement_id_gen",
+          sequenceName = "advertisement_id_seq",
+          allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE,
+          generator = "advertisement_id_gen")
+  private Long id;
 
-    private String title;
-    private String media;
-    private LocalDate publishDate;
+  private String title;
+  private String media;
+  private LocalDate publishDate;
 
-    @OneToOne(mappedBy = "advertisement")
-    private VacancyNotice vacancyNotice;
+  @OneToOne(mappedBy = "advertisement")
+  private VacancyNotice vacancyNotice;
 
-    // Getters and setters
+  // Getters and setters
 }
 
