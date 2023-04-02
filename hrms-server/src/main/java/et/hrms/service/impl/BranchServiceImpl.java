@@ -23,9 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -43,20 +42,19 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<BranchDTO> createBranch(long organizationId, BranchDTO branchDTO) {
-
+    public void createBranch(long organizationId, List<BranchDTO> branchDTOS) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new EntityNotFoundException("Organization is not found by id:" + organizationId));
-
-        Set<Branch> branches = new LinkedHashSet<>();
-        OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
-        Branch branch = branchMapper.toBranch(branchDTO);
-        branch.setOrganization(organization);
-        branch.setOrganizationAddress(organizationAddress);
-        branches.add(branch);
-        auditService.logAction("username", "Branch", "Create", branch.getId());
-
-        return branchMapper.toBranchDTOs(branchRepository.saveAll(branches));
+        List<Branch> branchList = new ArrayList<>();
+        for (BranchDTO branchDTO : branchDTOS) {
+            OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
+            Branch branch = branchMapper.toBranch(branchDTO);
+            branch.setOrganization(organization);
+            branch.setOrganizationAddress(organizationAddress);
+            auditService.logAction("username", "Branch", "Create", branch.getId());
+            branchList.add(branch);
+        }
+        branchMapper.toBranchDTOs(branchRepository.saveAll(branchList));
     }
 
 
@@ -109,8 +107,6 @@ public class BranchServiceImpl implements BranchService {
         existingOrganizationAddress.setBranch(branch);
         branch.setOrganizationAddress(existingOrganizationAddress);
     }
-
-
 
 
     private void updateOrganization(Branch branch, Long organizationId) {

@@ -24,38 +24,36 @@ public class DepartmentControllerImpl implements DepartmentController {
 
 
     @Override
-    @PostMapping(value = "/add/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
-                                                          @RequestBody List<DepartmentDTO> departmentDTO) {
-        return departmentService.createDepartmentByBranchId(branchId, departmentDTO);
+    @PostMapping("/branch/{branchId}")
+    public ResponseEntity<Void> createDepartmentByBranchId(@PathVariable Long branchId,
+                                                          @RequestBody List<DepartmentDTO> departmentDTOs) {
+         departmentService.createDepartmentByBranchId(branchId, departmentDTOs);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/organization/{organizationId}")
-    public ResponseEntity<List<DepartmentDTO>> createDepartmentByOrganizationId(
+    public ResponseEntity<Void> createDepartmentByOrganizationId(
             @PathVariable Long organizationId,
             @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests) {
-        List<DepartmentDTO> departmentDTOs = departmentService.createDepartmentByOrganizationId(
+       departmentService.createDepartmentByOrganizationId(
                 organizationId, departmentCreateRequests);
-        return ResponseEntity.ok(departmentDTOs);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
     @Override
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size) {
         return departmentService.getAllDepartment(page, size);
     }
 
     @Override
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long id,
+    @PutMapping("/{departmentId}")
+    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long departmentId,
                                                           @RequestBody DepartmentDTO departmentDTO) {
-        if (departmentService.getDepartmentById(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        departmentDTO.setDepartmentId(id);
-        return new ResponseEntity<>(departmentService.updateDepartment(departmentDTO), HttpStatus.OK);
+        DepartmentDTO updateDepartmentDTO = departmentService.updateDepartment(departmentId, departmentDTO);
+        return  ResponseEntity.ok(updateDepartmentDTO);
     }
 
 

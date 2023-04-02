@@ -8,3 +8,11 @@ logging:
     console: "%d %-5level %logger : %msg%n"
 server:
   port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true

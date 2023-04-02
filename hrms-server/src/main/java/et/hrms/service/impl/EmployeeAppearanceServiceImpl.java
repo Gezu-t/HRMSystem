@@ -34,7 +34,6 @@ public class EmployeeAppearanceServiceImpl implements AppearanceService {
     public void createEmployeeAppearance(Long employeeId, EmployeeAppearanceDTO employeeAppearanceDTO) {
         if (employeeAppearanceDTO != null) {
             var appearance = appearanceMapper.toAppearance(employeeAppearanceDTO);
-
             var employee = employeeRepository.findById(employeeId)
                     .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Employee is not found by this id:{0}", employeeId)));
             if (appearance != null) {

@@ -44,10 +44,8 @@ public class EducationServiceImpl implements EducationService {
         validateEducationDTO(educationDTO);
         Education education = educationRepository.findById(educationDTO.getEducationId())
                 .orElseThrow(() -> new EntityNotFoundException("Education information is not found by this id: " + educationDTO.getEducationId()));
-
         updateEducationFields(education, educationDTO);
         education.setUpdatedAt(LocalDateTime.now());
-
         Education updatedEducation = educationRepository.save(education);
         return educationMapper.toEducationDTO(updatedEducation);
     }
@@ -57,7 +55,6 @@ public class EducationServiceImpl implements EducationService {
         Objects.requireNonNull(educationDTO.getDegree(), "Degree must not be null");
         if (!(educationDTO.getEducationStartDate() == null || educationDTO.getEducationEndDate() == null)) {
             throw new IllegalArgumentException("Education start date must be before education end date");
-
         }
     }
 

@@ -3,6 +3,7 @@ package et.hrms.dal.mapping;
 
 import et.hrms.dal.dto.EmployeeDTO;
 import et.hrms.dal.model.Employee;
+import et.hrms.dal.model.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +22,9 @@ public interface EmployeeMapper {
     Employee toEmployee(EmployeeDTO employeeDTO);
 
     List<Employee> getListOfEmployee(List<EmployeeDTO> employeeDTOS);
+
+    @Mapping(source = "organizationName", target = "orgName")
+    EmployeeDTO toEmployeeOrganizatin(Organization organization);
 
 
 }

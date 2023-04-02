@@ -1,6 +1,5 @@
 package department;
 
-import et.hrms.dal.dto.BranchDTO;
 import et.hrms.dal.dto.DepartmentDTO;
 import et.hrms.dal.mapping.DepartmentMapper;
 import et.hrms.dal.model.Branch;
@@ -13,14 +12,11 @@ import et.hrms.service.impl.AuditServiceImpl;
 import et.hrms.service.impl.DepartmentServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -104,12 +100,11 @@ public class DepartmentServiceTest {
         updatedDepartmentDTO.setBranchId(1L);
 
         when(departmentRepository.findById(1L)).thenReturn(Optional.of(department));
-        when(branchRepository.findById(1L)).thenReturn(Optional.of(branch));
         when(departmentRepository.save(any(Department.class))).thenReturn(department);
         when(departmentMapper.toDepartmentDTO(any(Department.class))).thenReturn(updatedDepartmentDTO);
 
         // Call the method under test
-        DepartmentDTO result = departmentService.updateDepartment(updatedDepartmentDTO);
+        DepartmentDTO result = departmentService.updateDepartment(updatedDepartmentDTO.getDepartmentId(), updatedDepartmentDTO);
 
         // Verify the results
         assertNotNull(result);
@@ -142,12 +137,13 @@ public class DepartmentServiceTest {
         when(departmentMapper.toDepartment(any(DepartmentDTO.class))).thenReturn(department);
         when(departmentRepository.saveAll(anyList())).thenReturn(List.of(department));
         // Call the method under test
-        List<DepartmentDTO> result = departmentService.createDepartmentByBranchId(branch.getId(), departmentDTOs);
+        departmentService.createDepartmentByBranchId(branch.getId(), departmentDTOs);
 
-        // Verify the results
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
+        // Verify the interactions
+        verify(branchRepository).findById(branch.getId());
+        verify(departmentMapper).toDepartment(depDTO);
+        verify(departmentRepository).saveAll(any());
+        verify(auditService, times(1)).logAction(any(), any(), any(), any());
     }
 
     @Test
@@ -176,12 +172,12 @@ public class DepartmentServiceTest {
         when(departmentMapper.toDepartment(any(DepartmentDTO.class))).thenReturn(department);
         when(departmentRepository.saveAll(anyList())).thenReturn(List.of(department));
 
-        List<DepartmentDTO> result = departmentService.createDepartmentByOrganizationId(organization.getId(), departmentDTOs);
+        departmentService.createDepartmentByOrganizationId(organization.getId(), departmentDTOs);
 
-        // Verify the results
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
+        // Verify the interactions
+        verify(organizationRepository).findById(organization.getId());
+        verify(departmentMapper).toDepartment(departmentDTO2);
+        verify(departmentRepository).saveAll(any());
     }
 
 

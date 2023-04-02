@@ -33,7 +33,9 @@ public class Employee {
     private String employeeNumber;
     private String firstName;
     private String lastName;
+    @Enumerated(EnumType.STRING)
     private GenderStatus genderStatus;
+    @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
     private LocalDate dateOfBirth;
     private LocalDate dateOfJoining;

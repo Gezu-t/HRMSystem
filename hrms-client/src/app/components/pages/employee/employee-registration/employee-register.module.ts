@@ -10,8 +10,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
-import { ListboxModule } from 'primeng/listbox';
-import { SelectButtonModule } from 'primeng/selectbutton';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -43,11 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
         InputTextareaModule,
         RadioButtonModule,
         InputTextModule,
-
-        ListboxModule,
-        SelectButtonModule,
         CheckboxModule,
-
         TabViewModule,
         ButtonModule,
     ],

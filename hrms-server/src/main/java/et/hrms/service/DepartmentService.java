@@ -8,14 +8,14 @@ import java.util.List;
 public interface DepartmentService {
 
 
-    List<DepartmentDTO> createDepartmentByBranchId(long branchId, List<DepartmentDTO> departmentDTO);
+    void createDepartmentByBranchId(long branchId, List<DepartmentDTO> departmentDTO);
 
 
-    List<DepartmentDTO> createDepartmentByOrganizationId(Long organizationId, List<DepartmentDTO> departmentDTOs);
+    void createDepartmentByOrganizationId(Long organizationId, List<DepartmentDTO> departmentDTOs);
 
     DepartmentDTO getDepartmentById(Long id);
 
-    DepartmentDTO updateDepartment(DepartmentDTO departmentDTO);
+    DepartmentDTO updateDepartment(Long departmentId, DepartmentDTO departmentDTO);
 
     List<DepartmentDTO> getDepartmentByOrganization(Long organizationId, Sort sort);
 

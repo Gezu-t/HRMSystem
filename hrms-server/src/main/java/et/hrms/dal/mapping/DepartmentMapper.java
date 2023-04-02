@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {
@@ -24,9 +23,5 @@ public interface DepartmentMapper {
     @Mapping(target = "departmentId", source = "id")
     DepartmentDTO toDepartmentDTO(Department department);
 
-    Set<Department> toDepartmentDTOs(Set<DepartmentDTO> departmentDTOS);
-    List<DepartmentDTO> toDepartmentList(List<Department> departments);
-    Set<DepartmentDTO> toDepartmentSet(Set<Department> departments);
-
-    List<Department> toDepartmentDTOs(List<DepartmentDTO> departments);
+    List<DepartmentDTO> toDepartmentDTOs(List<Department> departments);
 }

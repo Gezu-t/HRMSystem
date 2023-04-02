@@ -12,17 +12,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
+        // Check if the password is not null
+        if (userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+
+        // Encode the password
+//        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+//        userDTO.setPassword(encodedPassword);
+
         User user = UserMapper.INSTANCE.userDTOtoUser(userDTO);
         User savedUser = userRepository.save(user);
         return UserMapper.INSTANCE.userToUserDTO(savedUser);
@@ -51,7 +59,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(UserMapper.INSTANCE::userToUserDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

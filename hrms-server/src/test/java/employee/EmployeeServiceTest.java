@@ -1,7 +1,6 @@
 package employee;
 
 
-import et.hrms.dal.dto.DepartmentDTO;
 import et.hrms.dal.dto.EmployeeAddressDTO;
 import et.hrms.dal.dto.EmployeeDTO;
 import et.hrms.dal.dto.EmployeeDetailDTO;
@@ -11,8 +10,6 @@ import et.hrms.dal.mapping.EmployeeDetailMapper;
 import et.hrms.dal.mapping.EmployeeMapper;
 import et.hrms.dal.model.Employee;
 import et.hrms.dal.model.EmployeeDetail;
-import et.hrms.dal.repository.DepartmentRepository;
-import et.hrms.dal.repository.EmployeeAddressRepository;
 import et.hrms.dal.repository.EmployeeDetailRepository;
 import et.hrms.dal.repository.EmployeeRepository;
 import et.hrms.service.impl.EmployeeServiceImpl;
@@ -51,12 +48,6 @@ public class EmployeeServiceTest {
     private EmployeeDetailMapper employeeDetailMapper;
 
     @Mock
-    private DepartmentRepository departmentRepository;
-
-    @Mock
-    private EmployeeAddressRepository employeeAddressRepository;
-
-    @Mock
     private EmployeeDetailRepository employeeDetailRepository;
 
     @Mock
@@ -80,7 +71,7 @@ public class EmployeeServiceTest {
         employeeDTO.setEmployeeAddressDTOS(employeeAddressDTOS);
 
         Mockito.when(employeeMapper.toEmployee(employeeDTO)).thenReturn(employee);
-        Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
+//        Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
         Mockito.when(employeeMapper.toEmployeeDTO(employee)).thenReturn(employeeDTO);
 
         // When
@@ -151,9 +142,9 @@ public class EmployeeServiceTest {
 
         Mockito.when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
         Mockito.when(employeeMapper.toEmployeeDTO(employee)).thenReturn(new EmployeeDTO());
-        Mockito.when(departmentMapper.toDepartmentDTO(Mockito.any())).thenReturn(new DepartmentDTO());
-        Mockito.when(employeeDetailMapper.toEmployeeDetailDTO(Mockito.any())).thenReturn(new EmployeeDetailDTO());
-        Mockito.when(addressMapper.toEmployeeAddressDTO(Mockito.any())).thenReturn(new EmployeeAddressDTO());
+//        Mockito.when(departmentMapper.toDepartmentDTO(Mockito.any())).thenReturn(new DepartmentDTO());
+//        Mockito.when(employeeDetailMapper.toEmployeeDetailDTO(Mockito.any())).thenReturn(new EmployeeDetailDTO());
+//        Mockito.when(addressMapper.toEmployeeAddressDTO(Mockito.any())).thenReturn(new EmployeeAddressDTO());
 
         // When
         EmployeeDTO employeeDTO = employeeService.getEmployeeById(id);

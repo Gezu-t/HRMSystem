@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BranchService {
 
-    List<BranchDTO> createBranch(long organizationId, BranchDTO branchDTOs);
+    void createBranch(long organizationId, List<BranchDTO> branchDTOS);
 
     BranchDTO getDetailOfBranchById(long branchId);
 

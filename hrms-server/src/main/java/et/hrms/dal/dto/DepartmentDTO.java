@@ -17,7 +17,10 @@ public class DepartmentDTO {
     private String locations;
     @NotEmpty
     private String departmentName;
-    @NotEmpty
+
     private Long branchId;
+
+    private Long organizationId;
+
 
 }

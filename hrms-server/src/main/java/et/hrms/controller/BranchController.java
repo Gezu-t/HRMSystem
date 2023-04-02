@@ -9,17 +9,18 @@ import java.util.List;
 public interface BranchController {
 
 
-    @PostMapping("/{organizationId}")
-    ResponseEntity<List<BranchDTO>> createBranch(@PathVariable long organizationId, @RequestBody BranchDTO branchDTO);
+ @PostMapping("/organization/{organizationId}")
+ ResponseEntity<Void> createBranch(@PathVariable long organizationId, @RequestBody List<BranchDTO> branchDTOS);
 
-    @GetMapping("/{branchId}")
-    ResponseEntity<BranchDTO> getBranchById(@PathVariable long branchId);
+ @GetMapping("/{branchId}")
+ ResponseEntity<BranchDTO> getDetailOfBranchById(@PathVariable long branchId);
 
-    @PutMapping("/{branchId}")
-    ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId, @RequestBody BranchDTO branchDTO);
+ @PutMapping("/{branchId}")
+ ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId,
+                                        @RequestBody BranchDTO branchDTO);
 
-    @GetMapping
-    ResponseEntity<List<BranchDTO>> getAllBranchInformation(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size);
+ @GetMapping
+ ResponseEntity<List<BranchDTO>> getAllBranchInformation(
+         @RequestParam(defaultValue = "0") int page,
+         @RequestParam(defaultValue = "10") int size);
 }

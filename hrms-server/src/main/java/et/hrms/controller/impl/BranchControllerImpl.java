@@ -16,37 +16,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BranchControllerImpl implements BranchController {
 
-
     private final BranchService branchService;
 
     @Override
-    @PostMapping("/{organizationId}")
-    public ResponseEntity<List<BranchDTO>> createBranch(@PathVariable long organizationId, @RequestBody BranchDTO branchDTO) {
-        List<BranchDTO> result = branchService.createBranch(organizationId, branchDTO);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    @PostMapping("/organization/{organizationId}")
+    public ResponseEntity<Void> createBranch(@PathVariable long organizationId, @RequestBody List<BranchDTO> branchDTOS) {
+        branchService.createBranch(organizationId, branchDTOS);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
     @GetMapping("/{branchId}")
-    public ResponseEntity<BranchDTO> getBranchById(@PathVariable long branchId) {
+    public ResponseEntity<BranchDTO> getDetailOfBranchById(@PathVariable long branchId) {
         BranchDTO branchDTO = branchService.getDetailOfBranchById(branchId);
-        return new ResponseEntity<>(branchDTO, HttpStatus.OK);
+        return ResponseEntity.ok(branchDTO);
     }
 
     @Override
     @PutMapping("/{branchId}")
-    public ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId, @RequestBody BranchDTO branchDTO) {
-        BranchDTO updatedBranch = branchService.updateBranch(branchId, branchDTO);
-        return new ResponseEntity<>(updatedBranch, HttpStatus.OK);
+    public ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId,
+                                                  @RequestBody BranchDTO branchDTO) {
+        BranchDTO updatedBranchDTO = branchService.updateBranch(branchId, branchDTO);
+        return ResponseEntity.ok(updatedBranchDTO);
     }
 
     @Override
     @GetMapping
     public ResponseEntity<List<BranchDTO>> getAllBranchInformation(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size) {
-        List<BranchDTO> branchInformation = branchService.getAllBranchInformation(page, size);
-        return new ResponseEntity<>(branchInformation, HttpStatus.OK);
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<BranchDTO> branchDTOList = branchService.getAllBranchInformation(page, size);
+        return ResponseEntity.ok(branchDTOList);
     }
 
 }

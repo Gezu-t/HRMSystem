@@ -35,6 +35,7 @@ public class UserServiceTest {
     public void createUserTest() {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername("testUser");
+        userDTO.setPassword("testUser123");
 
         User user = UserMapper.INSTANCE.userDTOtoUser(userDTO);
         when(userRepository.save(any(User.class))).thenReturn(user);

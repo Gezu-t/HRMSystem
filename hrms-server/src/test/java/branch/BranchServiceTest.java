@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,145 +32,150 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class BranchServiceTest {
+public class BranchServiceTest {
+  @InjectMocks
+  private BranchServiceImpl branchService;
 
-    @Mock
-    private BranchMapper branchMapper;
+  @Mock
+  private BranchMapper branchMapper;
 
-    @Mock
-    private BranchRepository branchRepository;
+  @Mock
+  private BranchRepository branchRepository;
 
-    @Mock
-    private OrganizationRepository organizationRepository;
-    @Mock
-    private AuditService auditService;
+  @Mock
+  private OrganizationRepository organizationRepository;
 
-    @Mock
-    private OrganizationAddressMapper organizationAddressMapper;
+  @Mock
+  private AuditService auditService;
 
-    @Mock
-    private OrganizationAddressRepository organizationAddressRepository;
+  @Mock
+  private OrganizationAddressMapper organizationAddressMapper;
 
-    @Mock
-    private LogService logService;
+  @Mock
+  private OrganizationAddressRepository organizationAddressRepository;
 
-    @InjectMocks
-    private BranchServiceImpl branchService;
+  @Mock
+  private LogService logService;
 
-    private Branch branch;
-    private BranchDTO branchDTO;
-    private OrganizationAddress organizationAddress;
-    private Organization organization;
+  // Test data
+  private Organization testOrganization;
+  private OrganizationAddressDTO organizationAddressDTO;
+  private BranchDTO testBranchDTO;
+  private Branch testBranch;
+  private OrganizationAddress testOrganizationAddress;
 
-    @BeforeEach
-    void setup() {
+  @BeforeEach
+  void setUp() {
+    // Initialize test data
+    testOrganization = new Organization();
+    testOrganization.setId(1L);
 
-        branch = new Branch();
-        branch.setId(1L);
-        branch.setBranchName("Test Branch");
-        branch.setBranchCode("BR001");
+    testBranchDTO = new BranchDTO();
+    testBranchDTO.setOrganizationId(testOrganization.getId());
 
-        OrganizationAddressDTO organizationAddressDTO = new OrganizationAddressDTO();
-        organizationAddressDTO.setAddressId(2L);
 
-        branchDTO = new BranchDTO();
-        branchDTO.setBranchId(1L);
-        branchDTO.setBranchCode("BR001");
-        branchDTO.setBranchName("Test Branch");
-        branchDTO.setOrganizationId(1L);
-        branchDTO.setOrganizationAddressDTO(organizationAddressDTO);
+    testBranch = new Branch();
+    testBranch.setId(2L);
+    testBranch.setOrganization(testOrganization);
 
-        organizationAddress = new OrganizationAddress();
-        organizationAddress.setId(2L);
-        branch.setOrganizationAddress(organizationAddress);
+    testOrganizationAddress = new OrganizationAddress();
+    testOrganizationAddress.setId(2L);
+    testOrganizationAddress.setBranch(testBranch);
+    testBranch.setOrganizationAddress(testOrganizationAddress);
+    testOrganizationAddress.setBranch(testBranch);
+    organizationAddressDTO = new OrganizationAddressDTO();
+    organizationAddressDTO.setAddressId(2L);
 
-        organization = new Organization();
-        organization.setId(1L);
-        branch.setOrganization(organization);
+    testBranchDTO.setOrganizationAddressDTO(organizationAddressDTO);
+  }
 
-    }
+  @Test
+  void createBranch() {
+    // Set up the mocks
+    when(organizationRepository.findById(testOrganization.getId())).thenReturn(Optional.of(testOrganization));
+    when(branchMapper.toBranch(testBranchDTO)).thenReturn(testBranch);
+    when(organizationAddressMapper.toOrganizationAddress(any())).thenReturn(testOrganizationAddress);
+    when(branchRepository.saveAll(any())).thenReturn(Collections.singletonList(testBranch));
 
-    @Test
-    void testCreateBranch() {
-        long organizationId = 1L;
-        BranchDTO branchDTO = new BranchDTO();
-        Organization organization = new Organization();
-        Branch branch = new Branch();
-        OrganizationAddress organizationAddress = new OrganizationAddress();
+    // Call the createBranch method
+    branchService.createBranch(testOrganization.getId(), List.of(testBranchDTO));
 
-        when(organizationRepository.findById(organizationId)).thenReturn(Optional.of(organization));
-        when(organizationAddressMapper.toOrganizationAddress(any())).thenReturn(organizationAddress);
-        when(branchMapper.toBranch(branchDTO)).thenReturn(branch);
-        when(branchRepository.saveAll(any())).thenReturn(Collections.singletonList(branch));
-        when(branchMapper.toBranchDTOs(any())).thenReturn(Collections.singletonList(branchDTO));
+    // Verify the interactions
+    verify(organizationRepository).findById(testOrganization.getId());
+    verify(branchMapper).toBranch(testBranchDTO);
+    verify(organizationAddressMapper).toOrganizationAddress(any());
+    verify(branchRepository).saveAll(any());
+    verify(auditService, times(1)).logAction(any(), any(), any(), any());
+  }
 
-        List<BranchDTO> result = branchService.createBranch(organizationId, branchDTO);
-        assertEquals(1, result.size());
-        assertEquals(branchDTO, result.get(0));
-    }
+  // Other test methods...
+// Test for getDetailOfBranchById
+  @Test
+  void getDetailOfBranchById() {
+    // Set up the mocks
+    when(branchRepository.findById(testBranch.getId())).thenReturn(Optional.of(testBranch));
+    when(organizationAddressMapper.toOrganizationAddressDTO(testOrganizationAddress)).thenReturn(new OrganizationAddressDTO());
+    when(branchMapper.toBranchDTO(testBranch)).thenReturn(testBranchDTO);
 
-    @Test
-    void testGetBranchById() {
-        long branchId = 1L;
-        Branch branch = new Branch();
-        Organization organization = new Organization();
-        OrganizationAddress organizationAddress = new OrganizationAddress();
-        organizationAddress.setId(1L);
-        organization.setId(1L);
-        branch.setOrganizationAddress(organizationAddress);
-        branch.setOrganization(organization);
-        BranchDTO branchDTO = new BranchDTO();
-        OrganizationAddressDTO organizationAddressDTO = new OrganizationAddressDTO();
+    // Call the getDetailOfBranchById method
+    BranchDTO resultBranchDTO = branchService.getDetailOfBranchById(testBranch.getId());
 
-        when(branchRepository.findById(branchId)).thenReturn(Optional.of(branch));
-        when(branchMapper.toBranchDTO(branch)).thenReturn(branchDTO);
-        when(organizationAddressMapper.toOrganizationAddressDTO(organizationAddress)).thenReturn(organizationAddressDTO);
+    // Verify the interactions
+    verify(branchRepository).findById(testBranch.getId());
+    verify(organizationAddressMapper).toOrganizationAddressDTO(testOrganizationAddress);
+    verify(branchMapper).toBranchDTO(testBranch);
 
-        BranchDTO result = branchService.getDetailOfBranchById(branchId);
-        assertEquals(branchDTO, result);
-    }
+    // Assert the result
+    assertEquals(testBranchDTO, resultBranchDTO);
+  }
 
-    @Test
-    void updateBranch_success() {
-        // Arrange
-        when(branchRepository.findById(anyLong())).thenReturn(Optional.of(branch));
-        when(organizationAddressRepository.findById(anyLong())).thenReturn(Optional.of(organizationAddress));
-        when(organizationRepository.findById(anyLong())).thenReturn(Optional.of(organization));
-        when(branchMapper.toBranchDTO(any(Branch.class))).thenReturn(branchDTO);
-        when(branchRepository.save(any(Branch.class))).thenReturn(branch);
+  // Test for updateBranch
+  @Test
+  void updateBranch() {
+    // Set up the mocks
+    when(branchRepository.findById(testBranch.getId())).thenReturn(Optional.of(testBranch));
+    when(organizationRepository.findById(testOrganization.getId())).thenReturn(Optional.of(testOrganization));
+    when(organizationAddressRepository.findById(testOrganizationAddress.getId())).thenReturn(Optional.of(testOrganizationAddress));
+    when(branchRepository.save(testBranch)).thenReturn(testBranch);
+    when(branchMapper.toBranchDTO(testBranch)).thenReturn(testBranchDTO);
+//    when(organizationAddressMapper.toOrganizationAddress(organizationAddressDTO)).thenReturn(testOrganizationAddress);
 
-        // Act
-        BranchDTO updatedBranchDTO = branchService.updateBranch(1L, branchDTO);
+    // Call the updateBranch method
+    BranchDTO updatedBranchDTO = branchService.updateBranch(testBranch.getId(), testBranchDTO);
 
-        // Assert
-        assertEquals(branchDTO.getBranchId(), updatedBranchDTO.getBranchId());
-        assertEquals(branchDTO.getBranchCode(), updatedBranchDTO.getBranchCode());
-        assertEquals(branchDTO.getBranchName(), updatedBranchDTO.getBranchName());
+    // Verify the interactions
+    verify(branchRepository).findById(testBranch.getId());
+    verify(organizationRepository).findById(testOrganization.getId());
+    verify(organizationAddressRepository).findById(any());
+    verify(organizationAddressMapper).updateOrganizationAddressFromDto(any(), any());
+    verify(branchRepository).save(testBranch);
+    verify(auditService).logAction(any(), any(), any(), any());
 
-        verify(branchRepository, times(1)).findById(1L);
-        verify(organizationAddressRepository, times(1)).findById(2L);
-        verify(organizationRepository, times(1)).findById(1L);
-        verify(branchMapper, times(1)).toBranchDTO(branch);
-        verify(branchRepository, times(1)).save(branch);
-        verify(auditService, times(1)).logAction("username", "Branch", "Update", 1L);
-    }
+    // Assert the result
+    assertEquals(testBranchDTO, updatedBranchDTO);
+  }
 
-    @Test
-    void testGetAllBranchInformation() {
-        int page = 0;
-        int size = 10;
-        Branch branch = new Branch();
-        Page<Branch> branchPage = new PageImpl<>(Collections.singletonList(branch));
-        BranchDTO branchDTO = new BranchDTO();
+  // Test for getAllBranchInformation
+  @Test
+  void getAllBranchInformation() {
+    // Set up the mocks
+    Pageable pageable = PageRequest.of(0, 10);
+    Page<Branch> branchesPage = new PageImpl<>(List.of(testBranch), pageable, 1);
+    when(branchRepository.findAll(pageable)).thenReturn(branchesPage);
+    when(branchMapper.toBranchDTO(testBranch)).thenReturn(testBranchDTO);
 
-        when(branchRepository.findAll(PageRequest.of(page, size))).thenReturn(branchPage);
-        when(branchMapper.toBranchDTO(branch)).thenReturn(branchDTO);
-        doNothing().when(logService).log(anyString());
+    // Call the getAllBranchInformation method
+    List<BranchDTO> branchDTOList = branchService.getAllBranchInformation(0, 10);
 
-        List<BranchDTO> result = branchService.getAllBranchInformation(page, size);
-        assertEquals(1, result.size());
-        assertEquals(branchDTO, result.get(0));
+    // Verify the interactions
+    verify(branchRepository).findAll(pageable);
+    verify(branchMapper).toBranchDTO(testBranch);
+    verify(logService).log(any());
 
-        verify(logService, times(1)).log(any());
-    }
+    // Assert the result
+    assertEquals(1, branchDTOList.size());
+    assertEquals(testBranchDTO, branchDTOList.get(0));
+  }
 }
+
+

@@ -31,7 +31,7 @@ public class EmployeeDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfJoining;
 
-
+    private String orgName;
     private List<EmployeeAddressDTO> employeeAddressDTOS;
 
     private List<EmployeeDetailDTO> employeeDetailDTOS;

@@ -13,16 +13,16 @@ import java.util.List;
 public interface DepartmentController {
 
 
-    List<DepartmentDTO> createDepartmentByBranchId(@PathVariable Long branchId,
+    ResponseEntity<Void> createDepartmentByBranchId(@PathVariable Long branchId,
                                                    @RequestBody List<DepartmentDTO> departmentDTO);
 
-    ResponseEntity<List<DepartmentDTO>> createDepartmentByOrganizationId(
+    ResponseEntity<Void> createDepartmentByOrganizationId(
             @PathVariable Long organizationId,
             @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests);
 
     List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size);
 
-    ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long id,
+    ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long departmentId,
                                                    @RequestBody DepartmentDTO departmentDTO);
     List<DepartmentDTO> getDepartmentByOrganization(@PathVariable Long organizationId, @RequestParam Sort sort);
 
