@@ -1,0 +1,228 @@
+<div class="card">
+  <p-tabView>
+    <p-tabPanel header="Employee Register">
+      <div class="container">
+
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="employeeNumber">Employee Number:</label>
+            <input type="text" class="form-control" formControlName="employeeNumber" id="employeeNumber">
+            <div
+              *ngIf="employeeForm.get('employeeNumber').invalid && (employeeForm.get('employeeNumber').dirty || employeeForm.get('employeeNumber').touched)"
+              class="alert alert-danger">
+              <div *ngIf="employeeForm.get('employeeNumber')">Employee number is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" formControlName="firstName" id="firstName">
+            <div
+              *ngIf="employeeForm.get('firstName').invalid && (employeeForm.get('firstName').dirty || employeeForm.get('firstName').touched)"
+              class="alert alert-danger">
+              <div *ngIf="employeeForm.get('firstName')">First name is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" formControlName="lastName" id="lastName">
+            <div
+              *ngIf="employeeForm.get('lastName').invalid && (employeeForm.get('lastName').dirty || employeeForm.get('lastName').touched)"
+              class="alert alert-danger">
+              <div *ngIf="employeeForm.get('lastName')">Last name is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth:</label>
+            <input type="date" class="form-control" formControlName="dateOfBirth" id="dateOfBirth">
+            <div
+              *ngIf="employeeForm.get('dateOfBirth').invalid && (employeeForm.get('dateOfBirth').dirty || employeeForm.get('dateOfBirth').touched)"
+              class="alert alert-danger">
+              <div *ngIf="employeeForm.get('dateOfBirth')">Date of birth is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dateOfJoining">Date of Joining:</label>
+            <input type="date" class="form-control" formControlName="dateOfJoining" id="dateOfJoining">
+            <div
+              *ngIf="employeeForm.get('dateOfJoining').invalid && (employeeForm.get('dateOfJoining').dirty || employeeForm.get('dateOfJoining').touched)"
+              class="alert alert-danger">
+              <div *ngIf="employeeForm.get('dateOfJoining')">Date of joining is required</div>
+            </div>
+          </div>
+
+          <div formArrayName="employeeAddressDTOS">
+            <div *ngFor="let address of employeeAddressDTOS.controls; let i=index">
+              <div class="form-group">
+                <label>Telephone Number (Home):</label>
+                <input type="text" class="form-control" [formControlName]="index + '.telNumberHome'"
+                  [id]="'telNumberHome' + index">
+                <div
+                  *ngIf="address.get('telNumberHome').invalid && (address.get('telNumberHome').dirty || address.get('telNumberHome').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('telNumberHome')">Telephone number (Home) is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Telephone Number (Office):</label>
+                <input type="text" class="form-control" [formControlName]="index + '.telNumberOffice'"
+                  [id]="'telNumberOffice' + index">
+                <div
+                  *ngIf="address.get('telNumberOffice').invalid && (address.get('telNumberOffice').dirty || address.get('telNumberOffice').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('telNumberOffice')">Telephone number (Office) is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label >Mobile:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.mobile'" [id]="'mobile' + index">
+                <div
+                  *ngIf="address.get('mobile').invalid && (address.get('mobile').dirty || address.get('mobile').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('mobile')">Mobile number is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label >House Number:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.houseNumber'"
+                  [id]="'houseNumber' + index">
+                <div
+                  *ngIf="address.get('houseNumber').invalid && (address.get('houseNumber').dirty || address.get('houseNumber').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('houseNumber')">House number is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Street:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.street'" [id]="'street' + index">
+                <div
+                  *ngIf="address.get('street').invalid && (address.get('street').dirty || address.get('street').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('street')">Street is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Street Number:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.streetNumber'"
+                  [id]="'streetNumber' + index">
+                <div
+                  *ngIf="address.get('streetNumber').invalid && (address.get('streetNumber').dirty || address.get('streetNumber').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('streetNumber')">Street number is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Region:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.region'" [id]="'region' + index">
+                <div
+                  *ngIf="address.get('region').invalid && (address.get('region').dirty || address.get('region').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('region')">Region is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label >Province:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.province'" [id]="'province' + index">
+              </div>
+
+              <div class="form-group">
+                <label>City:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.city'" [id]="'city' + index">
+                <div *ngIf="address.get('city').invalid && (address.get('city').dirty || address.get('city').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('city')">City is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Postal Code:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.postalCode'"
+                  [id]="'postalCode' + index">
+                <div
+                  *ngIf="address.get('postalCode').invalid && (address.get('postalCode').dirty || address.get('postalCode').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('postalCode')">Postal code is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Country:</label>
+                <input type="text" class="form-control" [formControlName]="index + '.country'" [id]="'country' + index">
+                <div
+                  *ngIf="address.get('country').invalid && (address.get('country').dirty || address.get('country').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="address.get('country')">Country is required</div>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-danger" (click)="removeEmployeeAddress(i)">Remove Address</button>
+              <hr>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="addEmployeeAddress()">Add Address</button>
+            <hr>
+          </div>
+
+          <div formArrayName="employeeDetailDTOS">
+            <div *ngFor="let detail of employeeDetailDTOS.controls; let i=index">
+              <div class="form-group">
+                <label>Department:</label>
+                <select class="form-control" [formControlName]="index + '.departmentDTO.departmentId'"
+                  [id]="'department' + index">
+                  <option *ngFor="let department of departments" [value]="department.departmentId">
+                    {{department.departmentName}}</option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-danger" (click)="removeEmployeeDetail(i)">Remove Detail</button>
+              <hr>
+            </div>
+            <button type="button" class="btn btn-primary"></button>
+          </div>
+
+          <button type="button" class="btn btn-primary" (click)="addEmployeeDetail()">Add Detail</button>
+
+          <button type="submit" class="btn btn-success">Submit</button>
+
+        </form>
+
+      </div>
+
+    </p-tabPanel>
+    <p-tabPanel header="Header 2">
+      <ng-template pTemplate="content">
+        <div class="d-md-grid">
+          <p-table [columns]="cols" [value]="employeesDTO">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+        </div>
+      </ng-template>
+    </p-tabPanel>
+
+  </p-tabView>
+</div>
