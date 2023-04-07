@@ -18,10 +18,7 @@ import java.util.List;
 @RequestMapping("/api/education")
 @RequiredArgsConstructor
 public class EducationControllerImpl implements EducationController {
-
-
     private final EducationService educationService;
-
 
     @Override
     @PostMapping
@@ -38,7 +35,7 @@ public class EducationControllerImpl implements EducationController {
     }
 
     @Override
-    @GetMapping("/institution/{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<EducationDTO> getEducationByInstitution(@PathVariable String name) {
         EducationDTO educationDTO = educationService.getEducationByInstitution(name);
         if (educationDTO == null) {

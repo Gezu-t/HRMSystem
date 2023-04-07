@@ -14,9 +14,7 @@ import java.util.List;
 @RequestMapping("/api/employees")
 @RequiredArgsConstructor
 public class EmployeeControllerImpl implements EmployeeController {
-
     private final EmployeeService employeeService;
-
 
     @Override
     @PostMapping

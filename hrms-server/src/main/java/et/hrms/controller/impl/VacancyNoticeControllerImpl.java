@@ -14,9 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/vacancy-notices")
 public class VacancyNoticeControllerImpl implements VacancyNoticeController {
-
   private final VacancyNoticeService vacancyNoticeService;
-
 
   @Override
   @GetMapping

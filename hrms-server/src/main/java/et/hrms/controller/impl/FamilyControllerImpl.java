@@ -16,17 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/families")
 public class FamilyControllerImpl implements FamilyController {
 
-
     private final FamilyService familyService;
-
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/add/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/{employeeId}")
     public void createFamily(@Valid @PathVariable long employeeId, @RequestBody FamilyDTO familyDTO) {
         familyService.createEmployeeFamily(employeeId, familyDTO);
     }
-
 
     @Override
     @GetMapping(value = "/{familyId}", produces = MediaType.APPLICATION_JSON_VALUE)

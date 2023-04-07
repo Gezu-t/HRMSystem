@@ -36,10 +36,7 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -68,10 +65,7 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -210,10 +204,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.13.1</version>
         </dependency>
-
-
-
-
     </dependencies>
     <!--    <build>-->
     <!--        <plugins>-->

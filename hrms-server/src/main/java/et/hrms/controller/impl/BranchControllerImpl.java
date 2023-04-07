@@ -19,7 +19,7 @@ public class BranchControllerImpl implements BranchController {
     private final BranchService branchService;
 
     @Override
-    @PostMapping("/organization/{organizationId}")
+    @PostMapping("/{organizationId}")
     public ResponseEntity<Void> createBranch(@PathVariable long organizationId, @RequestBody List<BranchDTO> branchDTOS) {
         branchService.createBranch(organizationId, branchDTOS);
         return new ResponseEntity<>(HttpStatus.CREATED);

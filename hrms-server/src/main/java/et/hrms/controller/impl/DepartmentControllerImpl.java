@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepartmentControllerImpl implements DepartmentController {
 
-
     private final DepartmentService departmentService;
-
 
     @Override
     @PostMapping("/branch/{branchId}")
@@ -41,7 +38,6 @@ public class DepartmentControllerImpl implements DepartmentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
     @Override
     @GetMapping
     public List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size) {
@@ -56,17 +52,14 @@ public class DepartmentControllerImpl implements DepartmentController {
         return  ResponseEntity.ok(updateDepartmentDTO);
     }
 
-
     @Override
-    @GetMapping(path = "/organization/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{organizationId}")
     public List<DepartmentDTO> getDepartmentByOrganization(@PathVariable Long organizationId, @RequestParam Sort sort) {
         return departmentService.getDepartmentByOrganization(organizationId, sort);
     }
 
-
-
     @Override
-    @GetMapping(path = "/branch/{branchId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{branchId}")
     public List<DepartmentDTO> getDepartmentByBranch(Long branchId, Sort sort) {
         return departmentService.getDepartmentByBranch(branchId, sort);
     }

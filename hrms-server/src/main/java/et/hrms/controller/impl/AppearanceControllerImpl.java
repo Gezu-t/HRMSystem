@@ -22,7 +22,7 @@ public class AppearanceControllerImpl implements AppearanceController {
 
 
     @Override
-    @PostMapping(path = "/add/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void createAppearance(@Valid @PathVariable Long employeeId,
                                  @RequestBody EmployeeAppearanceDTO employeeAppearanceDTO) {
@@ -30,7 +30,7 @@ public class AppearanceControllerImpl implements AppearanceController {
     }
 
     @Override
-    @PutMapping(path = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public EmployeeAppearanceDTO updateAppearance(@Valid @PathVariable long employeeId,
                                                   @RequestBody EmployeeAppearanceDTO employeeAppearanceDTO) {
@@ -39,7 +39,7 @@ public class AppearanceControllerImpl implements AppearanceController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(path = "/{appearanceId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{appearanceId}")
     public EmployeeAppearanceDTO getAppearanceInformation(@PathVariable long appearanceId) {
         return appearanceService.getAppearanceById(appearanceId);
     }

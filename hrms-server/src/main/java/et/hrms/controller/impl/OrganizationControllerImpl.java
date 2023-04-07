@@ -17,18 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrganizationControllerImpl implements OrganizationController {
 
-
-
     private final OrganizationService organizationService;
 
     @Override
-    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createEducation(@RequestBody OrganizationDTO organizationDTO) {
         organizationService.createOrganization(organizationDTO);
 
     }
-
 
     @Override
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
