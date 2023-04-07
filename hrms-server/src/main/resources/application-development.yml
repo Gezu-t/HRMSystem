@@ -5,6 +5,8 @@ endpoints:
       include: "*"
   metrics:
     enabled: true
+springdoc:
+  enable-spring-security: false
 
 # Spring Boot configuration
 spring:

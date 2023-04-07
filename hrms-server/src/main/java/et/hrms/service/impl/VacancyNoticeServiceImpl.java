@@ -22,6 +22,7 @@ public class VacancyNoticeServiceImpl implements VacancyNoticeService {
     @Override
     public List<VacancyNoticeDTO> findAll() {
         List<VacancyNotice> vacancyNotices = vacancyNoticeRepository.findAll();
+
         return vacancyNoticeMapper.toDtoList(vacancyNotices);
     }
 

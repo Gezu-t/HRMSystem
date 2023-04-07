@@ -1,10 +1,13 @@
 package et.hrms.dal.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdvertisementDTO {
   private Long id;
   private String title;

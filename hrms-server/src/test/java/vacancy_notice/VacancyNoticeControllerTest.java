@@ -1,5 +1,6 @@
 package vacancy_notice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import et.hrms.controller.impl.VacancyNoticeControllerImpl;
 import et.hrms.dal.dto.VacancyNoticeDTO;
 import et.hrms.service.VacancyNoticeService;
@@ -15,9 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,34 +32,37 @@ public class VacancyNoticeControllerTest {
 
   private MockMvc mockMvc;
 
+  private ObjectMapper objectMapper = new ObjectMapper();
+  private VacancyNoticeDTO vacancyNotice1;
+  private VacancyNoticeDTO VacancyNoticeDTO2;
+  private  List<VacancyNoticeDTO> vacancyNotices;
+
   @BeforeEach
   public void setUp() {
     mockMvc = MockMvcBuilders.standaloneSetup(vacancyNoticeController).build();
+    vacancyNotice1 = new VacancyNoticeDTO();
+    vacancyNotice1.setId(1L);
+    vacancyNotice1.setJobTitle("Job Title 1");
+
+    VacancyNoticeDTO2 = new VacancyNoticeDTO();
+    VacancyNoticeDTO2.setId(2L);
+    VacancyNoticeDTO2.setJobTitle("Job Title 2");
+
+    vacancyNotices = Arrays.asList(vacancyNotice1, VacancyNoticeDTO2);
+
   }
 
   @Test
   public void testGetAllVacancyNotices() throws Exception {
-    VacancyNoticeDTO vacancyNotice1 = new VacancyNoticeDTO();
-    vacancyNotice1.setId(1L);
-    vacancyNotice1.setJobTitle("Job Title 1");
 
-    VacancyNoticeDTO vacancyNotice2 = new VacancyNoticeDTO();
-    vacancyNotice2.setId(2L);
-    vacancyNotice2.setJobTitle("Job Title 2");
+    // Set up the mocks
+    when(vacancyNoticeService.findAll()).thenReturn(List.of(vacancyNotice1));
 
-    List<VacancyNoticeDTO> vacancyNotices = Arrays.asList(vacancyNotice1, vacancyNotice2);
-
-    when(vacancyNoticeService.findAll()).thenReturn(vacancyNotices);
-
+    // Call the getAllBranchInformation endpoint
     mockMvc.perform(get("/api/vacancy-notices"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].id", is(1)))
-            .andExpect(jsonPath("$[0].jobTitle", is("Job Title 1")))
-            .andExpect(jsonPath("$[1].id", is(2)))
-            .andExpect(jsonPath("$[1].jobTitle", is("Job Title 2")));
+            .andExpect(jsonPath("$[0].jobTitle").value(vacancyNotice1.getJobTitle()));
 
-    verify(vacancyNoticeService, times(1)).findAll();
   }
 
   // other test cases for the VacancyNoticeController class

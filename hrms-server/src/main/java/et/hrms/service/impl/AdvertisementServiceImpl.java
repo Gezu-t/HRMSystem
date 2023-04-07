@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class AdvertisementServiceImpl implements AdvertisementService {
 
   private final AdvertisementRepository advertisementRepository;
-
   private final AdvertisementMapper advertisementMapper;
 
   @Override
@@ -30,12 +29,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
   @Override
   public AdvertisementDTO findById(Long id) {
-    Optional<Advertisement> optionalAdvertisement = advertisementRepository.findById(id);
-    if (optionalAdvertisement.isPresent()) {
-      return advertisementMapper.toDto(optionalAdvertisement.get());
-    } else {
-      throw new EntityNotFoundException("Advertisement not found with id: " + id);
-    }
+    Advertisement advertisement = advertisementRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Advertisement information is not found by this:" + id));
+      return advertisementMapper.toDto(advertisement);
+
   }
 
   @Override

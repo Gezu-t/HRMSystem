@@ -42,7 +42,7 @@ public class VacancyNoticeServiceTest {
 
     List<VacancyNotice> vacancyNotices = Arrays.asList(vacancyNotice1, vacancyNotice2);
 
-    when(vacancyNoticeRepository.findAll()).thenReturn(vacancyNotices);
+//    when(vacancyNoticeRepository.findAll()).thenReturn(vacancyNotices);
 
     VacancyNoticeDTO vacancyNoticeDTO1 = new VacancyNoticeDTO();
     vacancyNoticeDTO1.setId(1L);

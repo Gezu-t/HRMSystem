@@ -18,12 +18,4 @@ public class HrmsBeApplication {
     SpringApplication.run(HrmsBeApplication.class, args);
   }
 
-/*
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-*/
-
 }
