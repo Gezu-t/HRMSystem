@@ -35,9 +35,9 @@ public class EducationControllerImpl implements EducationController {
     }
 
     @Override
-    @GetMapping("/{name}")
-    public ResponseEntity<EducationDTO> getEducationByInstitution(@PathVariable String name) {
-        EducationDTO educationDTO = educationService.getEducationByInstitution(name);
+    @GetMapping("/{institution}")
+    public ResponseEntity<EducationDTO> getEducationByInstitution(@PathVariable String institution) {
+        EducationDTO educationDTO = educationService.getEducationByInstitution(institution);
         if (educationDTO == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

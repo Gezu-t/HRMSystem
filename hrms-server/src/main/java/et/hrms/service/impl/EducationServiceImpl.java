@@ -64,8 +64,7 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public EducationDTO getEducationByInstitution(String name) {
-        Education education = educationRepository.findByInstitution(name);
-        return educationMapper.toEducationDTO(education);
+        return educationMapper.toEducationDTO(educationRepository.findByInstitution(name));
     }
 
     @Override

@@ -103,7 +103,7 @@ class EducationControllerTest {
     void testGetEducationByInstitution() throws Exception {
         when(educationService.getEducationByInstitution(educationDTO.getInstitution())).thenReturn(educationDTO);
 
-        mockMvc.perform(get("/api/education/institution/{name}", educationDTO.getInstitution())
+        mockMvc.perform(get("/api/education/{institution}", educationDTO.getInstitution())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.educationId").value(educationDTO.getEducationId()))
@@ -152,7 +152,6 @@ class EducationControllerTest {
     @Test
     void testGetEducationByInstitutionNotFound() throws Exception {
         String nonExistentInstitution = "Non-existent Institution";
-        when(educationService.getEducationByInstitution(nonExistentInstitution)).thenReturn(null);
 
         mockMvc.perform(get("/api/education/institution/{name}", nonExistentInstitution)
                         .contentType(MediaType.APPLICATION_JSON))
