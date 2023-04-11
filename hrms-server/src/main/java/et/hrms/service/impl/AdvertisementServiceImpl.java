@@ -6,6 +6,7 @@ import et.hrms.dal.model.Advertisement;
 import et.hrms.dal.repository.AdvertisementRepository;
 import et.hrms.exceptions.EntityNotFoundException;
 import et.hrms.service.AdvertisementService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdvertisementServiceImpl implements AdvertisementService {
 
   private final AdvertisementRepository advertisementRepository;

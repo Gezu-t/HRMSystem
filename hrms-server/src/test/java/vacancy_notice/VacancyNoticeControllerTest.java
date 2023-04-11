@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import et.hrms.controller.impl.VacancyNoticeControllerImpl;
 import et.hrms.dal.dto.VacancyNoticeDTO;
 import et.hrms.service.VacancyNoticeService;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,10 +32,8 @@ public class VacancyNoticeControllerTest {
 
   private MockMvc mockMvc;
 
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
   private VacancyNoticeDTO vacancyNotice1;
-  private VacancyNoticeDTO VacancyNoticeDTO2;
-  private  List<VacancyNoticeDTO> vacancyNotices;
 
   @BeforeEach
   public void setUp() {
@@ -44,11 +42,11 @@ public class VacancyNoticeControllerTest {
     vacancyNotice1.setId(1L);
     vacancyNotice1.setJobTitle("Job Title 1");
 
-    VacancyNoticeDTO2 = new VacancyNoticeDTO();
-    VacancyNoticeDTO2.setId(2L);
-    VacancyNoticeDTO2.setJobTitle("Job Title 2");
+    VacancyNoticeDTO vacancyNoticeDTO2 = new VacancyNoticeDTO();
+    vacancyNoticeDTO2.setId(2L);
+    vacancyNoticeDTO2.setJobTitle("Job Title 2");
 
-    vacancyNotices = Arrays.asList(vacancyNotice1, VacancyNoticeDTO2);
+    List<VacancyNoticeDTO> vacancyNotices = Arrays.asList(vacancyNotice1, vacancyNoticeDTO2);
 
   }
 

@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,16 +75,21 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public BranchDTO updateBranch(long branchId, BranchDTO branchDTO) {
-        Branch branch = getBranchById(branchId);
-        updateBranchDetails(branch, branchDTO);
-        updateOrganizationAddress(branch, branchDTO.getOrganizationAddressDTO());
-        updateOrganization(branch, branchDTO.getOrganizationId());
+    public void updateBranch(long branchId, BranchDTO branchDTO) {
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
 
-        branch = branchRepository.save(branch);
+        // check if the organization ID in the request matches the one in the database
+        if (!branch.getOrganization().getId().equals(branchDTO.getOrganizationId())) {
+            throw new IllegalArgumentException("Organization ID in the request does not match the one in the database");
+        }
+
+        branchMapper.updateBranchFromDTO(branch, branchDTO);
+        OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
+        branch.setOrganizationAddress(organizationAddress);
 
         auditService.logAction("username", "Branch", "Update", branch.getId());
-        return branchMapper.toBranchDTO(branch);
+        branchRepository.save(branch);
     }
 
     private Branch getBranchById(long branchId) {
@@ -119,8 +125,8 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<BranchDTO> getAllBranchInformation(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public List<BranchDTO> getAllBranchInformation(int page, int size, Sort sort) {
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<Branch> branches = branchRepository.findAll(pageable);
         if (page > branches.getTotalPages()) {
             throw new EntityNotFoundException("pages is not found");

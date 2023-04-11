@@ -1,11 +1,16 @@
 package et.hrms.dal.dto;
 
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class OrganizationAddressDTO {
 
+    @NotNull
     private Long addressId;
     private String telNumberHome;
     private String telNumberOffice;

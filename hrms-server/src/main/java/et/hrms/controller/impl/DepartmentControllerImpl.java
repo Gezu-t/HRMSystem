@@ -34,7 +34,6 @@ public class DepartmentControllerImpl implements DepartmentController {
             @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests) {
        departmentService.createDepartmentByOrganizationId(
                 organizationId, departmentCreateRequests);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

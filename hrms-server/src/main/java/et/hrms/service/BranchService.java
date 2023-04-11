@@ -1,6 +1,7 @@
 package et.hrms.service;
 
 import et.hrms.dal.dto.BranchDTO;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface BranchService {
 
     BranchDTO getDetailOfBranchById(long branchId);
 
-    BranchDTO updateBranch(long branchId, BranchDTO branchDTO);
+    void updateBranch(long branchId, BranchDTO branchDTO);
 
-    List<BranchDTO> getAllBranchInformation(int page, int size);
+    List<BranchDTO> getAllBranchInformation(int page, int size, Sort sort);
 }

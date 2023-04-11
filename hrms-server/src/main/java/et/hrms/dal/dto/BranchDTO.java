@@ -5,21 +5,20 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BranchDTO {
 
-    private Long branchId;
-
-    @NotEmpty
-    private String branchCode;
-
-    @NotEmpty
-    private String branchName;
-
-    @NotNull
-    private Long organizationId;
-
-    @NotNull
-    private OrganizationAddressDTO organizationAddressDTO;
+  private Long branchId;
+  @NotEmpty
+  private String branchCode;
+  @NotEmpty
+  private String branchName;
+  @NotNull
+  private Long organizationId;
+  @NotNull
+  private OrganizationAddressDTO organizationAddressDTO;
 
 }

@@ -34,7 +34,6 @@ public class AdvertisementServiceTest {
   private AdvertisementServiceImpl advertisementService;
 
   private AdvertisementDTO advertisementDTO;
-  private VacancyNoticeDTO vacancyNoticeDTO;
   private Advertisement advertisement;
 
   @BeforeEach
@@ -47,17 +46,21 @@ public class AdvertisementServiceTest {
     advertisementDTO.setMedia("Test Media");
     advertisementDTO.setPublishDate(LocalDate.now());
 
-    vacancyNoticeDTO = new VacancyNoticeDTO();
+    VacancyNoticeDTO vacancyNoticeDTO = new VacancyNoticeDTO();
     vacancyNoticeDTO.setId(1L);
     vacancyNoticeDTO.setJobTitle("Test Vacancy Notice Title");
     vacancyNoticeDTO.setJobDescription("Test Vacancy Notice Title");
     advertisementDTO.setVacancyNoticeDTO(vacancyNoticeDTO);
 
     advertisement = new Advertisement();
+
     advertisement.setId(1L);
     advertisement.setTitle(advertisementDTO.getTitle());
     advertisement.setMedia(advertisementDTO.getMedia());
     advertisement.setPublishDate(advertisementDTO.getPublishDate());
+
+    advertisementMapper.toDto(advertisement);
+    advertisementMapper.toEntity(advertisementDTO);
   }
 
   @Test
@@ -79,24 +82,17 @@ public class AdvertisementServiceTest {
 
   @Test
   public void testFindById() {
-    // given
-    Advertisement ad = new Advertisement();
-    ad.setId(1L);
-    ad.setTitle("Java Developer");
-    ad.setMedia("Linkedin");
-    ad.setPublishDate(LocalDate.now());
-    AdvertisementDTO dto = new AdvertisementDTO();
-    dto.setId(1L);
-    dto.setTitle("Java Developer");
-    dto.setMedia("Linkedin");
-    dto.setPublishDate(LocalDate.now());
-    when(advertisementRepository.findById(ad.getId())).thenReturn(Optional.ofNullable(advertisement));
-    when(advertisementMapper.toDto(advertisement)).thenReturn(advertisementDTO);
+    Advertisement advert = new Advertisement();
+    advert.setId(1L);
+    AdvertisementDTO advertDTO = new AdvertisementDTO();
+    advertDTO.setId(1L);
+    when(advertisementRepository.findById(advert.getId())).thenReturn(Optional.ofNullable(advert));
+    when(advertisementMapper.toDto(advert)).thenReturn(advertDTO);
     // when
-    AdvertisementDTO foundAdvertisement = advertisementService.findById(ad.getId());
+    AdvertisementDTO foundAdvertisement = advertisementService.findById(advert.getId());
     // then
-    verify(advertisementRepository).findById(dto.getId());
-    verify(advertisementMapper).toDto(ad);
+    verify(advertisementRepository).findById(advertDTO.getId());
+    verify(advertisementMapper).toDto(advert);
     assertNotNull(foundAdvertisement);
   }
 

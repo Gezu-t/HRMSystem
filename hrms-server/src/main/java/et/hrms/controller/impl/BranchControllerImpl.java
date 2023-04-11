@@ -3,8 +3,10 @@ package et.hrms.controller.impl;
 
 import et.hrms.controller.BranchController;
 import et.hrms.dal.dto.BranchDTO;
+import et.hrms.exceptions.EntityNotFoundException;
 import et.hrms.service.BranchService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,8 @@ public class BranchControllerImpl implements BranchController {
 
     @Override
     @PostMapping("/{organizationId}")
-    public ResponseEntity<Void> createBranch(@PathVariable long organizationId, @RequestBody List<BranchDTO> branchDTOS) {
+    public ResponseEntity<Void> createBranch(@PathVariable long organizationId,
+                                             @RequestBody List<BranchDTO> branchDTOS) {
         branchService.createBranch(organizationId, branchDTOS);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -34,19 +37,31 @@ public class BranchControllerImpl implements BranchController {
 
     @Override
     @PutMapping("/{branchId}")
-    public ResponseEntity<BranchDTO> updateBranch(@PathVariable long branchId,
+    public ResponseEntity<Void> updateBranch(@PathVariable long branchId,
                                                   @RequestBody BranchDTO branchDTO) {
-        BranchDTO updatedBranchDTO = branchService.updateBranch(branchId, branchDTO);
-        return ResponseEntity.ok(updatedBranchDTO);
+        branchService.updateBranch(branchId, branchDTO);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @GetMapping
     public ResponseEntity<List<BranchDTO>> getAllBranchInformation(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        List<BranchDTO> branchDTOList = branchService.getAllBranchInformation(page, size);
-        return ResponseEntity.ok(branchDTOList);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id, Asc") String[] sort) {
+
+
+        Sort sortOrder = Sort.by(sort[0]);
+        if (sort.length > 1) {
+            sortOrder = sort[1].equalsIgnoreCase("desc") ? sortOrder.descending() : sortOrder.ascending();
+        }
+
+        try {
+            List<BranchDTO> branchDTOs = branchService.getAllBranchInformation(page, size, sortOrder);
+            return new ResponseEntity<>(branchDTOs, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
