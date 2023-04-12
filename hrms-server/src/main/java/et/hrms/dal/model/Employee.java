@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Setter
@@ -29,7 +26,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "employee_id_gen")
     private Long id;
-
     private String employeeNumber;
     private String firstName;
     private String lastName;
@@ -39,6 +35,9 @@ public class Employee {
     private MaritalStatus maritalStatus;
     private LocalDate dateOfBirth;
     private LocalDate dateOfJoining;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "employee_type", nullable = false)
+    private EmployeeType employeeType;
     private LocalDate dateOfLeaving;
     private LocalDate dateOfResignation;
     private Boolean employeeStatus;
@@ -67,5 +66,9 @@ public class Employee {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Attendance> attendance;
+
 
 }

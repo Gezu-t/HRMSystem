@@ -2,6 +2,9 @@ package et.hrms.dal.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import et.hrms.dal.model.EmployeeType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -32,6 +35,10 @@ public class EmployeeDTO {
     private LocalDate dateOfJoining;
 
     private String orgName;
+
+    @Enumerated(EnumType.STRING)
+    private EmployeeType employeeType;
+
     private List<EmployeeAddressDTO> employeeAddressDTOS;
 
     private List<EmployeeDetailDTO> employeeDetailDTOS;

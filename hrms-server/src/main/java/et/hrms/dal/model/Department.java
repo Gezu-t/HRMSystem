@@ -27,16 +27,16 @@ public class Department {
     private String departmentName;
     private String locations;
 
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
     private Branch branch;
 
-
-    @ManyToOne
-    @JoinColumn(name = "organization_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", nullable = false)
     private Organization organization;
 
 
