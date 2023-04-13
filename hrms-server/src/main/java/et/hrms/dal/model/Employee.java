@@ -36,7 +36,7 @@ public class Employee {
     private LocalDate dateOfBirth;
     private LocalDate dateOfJoining;
     @Enumerated(EnumType.STRING)
-    @Column(name = "employee_type", nullable = false)
+    @Column(name = "employee_type")
     private EmployeeType employeeType;
     private LocalDate dateOfLeaving;
     private LocalDate dateOfResignation;

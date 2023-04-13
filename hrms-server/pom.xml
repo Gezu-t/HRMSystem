@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <springfox-version>3.0.0</springfox-version>
+        <jackson.version>2.15.0-rc2</jackson.version>
     </properties>
 
     <dependencies>
@@ -133,11 +134,12 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>

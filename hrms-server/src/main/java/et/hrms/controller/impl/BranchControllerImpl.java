@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/branches")
-@RequiredArgsConstructor
 public class BranchControllerImpl implements BranchController {
 
     private final BranchService branchService;
@@ -49,13 +49,10 @@ public class BranchControllerImpl implements BranchController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id, Asc") String[] sort) {
-
-
         Sort sortOrder = Sort.by(sort[0]);
         if (sort.length > 1) {
             sortOrder = sort[1].equalsIgnoreCase("desc") ? sortOrder.descending() : sortOrder.ascending();
         }
-
         try {
             List<BranchDTO> branchDTOs = branchService.getAllBranchInformation(page, size, sortOrder);
             return new ResponseEntity<>(branchDTOs, HttpStatus.OK);

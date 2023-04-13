@@ -40,12 +40,11 @@ public class Attendance {
   private String certifyStatus;
   private String description;
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "employeeId")
   private Employee employee;
 
   private LocalDateTime createdAt;
   private LocalDateTime updateAt;
-
 
 
 
