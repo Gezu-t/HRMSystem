@@ -2,6 +2,7 @@ package et.hrms.dal.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import et.hrms.dal.model.CertifyStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,11 +27,13 @@ public class AttendanceDTO {
   private LocalDate absenteeDate;
   private String absenteeDescription;
   private String recordedBy;
+
   @NotEmpty(message = "Attendance record Date is not empty!")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private LocalDate recordedDate;
   private String attendanceState;
   private String approvedBy;
+
   @NotEmpty(message = "Attendance approve Date is not empty!")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private LocalDate approvedDate;
@@ -38,9 +41,9 @@ public class AttendanceDTO {
   @NotEmpty(message = "Attendance certified Date is not empty!")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
   private LocalDate certifiedDate;
-  private String forDepartment;
-  private String certifyStatus;
+  private CertifyStatus certifyStatus;
   private String description;
   private Long employeeId;
   private AttendanceStatus attendanceStatus;
+  private String forDepartment;
 }

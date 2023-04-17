@@ -3,7 +3,7 @@ package et.hrms.dal.model;
 /**
  * Represents the gender status of an individual.
  */
-public enum GenderStatus {
+public enum GenderType {
 
     /**
      * Indicates no information is available for the gender status.
@@ -32,7 +32,7 @@ public enum GenderStatus {
      *
      * @param displayName the human-readable display name for the enumeration value
      */
-    GenderStatus(String displayName) {
+    GenderType(String displayName) {
         this.displayName = displayName;
     }
 

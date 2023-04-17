@@ -77,8 +77,8 @@ public class AttendanceControllerTest {
     when(attendanceService.getAttendanceById(anyLong())).thenReturn(attendanceDTO);
 
     mockMvc.perform(get("/api/attendances/{attendanceId}", attendanceId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .contentType(asJsonString(attendanceDTO)))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(asJsonString(attendanceDTO)))
             .andExpect(status().isOk());
   }
 
@@ -86,7 +86,7 @@ public class AttendanceControllerTest {
   public void testGetAllAttendance() throws Exception {
 
     List<AttendanceDTO> attendanceDTOS = new ArrayList<>();
-  attendanceDTOS.add(attendanceDTO);
+    attendanceDTOS.add(attendanceDTO);
 
     given(attendanceService.getAllAttendance(0, 10, Sort.by("id"))).willReturn(attendanceDTOS);
 

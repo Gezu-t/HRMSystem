@@ -1,17 +1,18 @@
 package et.hrms.service;
 
 import et.hrms.dal.dto.FamilyDTO;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public interface FamilyService {
 
 
-    void createEmployeeFamily(Long employeeId, FamilyDTO familyDTO);
+    FamilyDTO createEmployeeFamily(Long employeeId, FamilyDTO familyDTO);
 
     List<FamilyDTO> getAllFamilyList();
 
     FamilyDTO getFamilyById(Long id);
 
-    List<FamilyDTO> getAllFamily(int page, int size);
+    List<FamilyDTO> getAllFamily(int page, int size, Sort sort);
 }

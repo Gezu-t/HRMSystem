@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -41,16 +42,20 @@ public class Candidate  {
     private String recommendation;
     private String telResidence;
     private String batchCode;
-    private GenderStatus gender;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender_type", nullable = false)
+    private GenderType gender;
+    @Column(name = "candidate_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private CandidateType candidateType;
     private String other;
     private String noPage;
     private String writtenExam;
     private String cgpa;
-    private Long candidateId;
-    private String status;
 
+    private String status;
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "candidate")
     private List<Recruitment> recruitments;
 

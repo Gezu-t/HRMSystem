@@ -30,7 +30,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
-    private GenderStatus genderStatus;
+    private GenderType genderStatus;
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
     private LocalDate dateOfBirth;

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "recruitment")
 public class Recruitment {
 
     @Id
@@ -23,13 +24,16 @@ public class Recruitment {
             generator = "recruitment_id_gen")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "initiatorId")
     private Initiator initiator;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidateId")
     private Candidate candidate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vacancyNoticeId")
     private VacancyNotice vacancyNotice;
 
     private LocalDate applicationDate;
@@ -37,5 +41,4 @@ public class Recruitment {
     private Boolean hired;
     private LocalDate hireDate;
 
-    // Getters and setters
 }
