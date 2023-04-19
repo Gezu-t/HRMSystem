@@ -1,6 +1,6 @@
-package et.hrms.dal.repository;
+package et.hrms.dal.repository.education;
 
-import et.hrms.dal.model.Education;
+import et.hrms.dal.model.education.Education;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

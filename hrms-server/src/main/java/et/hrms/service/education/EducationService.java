@@ -1,15 +1,15 @@
-package et.hrms.service;
+package et.hrms.service.education;
 
-import et.hrms.dal.dto.EducationDTO;
+import et.hrms.dal.dto.education.EducationDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public interface EducationService {
-    void createEducation(EducationDTO educationDTO);
+    void createEducation(Long employeeId, EducationDTO educationDTO);
 
 
-    EducationDTO updateEducationInfo(EducationDTO educationDTO);
+    EducationDTO updateEducationInfo(Long employeeId, EducationDTO educationDTO);
 
      EducationDTO getEducationByInstitution(String name);
 
