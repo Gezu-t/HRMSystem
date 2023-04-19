@@ -1,11 +1,10 @@
-package et.hrms.service.impl;
+package et.hrms.service.recruitment;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 import et.hrms.dal.mapping.VacancyNoticeMapper;
-import et.hrms.dal.model.VacancyNotice;
-import et.hrms.dal.repository.VacancyNoticeRepository;
+import et.hrms.dal.model.recruitment.VacancyNotice;
+import et.hrms.dal.repository.recruitment.VacancyNoticeRepository;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.VacancyNoticeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

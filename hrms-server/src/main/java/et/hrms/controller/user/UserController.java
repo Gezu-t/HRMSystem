@@ -1,4 +1,4 @@
-package et.hrms.controller;
+package et.hrms.controller.user;
 
 import et.hrms.dal.dto.UserDTO;
 import org.springframework.http.ResponseEntity;

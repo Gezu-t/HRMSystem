@@ -1,9 +1,9 @@
 package users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.impl.UserControllerImpl;
+import et.hrms.controller.user.UserControllerImpl;
 import et.hrms.dal.dto.UserDTO;
-import et.hrms.service.UserService;
+import et.hrms.service.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

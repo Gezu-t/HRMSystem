@@ -1,4 +1,4 @@
-package et.hrms.dal.dto;
+package et.hrms.dal.dto.recruitment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

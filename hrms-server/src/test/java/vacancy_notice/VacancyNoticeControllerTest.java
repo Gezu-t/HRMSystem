@@ -1,9 +1,9 @@
 package vacancy_notice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.impl.VacancyNoticeControllerImpl;
-import et.hrms.dal.dto.VacancyNoticeDTO;
-import et.hrms.service.VacancyNoticeService;
+import et.hrms.controller.recruitment.VacancyNoticeControllerImpl;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
+import et.hrms.service.recruitment.VacancyNoticeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,6 +1,6 @@
-package et.hrms.service;
+package et.hrms.service.recruitment;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 
 import java.util.List;
 

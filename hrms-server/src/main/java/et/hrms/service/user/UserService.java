@@ -1,4 +1,4 @@
-package et.hrms.service;
+package et.hrms.service.user;
 
 import et.hrms.dal.dto.UserDTO;
 

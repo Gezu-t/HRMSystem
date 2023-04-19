@@ -1,11 +1,11 @@
 package vacancy_notice;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 import et.hrms.dal.mapping.VacancyNoticeMapper;
-import et.hrms.dal.model.VacancyNotice;
-import et.hrms.dal.repository.VacancyNoticeRepository;
+import et.hrms.dal.model.recruitment.VacancyNotice;
+import et.hrms.dal.repository.recruitment.VacancyNoticeRepository;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.impl.VacancyNoticeServiceImpl;
+import et.hrms.service.recruitment.VacancyNoticeServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;

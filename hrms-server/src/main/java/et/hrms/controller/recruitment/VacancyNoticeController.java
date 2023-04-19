@@ -1,6 +1,6 @@
-package et.hrms.controller;
+package et.hrms.controller.recruitment;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

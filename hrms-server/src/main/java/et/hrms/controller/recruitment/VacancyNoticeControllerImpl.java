@@ -1,8 +1,7 @@
-package et.hrms.controller.impl;
+package et.hrms.controller.recruitment;
 
-import et.hrms.controller.VacancyNoticeController;
-import et.hrms.dal.dto.VacancyNoticeDTO;
-import et.hrms.service.VacancyNoticeService;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
+import et.hrms.service.recruitment.VacancyNoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

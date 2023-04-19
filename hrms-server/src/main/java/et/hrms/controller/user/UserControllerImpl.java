@@ -1,9 +1,8 @@
-package et.hrms.controller.impl;
+package et.hrms.controller.user;
 
-import et.hrms.controller.UserController;
 import et.hrms.dal.dto.UserDTO;
-import et.hrms.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import et.hrms.service.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserControllerImpl implements UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {

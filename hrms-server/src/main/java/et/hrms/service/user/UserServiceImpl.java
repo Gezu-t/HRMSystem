@@ -1,11 +1,11 @@
-package et.hrms.service.impl;
+package et.hrms.service.user;
 
 
 import et.hrms.dal.dto.UserDTO;
 import et.hrms.dal.mapping.UserMapper;
 import et.hrms.dal.model.User;
 import et.hrms.dal.repository.UserRepository;
-import et.hrms.service.UserService;
+import et.hrms.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
