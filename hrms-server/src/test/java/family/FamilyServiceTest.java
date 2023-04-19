@@ -1,13 +1,13 @@
 package family;
 
-import et.hrms.dal.dto.EmployeeDTO;
-import et.hrms.dal.dto.FamilyDTO;
+import et.hrms.dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.FamilyDTO;
 import et.hrms.dal.mapping.FamilyMapper;
-import et.hrms.dal.model.Employee;
-import et.hrms.dal.model.Family;
-import et.hrms.dal.repository.EmployeeRepository;
-import et.hrms.dal.repository.FamilyRepository;
-import et.hrms.service.impl.FamilyServiceImpl;
+import et.hrms.dal.model.employee.Employee;
+import et.hrms.dal.model.employee.Family;
+import et.hrms.dal.repository.employee.EmployeeRepository;
+import et.hrms.dal.repository.employee.FamilyRepository;
+import et.hrms.service.employee.FamilyServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

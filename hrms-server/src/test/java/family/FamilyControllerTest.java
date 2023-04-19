@@ -1,10 +1,10 @@
 package family;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.impl.FamilyControllerImpl;
-import et.hrms.dal.dto.FamilyDTO;
-import et.hrms.dal.model.Family;
-import et.hrms.service.FamilyService;
+import et.hrms.controller.employee.FamilyControllerImpl;
+import et.hrms.dal.dto.employee.FamilyDTO;
+import et.hrms.dal.model.employee.Family;
+import et.hrms.service.employee.FamilyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

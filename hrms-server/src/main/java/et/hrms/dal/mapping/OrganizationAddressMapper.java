@@ -1,7 +1,7 @@
 package et.hrms.dal.mapping;
 
-import et.hrms.dal.dto.OrganizationAddressDTO;
-import et.hrms.dal.model.OrganizationAddress;
+import et.hrms.dal.dto.structure.OrganizationAddressDTO;
+import et.hrms.dal.model.structure.OrganizationAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
 
-import et.hrms.dal.dto.EmployeeAddressDTO;
-import et.hrms.dal.model.EmployeeAddress;
+import et.hrms.dal.dto.employee.EmployeeAddressDTO;
+import et.hrms.dal.model.employee.EmployeeAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
