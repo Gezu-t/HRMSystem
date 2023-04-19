@@ -1,4 +1,4 @@
-package et.hrms.dal.dto;
+package et.hrms.dal.dto.structure;
 
 
 import jakarta.validation.constraints.NotEmpty;

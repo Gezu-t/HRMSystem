@@ -1,10 +1,9 @@
-package et.hrms.controller.impl;
+package et.hrms.controller.structure;
 
 
-import et.hrms.controller.BranchController;
-import et.hrms.dal.dto.BranchDTO;
+import et.hrms.dal.dto.structure.BranchDTO;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.BranchService;
+import et.hrms.service.structure.BranchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

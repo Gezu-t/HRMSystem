@@ -1,6 +1,6 @@
-package et.hrms.service;
+package et.hrms.service.structure;
 
-import et.hrms.dal.dto.BranchDTO;
+import et.hrms.dal.dto.structure.BranchDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package et.hrms.controller;
+package et.hrms.controller.structure;
 
-import et.hrms.dal.dto.BranchDTO;
+import et.hrms.dal.dto.structure.BranchDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

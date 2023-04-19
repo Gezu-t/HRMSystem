@@ -1,4 +1,4 @@
-package et.hrms.dal.model;
+package et.hrms.dal.model.structure;
 
 
 import jakarta.persistence.*;

@@ -1,20 +1,19 @@
-package et.hrms.service.impl;
+package et.hrms.service.structure;
 
 
-import et.hrms.dal.dto.BranchDTO;
-import et.hrms.dal.dto.OrganizationAddressDTO;
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.dto.structure.OrganizationAddressDTO;
 import et.hrms.dal.mapping.BranchMapper;
 import et.hrms.dal.mapping.OrganizationAddressMapper;
-import et.hrms.dal.model.Branch;
-import et.hrms.dal.model.Organization;
-import et.hrms.dal.model.OrganizationAddress;
-import et.hrms.dal.repository.BranchRepository;
-import et.hrms.dal.repository.OrganizationAddressRepository;
-import et.hrms.dal.repository.OrganizationRepository;
+import et.hrms.dal.model.structure.Branch;
+import et.hrms.dal.model.structure.Organization;
+import et.hrms.dal.model.structure.OrganizationAddress;
+import et.hrms.dal.repository.structure.BranchRepository;
+import et.hrms.dal.repository.structure.OrganizationAddressRepository;
+import et.hrms.dal.repository.structure.OrganizationRepository;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.AuditService;
-import et.hrms.service.BranchService;
-import et.hrms.service.LogService;
+import et.hrms.service.log.AuditService;
+import et.hrms.service.log.LogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,10 +1,10 @@
 package branch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.impl.BranchControllerImpl;
-import et.hrms.dal.dto.BranchDTO;
-import et.hrms.dal.dto.OrganizationAddressDTO;
-import et.hrms.service.BranchService;
+import et.hrms.controller.structure.BranchControllerImpl;
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.dto.structure.OrganizationAddressDTO;
+import et.hrms.service.structure.BranchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
 
-import et.hrms.dal.dto.BranchDTO;
-import et.hrms.dal.model.Branch;
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.model.structure.Branch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
