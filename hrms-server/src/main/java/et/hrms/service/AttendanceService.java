@@ -1,6 +1,6 @@
 package et.hrms.service;
 
-import et.hrms.dal.dto.AttendanceDTO;
+import et.hrms.dal.dto.attendance.AttendanceDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

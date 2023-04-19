@@ -1,7 +1,7 @@
 package et.hrms.dal.mapping;
 
-import et.hrms.dal.dto.AttendanceDTO;
-import et.hrms.dal.model.Attendance;
+import et.hrms.dal.dto.attendance.AttendanceDTO;
+import et.hrms.dal.model.attendance.Attendance;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

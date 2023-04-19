@@ -2,8 +2,8 @@ package attendance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import et.hrms.controller.impl.AttendanceControllerImpl;
-import et.hrms.dal.dto.AttendanceDTO;
+import et.hrms.controller.project.AttendanceControllerImpl;
+import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.service.AttendanceService;
 import org.junit.Before;
 import org.junit.Test;

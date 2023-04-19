@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
-import et.hrms.dal.dto.AdvertisementDTO;
-import et.hrms.dal.model.Advertisement;
-import et.hrms.dal.model.VacancyNotice;
+import et.hrms.dal.dto.recruitment.AdvertisementDTO;
+import et.hrms.dal.model.recruitment.Advertisement;
+import et.hrms.dal.model.recruitment.VacancyNotice;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;

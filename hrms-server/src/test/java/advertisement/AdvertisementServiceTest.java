@@ -1,11 +1,11 @@
 package advertisement;
 
-import et.hrms.dal.dto.AdvertisementDTO;
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.AdvertisementDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 import et.hrms.dal.mapping.AdvertisementMapper;
-import et.hrms.dal.model.Advertisement;
-import et.hrms.dal.repository.AdvertisementRepository;
-import et.hrms.service.impl.AdvertisementServiceImpl;
+import et.hrms.dal.model.recruitment.Advertisement;
+import et.hrms.dal.repository.recruitment.AdvertisementRepository;
+import et.hrms.service.recruitment.AdvertisementServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;

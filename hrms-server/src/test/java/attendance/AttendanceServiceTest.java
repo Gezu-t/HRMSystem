@@ -1,13 +1,13 @@
 package attendance;
 
 
-import et.hrms.dal.dto.AttendanceDTO;
+import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.dal.mapping.AttendanceMapper;
-import et.hrms.dal.model.Attendance;
-import et.hrms.dal.model.Employee;
-import et.hrms.dal.repository.AttendanceRepository;
-import et.hrms.dal.repository.EmployeeRepository;
-import et.hrms.service.impl.AttendanceServiceImpl;
+import et.hrms.dal.model.attendance.Attendance;
+import et.hrms.dal.model.employee.Employee;
+import et.hrms.dal.repository.attendance.AttendanceRepository;
+import et.hrms.dal.repository.employee.EmployeeRepository;
+import et.hrms.service.AttendanceServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
