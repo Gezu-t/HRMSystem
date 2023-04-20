@@ -25,6 +25,9 @@ public class LeaveRequestApprove {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "leaveRequestId")
   private LeaveRequest leaveRequest;
+  @Enumerated(EnumType.STRING)
+  private LeaveRequestEvents leaveRequestEvents;
+  private Boolean status;
 
 
 }

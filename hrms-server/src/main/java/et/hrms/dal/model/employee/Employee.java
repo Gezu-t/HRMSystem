@@ -4,6 +4,9 @@ package et.hrms.dal.model.employee;
 import et.hrms.dal.model.*;
 import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.model.education.Education;
+import et.hrms.dal.model.leave.LeaveBalance;
+import et.hrms.dal.model.leave.LeaveRequest;
+import et.hrms.dal.model.leave.LeaveRequestApprove;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -68,6 +71,12 @@ public class Employee {
     private List<Attendance> attendance;
     @OneToMany(mappedBy = "employee")
     private List<Education> educations;
+    @OneToMany(mappedBy = "employee")
+    private List<LeaveBalance> leaveBalances;
+    @OneToMany(mappedBy = "employee")
+    private List<LeaveRequest> leaveRequests;
+    @OneToMany(mappedBy = "employee")
+    private List<LeaveRequestApprove> leaveRequestApproves;
 
 
 }
