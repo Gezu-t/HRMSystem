@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,9 +32,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDTO updateJob(JobDTO jobDTO) {
-        Job job = jobRepository.findById(jobDTO.getJobId())
-                .orElseThrow(() -> new EntityNotFoundException("Job not found"));
+    public JobDTO updateJob(Long jobId, JobDTO jobDTO) {
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new EntityNotFoundException("Job not found by this ID: " + jobId ));
 
         // Update the properties of the Job entity with the values from the DTO
         job.setTitle(jobDTO.getTitle());
@@ -59,9 +60,9 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public List<JobDTO> getAllJobs(int page, int size) {
+    public List<JobDTO> getAllJobs(int page, int size, Sort sort) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<Job> jobs = jobRepository.findAll(pageable);
         return jobs.stream().map(jobMapper::toJobDTO)
                 .toList();
