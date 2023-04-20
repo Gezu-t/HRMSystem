@@ -7,6 +7,6 @@ logging:
   pattern:
     console: "%d %-5level %logger : %msg%n"
 server:
-  port: 8080
+  port: 9090
 springdoc:
   enable-spring-security: false
