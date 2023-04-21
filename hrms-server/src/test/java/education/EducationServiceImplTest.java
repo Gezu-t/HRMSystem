@@ -1,8 +1,8 @@
 package education;
 
 import et.hrms.dal.dto.education.*;
-import et.hrms.dal.mapping.EducationDetailMapper;
-import et.hrms.dal.mapping.EducationMapper;
+import et.hrms.dal.mapping.education.EducationDetailMapper;
+import et.hrms.dal.mapping.education.EducationMapper;
 import et.hrms.dal.model.education.Education;
 import et.hrms.dal.model.education.EducationDetail;
 import et.hrms.dal.model.education.EducationLevel;

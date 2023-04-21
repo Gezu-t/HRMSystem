@@ -1,4 +1,4 @@
-package et.hrms.dal.mapping;
+package et.hrms.dal.mapping.education;
 
 import et.hrms.dal.dto.education.EducationDetailDTO;
 import et.hrms.dal.dto.education.EducationTypeDTO;

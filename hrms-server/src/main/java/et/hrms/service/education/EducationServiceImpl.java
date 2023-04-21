@@ -2,8 +2,8 @@ package et.hrms.service.education;
 
 import et.hrms.dal.dto.education.EducationDTO;
 import et.hrms.dal.dto.education.EducationDetailDTO;
-import et.hrms.dal.mapping.EducationDetailMapper;
-import et.hrms.dal.mapping.EducationMapper;
+import et.hrms.dal.mapping.education.EducationDetailMapper;
+import et.hrms.dal.mapping.education.EducationMapper;
 import et.hrms.dal.model.education.*;
 import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.repository.education.EducationAwardRepository;

@@ -1,7 +1,7 @@
 package education;
 
 import et.hrms.dal.dto.education.EducationLevelDTO;
-import et.hrms.dal.mapping.EducationMapper;
+import et.hrms.dal.mapping.education.EducationMapper;
 import et.hrms.dal.model.education.EducationLevel;
 import et.hrms.dal.repository.education.EducationLevelRepository;
 import et.hrms.exceptions.EntityNotFoundException;
