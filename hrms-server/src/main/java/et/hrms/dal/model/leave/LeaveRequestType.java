@@ -15,7 +15,7 @@ public class LeaveRequestType {
   @GeneratedValue(generator = "leave_request_type_id_gen", strategy = GenerationType.SEQUENCE)
   @SequenceGenerator(name = "leave_request_type_id_gen", sequenceName = "leave_request_type_id_seq", allocationSize = 1)
   private Long id;
-  @Column(name = "type_name", nullable = false, unique = true, length = 245)
+  @Column(nullable = false, unique = true, length = 254)
   private String typeName;
   private String description;
 }

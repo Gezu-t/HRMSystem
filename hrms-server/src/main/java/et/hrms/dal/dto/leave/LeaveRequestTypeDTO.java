@@ -9,5 +9,5 @@ import lombok.Setter;
 public class LeaveRequestTypeDTO {
 
   private Long leaveTypeId;
-  private String leaveRequestType;
+  private String leaveRequestTypeName;
 }

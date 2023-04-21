@@ -28,6 +28,7 @@ public class LeaveRequestApprove {
   @Enumerated(EnumType.STRING)
   private LeaveRequestEvents leaveRequestEvents;
   private Boolean status;
-
+  private String approvalUserComment;
+  private String description;
 
 }
