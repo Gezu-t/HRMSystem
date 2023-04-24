@@ -1,38 +1,39 @@
 package vacancy_notice;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
+import et.hrms.dal.dto.recruitment.VacancyNoticeDTO;
 import et.hrms.dal.mapping.VacancyNoticeMapper;
-import et.hrms.dal.model.VacancyNotice;
-import et.hrms.dal.repository.VacancyNoticeRepository;
-import et.hrms.service.impl.VacancyNoticeServiceImpl;
+import et.hrms.dal.model.recruitment.VacancyNotice;
+import et.hrms.dal.repository.recruitment.VacancyNoticeRepository;
+import et.hrms.exceptions.EntityNotFoundException;
+import et.hrms.service.recruitment.VacancyNoticeServiceImpl;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VacancyNoticeServiceTest {
 
-  @Mock
-  private VacancyNoticeRepository vacancyNoticeRepository;
-
-  @Mock
-  private VacancyNoticeMapper vacancyNoticeMapper;
-
   @InjectMocks
   private VacancyNoticeServiceImpl vacancyNoticeService;
+  @Mock
+  private VacancyNoticeRepository vacancyNoticeRepository;
+  @Mock
+  private VacancyNoticeMapper vacancyNoticeMapper;
+  private VacancyNotice vacancyNotice1;
 
-  @Test
-  public void testFindAll() {
-    VacancyNotice vacancyNotice1 = new VacancyNotice();
+  @BeforeEach
+  void setUp() {
+    vacancyNotice1 = new VacancyNotice();
     vacancyNotice1.setId(1L);
     vacancyNotice1.setJobTitle("Job Title 1");
 
@@ -40,32 +41,47 @@ public class VacancyNoticeServiceTest {
     vacancyNotice2.setId(2L);
     vacancyNotice2.setJobTitle("Job Title 2");
 
-    List<VacancyNotice> vacancyNotices = Arrays.asList(vacancyNotice1, vacancyNotice2);
 
-    when(vacancyNoticeRepository.findAll()).thenReturn(vacancyNotices);
 
-    VacancyNoticeDTO vacancyNoticeDTO1 = new VacancyNoticeDTO();
-    vacancyNoticeDTO1.setId(1L);
-    vacancyNoticeDTO1.setJobTitle("Job Title 1");
+    // create some expected vacancy notice DTOs
+    VacancyNoticeDTO vacancyNoticeDTO = new VacancyNoticeDTO();
+    vacancyNoticeDTO.setId(1L);
+    vacancyNoticeDTO.setJobTitle("Job Title 1");
 
     VacancyNoticeDTO vacancyNoticeDTO2 = new VacancyNoticeDTO();
     vacancyNoticeDTO2.setId(2L);
+    vacancyNoticeDTO2.setJobTitle("Job Title 2");
+
   }
 
   @Test
+  public void testFindAll() {
+    VacancyNoticeDTO noticeDTO = new VacancyNoticeDTO();
+    // mock the vacancyNoticeRepository to return an empty list
+    when(vacancyNoticeRepository.findAll()).thenReturn(Collections.emptyList());
+    // assert that the service method throws an EntityNotFoundException
+    assertThrows(EntityNotFoundException.class, () -> vacancyNoticeService.findAll());
+    // mock the vacancyNoticeRepository to return a list with one item
+    when(vacancyNoticeRepository.findAll()).thenReturn(Collections.singletonList(vacancyNotice1));
+    when(vacancyNoticeMapper.toDtoList(Collections.singletonList(vacancyNotice1)))
+            .thenReturn(Collections.singletonList(noticeDTO));
+    // assert that the service method returns a list with one item
+    List<VacancyNoticeDTO> actualDTOs = vacancyNoticeService.findAll();
+    assertEquals(Collections.singletonList(noticeDTO), actualDTOs);
+
+  }
+
+
+
+  @Test
   public void testSave() {
-    VacancyNoticeDTO vacancyNoticeDTO = new VacancyNoticeDTO();
-    vacancyNoticeDTO.setJobTitle("Job Title");
+    VacancyNoticeDTO noticeDTO = new VacancyNoticeDTO();
+    when(vacancyNoticeMapper.toEntity(noticeDTO)).thenReturn(vacancyNotice1);
+    when(vacancyNoticeRepository.save(vacancyNotice1)).thenReturn(vacancyNotice1);
+    when(vacancyNoticeMapper.toDto(vacancyNotice1)).thenReturn(noticeDTO);
 
-    VacancyNotice vacancyNotice = new VacancyNotice();
-    vacancyNotice.setJobTitle("Job Title");
-
-    when(vacancyNoticeMapper.toEntity(vacancyNoticeDTO)).thenReturn(vacancyNotice);
-    when(vacancyNoticeRepository.save(vacancyNotice)).thenReturn(vacancyNotice);
-    when(vacancyNoticeMapper.toDto(vacancyNotice)).thenReturn(vacancyNoticeDTO);
-
-    VacancyNoticeDTO savedVacancyNotice = vacancyNoticeService.save(vacancyNoticeDTO);
-    assertEquals(vacancyNoticeDTO.getJobTitle(), savedVacancyNotice.getJobTitle());
-    verify(vacancyNoticeRepository, times(1)).save(any(VacancyNotice.class));
+    VacancyNoticeDTO savedVacancyNotice = vacancyNoticeService.save(noticeDTO);
+    assertEquals(noticeDTO.getJobTitle(), savedVacancyNotice.getJobTitle());
+    verify(vacancyNoticeRepository, times(1)).save(vacancyNotice1);
   }
 }

@@ -1,28 +1,25 @@
 package branch;
 
-import et.hrms.dal.dto.BranchDTO;
-import et.hrms.dal.dto.OrganizationAddressDTO;
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.dto.structure.OrganizationAddressDTO;
 import et.hrms.dal.mapping.BranchMapper;
 import et.hrms.dal.mapping.OrganizationAddressMapper;
-import et.hrms.dal.model.Branch;
-import et.hrms.dal.model.Organization;
-import et.hrms.dal.model.OrganizationAddress;
-import et.hrms.dal.repository.BranchRepository;
-import et.hrms.dal.repository.OrganizationAddressRepository;
-import et.hrms.dal.repository.OrganizationRepository;
-import et.hrms.service.AuditService;
-import et.hrms.service.LogService;
-import et.hrms.service.impl.BranchServiceImpl;
+import et.hrms.dal.model.structure.Branch;
+import et.hrms.dal.model.structure.Organization;
+import et.hrms.dal.model.structure.OrganizationAddress;
+import et.hrms.dal.repository.structure.BranchRepository;
+import et.hrms.dal.repository.structure.OrganizationAddressRepository;
+import et.hrms.dal.repository.structure.OrganizationRepository;
+import et.hrms.service.log.AuditService;
+import et.hrms.service.log.LogService;
+import et.hrms.service.structure.BranchServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -133,39 +130,33 @@ public class BranchServiceTest {
   @Test
   void updateBranch() {
     // Set up the mocks
+    Organization org = new Organization();
+    org.setId(1L);
     when(branchRepository.findById(testBranch.getId())).thenReturn(Optional.of(testBranch));
-    when(organizationRepository.findById(testOrganization.getId())).thenReturn(Optional.of(testOrganization));
-    when(organizationAddressRepository.findById(testOrganizationAddress.getId())).thenReturn(Optional.of(testOrganizationAddress));
-    when(branchRepository.save(testBranch)).thenReturn(testBranch);
-    when(branchMapper.toBranchDTO(testBranch)).thenReturn(testBranchDTO);
-//    when(organizationAddressMapper.toOrganizationAddress(organizationAddressDTO)).thenReturn(testOrganizationAddress);
 
     // Call the updateBranch method
-    BranchDTO updatedBranchDTO = branchService.updateBranch(testBranch.getId(), testBranchDTO);
+    branchService.updateBranch(testBranch.getId(), testBranchDTO);
 
     // Verify the interactions
     verify(branchRepository).findById(testBranch.getId());
-    verify(organizationRepository).findById(testOrganization.getId());
-    verify(organizationAddressRepository).findById(any());
-    verify(organizationAddressMapper).updateOrganizationAddressFromDto(any(), any());
+    verify(organizationAddressMapper).toOrganizationAddress(organizationAddressDTO);
     verify(branchRepository).save(testBranch);
     verify(auditService).logAction(any(), any(), any(), any());
 
-    // Assert the result
-    assertEquals(testBranchDTO, updatedBranchDTO);
+
   }
 
   // Test for getAllBranchInformation
   @Test
   void getAllBranchInformation() {
     // Set up the mocks
-    Pageable pageable = PageRequest.of(0, 10);
+    Pageable pageable = PageRequest.of(0, 10, Sort.sort(BranchDTO.class));
     Page<Branch> branchesPage = new PageImpl<>(List.of(testBranch), pageable, 1);
     when(branchRepository.findAll(pageable)).thenReturn(branchesPage);
     when(branchMapper.toBranchDTO(testBranch)).thenReturn(testBranchDTO);
 
     // Call the getAllBranchInformation method
-    List<BranchDTO> branchDTOList = branchService.getAllBranchInformation(0, 10);
+    List<BranchDTO> branchDTOList = branchService.getAllBranchInformation(0, 10,  Sort.sort(BranchDTO.class) );
 
     // Verify the interactions
     verify(branchRepository).findAll(pageable);

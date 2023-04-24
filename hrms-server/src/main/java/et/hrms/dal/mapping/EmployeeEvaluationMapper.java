@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
 
-import et.hrms.dal.dto.EmployeeEvaluationDTO;
-import et.hrms.dal.model.EmployeeEvaluation;
+import et.hrms.dal.dto.employee.EmployeeEvaluationDTO;
+import et.hrms.dal.model.employee.EmployeeEvaluation;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;

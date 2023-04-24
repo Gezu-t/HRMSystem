@@ -1,15 +1,15 @@
 package department;
 
-import et.hrms.dal.dto.DepartmentDTO;
+import et.hrms.dal.dto.structure.DepartmentDTO;
 import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.model.Branch;
-import et.hrms.dal.model.Department;
-import et.hrms.dal.model.Organization;
-import et.hrms.dal.repository.BranchRepository;
-import et.hrms.dal.repository.DepartmentRepository;
-import et.hrms.dal.repository.OrganizationRepository;
-import et.hrms.service.impl.AuditServiceImpl;
-import et.hrms.service.impl.DepartmentServiceImpl;
+import et.hrms.dal.model.structure.Branch;
+import et.hrms.dal.model.structure.Department;
+import et.hrms.dal.model.structure.Organization;
+import et.hrms.dal.repository.structure.BranchRepository;
+import et.hrms.dal.repository.structure.DepartmentRepository;
+import et.hrms.dal.repository.structure.OrganizationRepository;
+import et.hrms.service.log.AuditServiceImpl;
+import et.hrms.service.structure.DepartmentServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;

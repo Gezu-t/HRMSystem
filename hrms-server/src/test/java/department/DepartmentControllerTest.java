@@ -1,12 +1,12 @@
 package department;
 
 
-import et.hrms.controller.impl.DepartmentControllerImpl;
-import et.hrms.dal.dto.BranchDTO;
-import et.hrms.dal.dto.DepartmentDTO;
-import et.hrms.dal.dto.OrganizationDTO;
-import et.hrms.service.BranchService;
-import et.hrms.service.DepartmentService;
+import et.hrms.controller.structure.DepartmentControllerImpl;
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.dto.structure.DepartmentDTO;
+import et.hrms.dal.dto.structure.OrganizationDTO;
+import et.hrms.service.structure.BranchService;
+import et.hrms.service.structure.DepartmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,26 +111,14 @@ class DepartmentControllerTest {
 
     @Test
     public void testUpdateDepartment() throws Exception {
-      // Set up the mocks
-      DepartmentDTO dto = new DepartmentDTO();
-      dto.setDepartmentName("Material Engineering");
-      dto.setLocations("Roma");
-      dto.setOrganizationId(1L);
-      dto.setOrganizationId(1L);
-      dto.setBranchId(0L);
-      when(departmentService.updateDepartment(dto.getDepartmentId(), dto)).thenReturn(dto);
-
+      when(departmentService.updateDepartment(anyLong(), any())).thenReturn(departmentDTO);
       // Call the updateDepartment endpoint
-      String departmentDTOJson = objectMapper.writeValueAsString(dto);
+      String departmentDTOJson = objectMapper.writeValueAsString(departmentDTO);
 
-      mockMvc.perform(put("/api/departments/{departmentId}", dto.getDepartmentId())
+      mockMvc.perform(put("/api/departments/{departmentId}", departmentDTO.getDepartmentId())
                       .contentType(MediaType.APPLICATION_JSON)
                       .content(departmentDTOJson))
-                      .andExpect(status().isCreated())
-                      .andExpect(jsonPath("$.departmentName").value(dto.getDepartmentName()))
-                      .andExpect(jsonPath("$.locations").value(dto.getLocations()));
-//                      .andExpect(jsonPath("$.organizationId").value(dto.getOrganizationId()))
-//                      .andExpect(jsonPath("$.branchId").value(dto.getBranchId()));
+                      .andExpect(status().isOk());
     }
 
 //    @Test

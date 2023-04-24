@@ -1,13 +1,12 @@
 package employee;
 
-import et.hrms.controller.impl.EmployeeControllerImpl;
-import et.hrms.dal.dto.EmployeeDTO;
-import et.hrms.service.EmployeeService;
+import et.hrms.controller.employee.EmployeeControllerImpl;
+import et.hrms.dal.dto.employee.EmployeeDTO;
+import et.hrms.service.employee.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

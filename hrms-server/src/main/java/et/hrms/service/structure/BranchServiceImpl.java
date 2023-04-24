@@ -1,0 +1,136 @@
+package et.hrms.service.structure;
+
+
+import et.hrms.dal.dto.structure.BranchDTO;
+import et.hrms.dal.dto.structure.OrganizationAddressDTO;
+import et.hrms.dal.mapping.BranchMapper;
+import et.hrms.dal.mapping.OrganizationAddressMapper;
+import et.hrms.dal.model.structure.Branch;
+import et.hrms.dal.model.structure.Organization;
+import et.hrms.dal.model.structure.OrganizationAddress;
+import et.hrms.dal.repository.structure.BranchRepository;
+import et.hrms.dal.repository.structure.OrganizationAddressRepository;
+import et.hrms.dal.repository.structure.OrganizationRepository;
+import et.hrms.exceptions.EntityNotFoundException;
+import et.hrms.service.log.AuditService;
+import et.hrms.service.log.LogService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class BranchServiceImpl implements BranchService {
+
+
+    private final BranchMapper branchMapper;
+    private final BranchRepository branchRepository;
+    private final OrganizationRepository organizationRepository;
+    private final AuditService auditService;
+    private final OrganizationAddressMapper organizationAddressMapper;
+    private final OrganizationAddressRepository organizationAddressRepository;
+    private final LogService logService;
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void createBranch(long organizationId, List<BranchDTO> branchDTOS) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new EntityNotFoundException("Organization is not found by id:" + organizationId));
+        List<Branch> branchList = new ArrayList<>();
+        for (BranchDTO branchDTO : branchDTOS) {
+            OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
+            Branch branch = branchMapper.toBranch(branchDTO);
+            branch.setOrganization(organization);
+            branch.setOrganizationAddress(organizationAddress);
+            auditService.logAction("username", "Branch", "Create", branch.getId());
+            branchList.add(branch);
+        }
+        branchMapper.toBranchDTOs(branchRepository.saveAll(branchList));
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public BranchDTO getDetailOfBranchById(long branchId) {
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch is not found by this id: " + branchId));
+        OrganizationAddressDTO organizationAddressDTO = organizationAddressMapper.toOrganizationAddressDTO(branch.getOrganizationAddress());
+        BranchDTO branchDTO = branchMapper.toBranchDTO(branch);
+        branchDTO.setOrganizationAddressDTO(organizationAddressDTO);
+        branchDTO.setOrganizationId(branch.getOrganization().getId());
+
+        return branchDTO;
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void updateBranch(long branchId, BranchDTO branchDTO) {
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
+
+        // check if the organization ID in the request matches the one in the database
+        if (!branch.getOrganization().getId().equals(branchDTO.getOrganizationId())) {
+            throw new IllegalArgumentException("Organization ID in the request does not match the one in the database");
+        }
+
+        branchMapper.updateBranchFromDTO(branch, branchDTO);
+        OrganizationAddress organizationAddress = organizationAddressMapper.toOrganizationAddress(branchDTO.getOrganizationAddressDTO());
+        branch.setOrganizationAddress(organizationAddress);
+
+        auditService.logAction("username", "Branch", "Update", branch.getId());
+        branchRepository.save(branch);
+    }
+
+    private Branch getBranchById(long branchId) {
+        return branchRepository.findById(branchId)
+                .orElseThrow(() -> new EntityNotFoundException("Branch with ID " + branchId + " not found"));
+    }
+
+    private void updateBranchDetails(Branch branch, BranchDTO branchDTO) {
+        branch.setBranchCode(branchDTO.getBranchCode());
+        branch.setBranchName(branchDTO.getBranchName());
+    }
+
+    private void updateOrganizationAddress(Branch branch, OrganizationAddressDTO organizationAddressDTO) {
+        Long addressId = branch.getOrganizationAddress().getId();
+        OrganizationAddress existingOrganizationAddress = organizationAddressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("OrganizationAddress not found by this id: " + addressId));
+
+        // Update the existingOrganizationAddress with properties from the organizationAddressDTO
+        organizationAddressMapper.updateOrganizationAddressFromDto(organizationAddressDTO, existingOrganizationAddress);
+
+        existingOrganizationAddress.setBranch(branch);
+        branch.setOrganizationAddress(existingOrganizationAddress);
+    }
+
+
+    private void updateOrganization(Branch branch, Long organizationId) {
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new EntityNotFoundException("Organization with ID " + organizationId + " not found"));
+
+        branch.setOrganization(organization);
+    }
+
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public List<BranchDTO> getAllBranchInformation(int page, int size, Sort sort) {
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<Branch> branches = branchRepository.findAll(pageable);
+        if (page > branches.getTotalPages()) {
+            throw new EntityNotFoundException("pages is not found");
+        }
+        logService.log("Successfully retrieved all branch information.");
+        return branches.stream().map(branchMapper::toBranchDTO).toList();
+    }
+}

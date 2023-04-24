@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
 
-import et.hrms.dal.dto.FamilyDTO;
-import et.hrms.dal.model.Family;
+import et.hrms.dal.dto.employee.FamilyDTO;
+import et.hrms.dal.model.employee.Family;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

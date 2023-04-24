@@ -1,5 +1,6 @@
 package et.hrms.dal.model;
 
+import et.hrms.dal.model.employee.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

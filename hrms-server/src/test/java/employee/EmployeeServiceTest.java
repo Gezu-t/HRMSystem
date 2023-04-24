@@ -1,18 +1,18 @@
 package employee;
 
 
-import et.hrms.dal.dto.EmployeeAddressDTO;
-import et.hrms.dal.dto.EmployeeDTO;
-import et.hrms.dal.dto.EmployeeDetailDTO;
+import et.hrms.dal.dto.employee.EmployeeAddressDTO;
+import et.hrms.dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.EmployeeDetailDTO;
 import et.hrms.dal.mapping.DepartmentMapper;
 import et.hrms.dal.mapping.EmployeeAddressMapper;
 import et.hrms.dal.mapping.EmployeeDetailMapper;
 import et.hrms.dal.mapping.EmployeeMapper;
-import et.hrms.dal.model.Employee;
-import et.hrms.dal.model.EmployeeDetail;
-import et.hrms.dal.repository.EmployeeDetailRepository;
-import et.hrms.dal.repository.EmployeeRepository;
-import et.hrms.service.impl.EmployeeServiceImpl;
+import et.hrms.dal.model.employee.Employee;
+import et.hrms.dal.model.employee.EmployeeDetail;
+import et.hrms.dal.repository.employee.EmployeeDetailRepository;
+import et.hrms.dal.repository.employee.EmployeeRepository;
+import et.hrms.service.employee.EmployeeServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

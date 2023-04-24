@@ -1,8 +1,8 @@
 package et.hrms.dal.mapping;
 
 
-import et.hrms.dal.dto.OrganizationDTO;
-import et.hrms.dal.model.Organization;
+import et.hrms.dal.dto.structure.OrganizationDTO;
+import et.hrms.dal.model.structure.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
