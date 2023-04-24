@@ -7,7 +7,7 @@ import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
-import et.hrms.service.AttendanceServiceImpl;
+import et.hrms.service.project.AttendanceServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +20,7 @@ import org.springframework.data.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -53,7 +54,6 @@ public class AttendanceServiceTest {
 
   @Test
   public void testSaveAttendance() {
-    Long employeeId = 1L;
 
     when(attendanceMapper.toEntity(attendanceDTO)).thenReturn(attendance);
     when(attendanceRepository.save(attendance)).thenReturn(attendance);
@@ -106,9 +106,9 @@ public class AttendanceServiceTest {
     attendanceList.add(new Attendance());
     attendanceList.add(new Attendance());
     Page<Attendance> attendancePage = new PageImpl<>(attendanceList, PageRequest.of(page, size, sortOrder), attendanceList.size());
-    List<AttendanceDTO> attendanceDTOList = new ArrayList<>();
-    attendanceDTOList.add(new AttendanceDTO());
-    attendanceDTOList.add(new AttendanceDTO());
+    AtomicReference<List<AttendanceDTO>> attendanceDTOList = new AtomicReference<>(new ArrayList<>());
+    attendanceDTOList.get().add(new AttendanceDTO());
+    attendanceDTOList.get().add(new AttendanceDTO());
     Mockito.when(attendanceRepository.findAll(Mockito.any(Pageable.class))).thenReturn(attendancePage);
     Mockito.when(attendanceMapper.toDto(Mockito.any(Attendance.class))).thenReturn(new AttendanceDTO());
     List<AttendanceDTO> foundAttendanceDTOPage = attendanceService.getAllAttendance(page, size, sortOrder);

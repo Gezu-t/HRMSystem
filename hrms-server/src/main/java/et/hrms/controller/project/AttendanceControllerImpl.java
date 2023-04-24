@@ -2,7 +2,7 @@ package et.hrms.controller.project;
 
 import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.AttendanceService;
+import et.hrms.service.project.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

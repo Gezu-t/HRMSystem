@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import et.hrms.controller.project.AttendanceControllerImpl;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
-import et.hrms.service.AttendanceService;
+import et.hrms.service.project.AttendanceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ public class AttendanceControllerTest {
   private AttendanceControllerImpl attendanceController;
 
   private AttendanceDTO attendanceDTO;
-  private ObjectMapper objectMapper = new ObjectMapper()
+  private final  ObjectMapper objectMapper = new ObjectMapper()
           .registerModule(new JavaTimeModule());
 
   @Before
@@ -53,8 +53,7 @@ public class AttendanceControllerTest {
   public static String asJsonString(final Object obj) {
     try {
       final ObjectMapper mapper = new ObjectMapper();
-      final var jsonContent = mapper.writeValueAsString(obj);
-      return jsonContent;
+      return mapper.writeValueAsString(obj);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

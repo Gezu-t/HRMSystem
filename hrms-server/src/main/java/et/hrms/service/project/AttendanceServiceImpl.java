@@ -1,4 +1,4 @@
-package et.hrms.service;
+package et.hrms.service.project;
 
 import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.dal.mapping.AttendanceMapper;
@@ -7,7 +7,6 @@ import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.exceptions.EntityNotFoundException;
-import et.hrms.service.AttendanceService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +34,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     Employee employee = employeeRepository.findById(employeeId)
             .orElseThrow(() -> new EntityNotFoundException("Employee information is not found by this Id: {0}" + employeeId));
     Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
+    attendance.setEmployee(employee);
     attendance = attendanceRepository.save(attendance);
     return attendanceMapper.toDto(attendance);
   }
