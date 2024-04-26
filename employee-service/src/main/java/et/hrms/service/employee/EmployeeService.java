@@ -1,6 +1,7 @@
 package et.hrms.service.employee;
 
 import et.hrms.dal.dto.employee.EmployeeDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface EmployeeService {
     List<EmployeeDTO> getAllEmployeeList(int page, int size);
 
     EmployeeDTO getEmployeeById(Long id);
+
+    @Transactional(readOnly = true)
+    List<EmployeeDTO> searchEmployeesByName(String name);
 }

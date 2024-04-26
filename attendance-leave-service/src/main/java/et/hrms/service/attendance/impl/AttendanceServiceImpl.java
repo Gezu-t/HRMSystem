@@ -6,7 +6,7 @@ import et.hrms.dal.mapper.attendance.AttendanceMapper;
 import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
 import et.hrms.service.attendance.AttendanceService;
-import et.hrms.service.employee.EmployeeClientService;
+import et.hrms.client.employee.EmployeeClientService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

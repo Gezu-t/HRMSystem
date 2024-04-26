@@ -6,7 +6,7 @@ import et.hrms.dal.mapper.attendance.AttendanceMapper;
 import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
 import et.hrms.service.attendance.impl.AttendanceServiceImpl;
-import et.hrms.service.employee.EmployeeClientService;
+import et.hrms.client.employee.EmployeeClientService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

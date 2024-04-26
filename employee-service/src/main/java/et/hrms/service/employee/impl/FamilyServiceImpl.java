@@ -1,4 +1,4 @@
-package et.hrms.service.employee;
+package et.hrms.service.employee.impl;
 
 import et.hrms.dal.dto.employee.FamilyDTO;
 import et.hrms.dal.mapping.FamilyMapper;

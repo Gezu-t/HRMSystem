@@ -1,4 +1,4 @@
-package et.hrms.controller.employee;
+package et.hrms.controller.employee.imp;
 
 
 import et.hrms.controller.employee.FamilyController;

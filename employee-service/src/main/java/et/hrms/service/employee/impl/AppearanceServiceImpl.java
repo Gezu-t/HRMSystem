@@ -1,4 +1,4 @@
-package et.hrms.service.employee;
+package et.hrms.service.employee.impl;
 
 
 import et.hrms.dal.dto.employee.EmployeeAppearanceDTO;
@@ -8,6 +8,7 @@ import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.repository.employee.AppearanceRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.exceptions.EntityNotFoundException;
+import et.hrms.service.employee.AppearanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;

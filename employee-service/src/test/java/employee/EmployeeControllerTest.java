@@ -1,6 +1,6 @@
 package employee;
 
-import et.hrms.controller.employee.EmployeeControllerImpl;
+import et.hrms.controller.employee.imp.EmployeeControllerImpl;
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.service.employee.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;

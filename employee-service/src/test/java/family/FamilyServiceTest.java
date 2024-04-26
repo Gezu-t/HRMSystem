@@ -7,7 +7,7 @@ import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.model.employee.Family;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.dal.repository.employee.FamilyRepository;
-import et.hrms.service.employee.FamilyServiceImpl;
+import et.hrms.service.employee.impl.FamilyServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

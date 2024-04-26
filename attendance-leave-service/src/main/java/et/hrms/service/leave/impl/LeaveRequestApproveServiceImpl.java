@@ -7,7 +7,7 @@ import et.hrms.dal.model.leave.LeaveRequest;
 import et.hrms.dal.model.leave.LeaveRequestApprove;
 import et.hrms.dal.repository.leave.LeaveRequestApproveRepository;
 import et.hrms.dal.repository.leave.LeaveRequestRepository;
-import et.hrms.service.employee.EmployeeClientService;
+import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.service.leave.LeaveRequestApproveService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

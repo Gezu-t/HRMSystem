@@ -1,7 +1,7 @@
 package family;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.employee.FamilyControllerImpl;
+import et.hrms.controller.employee.imp.FamilyControllerImpl;
 import et.hrms.dal.dto.employee.FamilyDTO;
 import et.hrms.dal.model.employee.Family;
 import et.hrms.service.employee.FamilyService;

@@ -12,7 +12,7 @@ import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.model.employee.EmployeeDetail;
 import et.hrms.dal.repository.employee.EmployeeDetailRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
-import et.hrms.service.employee.EmployeeServiceImpl;
+import et.hrms.service.employee.impl.EmployeeServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
