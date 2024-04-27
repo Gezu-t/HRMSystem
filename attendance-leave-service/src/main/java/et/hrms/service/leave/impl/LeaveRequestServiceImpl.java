@@ -1,5 +1,6 @@
 package et.hrms.service.leave.impl;
 
+import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
@@ -10,7 +11,6 @@ import et.hrms.dal.model.leave.LeaveRequestStates;
 import et.hrms.dal.model.leave.LeaveRequestType;
 import et.hrms.dal.repository.leave.LeaveRequestRepository;
 import et.hrms.dal.repository.leave.LeaveRequestTypeRepository;
-import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.service.leave.LeaveRequestService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,6 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,4 +76,42 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         logger.info("Successfully created leave request with ID: {}", savedLeaveRequest.getId());
         return savedLeaveRequestDTO;
     }
+
+    /**
+     * Handles leave requests for an employee based on the employee's name.
+     *
+     * @param employeeName The name of the employee to search for and process a leave request.
+     * @return Optional<EmployeeDTO> The employee details if found and processed.
+     * @throws IllegalArgumentException if no employee is found or the employee name is not provided.
+     */
+    @Override
+    public Optional<EmployeeDTO> handleLeaveRequestForEmployee(String employeeName) {
+        Assert.hasText(employeeName, "Employee name must not be empty");
+
+        EmployeeDTO[] foundEmployees = employeeClientService.searchEmployeesByName(employeeName);
+        if (foundEmployees.length == 0) {
+            throw new IllegalArgumentException("No employee found with the name: " + employeeName);
+        }
+
+        // Assuming we need to process the leave request for the first found employee
+        EmployeeDTO employeeToProcess = Arrays.stream(foundEmployees).findFirst()
+                .orElseThrow(() -> new IllegalStateException("Unexpected error processing employee data"));
+
+        // Further processing can go here, like creating a leave request in the database, etc.
+        // Assuming this method would be void if no further return is needed or it could return some result type
+        return Optional.of(employeeToProcess);
+    }
+
+
+//    public CompletableFuture<EmployeeDTO> handleLeaveRequestForEmployeeAsync(String employeeName) {
+//        return CompletableFuture.supplyAsync(() -> {
+//            EmployeeDTO[] foundEmployees = employeeClientService.searchEmployeesByName(employeeName);
+//            if (foundEmployees.length == 0) {
+//                throw new RuntimeException("No employee found with the name: " + employeeName);
+//            }
+//            // For simplicity, assume processing the first found employee
+//            return foundEmployees[0];
+//        });
+//    }
+
 }

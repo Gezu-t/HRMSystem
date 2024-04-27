@@ -1,6 +1,5 @@
 package et.hrms.config;
 
-package et.hrms.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
