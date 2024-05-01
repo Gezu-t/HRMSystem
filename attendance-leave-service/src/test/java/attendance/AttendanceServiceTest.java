@@ -1,12 +1,13 @@
 package attendance;
 
+import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.mapper.attendance.AttendanceMapper;
 import et.hrms.dal.model.attendance.Attendance;
+import et.hrms.dal.model.attendance.AttendanceStatus;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
 import et.hrms.service.attendance.impl.AttendanceServiceImpl;
-import et.hrms.client.employee.EmployeeClientService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,21 +39,42 @@ public class AttendanceServiceTest {
 
   private AttendanceDTO attendanceDTO;
   private Attendance attendance;
-  private EmployeeDTO employee;
+  private EmployeeDTO employeeDTO;
 
   @Before
   public void setUp() {
-    attendanceDTO = new AttendanceDTO();
-    attendanceDTO.setAttendanceId(1L);
+    // Initialize DTO with sample data
+    attendanceDTO = new AttendanceDTO(
+            1L,
+            "John Doe",
+            LocalDate.of(2023, 4, 30),
+            "Annual leave",
+            "Jane Doe",
+            LocalDate.of(2023, 4, 30),
+            "Pending",
+            "John Manager",
+            LocalDate.of(2023, 4, 30),
+            "HR Certification",
+            LocalDate.of(2023, 4, 30),
+            "Full day",
+            1L,
+            AttendanceStatus.APPROVED,
+            "HR"
+    );
+
+    // Enhanced employee DTO
+    employeeDTO = new EmployeeDTO(1L, "John Doe", "IT", "Developer", "Active");
+
+    // Setting up a sample attendance entity
     attendance = new Attendance();
     attendance.setId(1L);
 
-    employee = new EmployeeDTO();
-    employee.setId(1L);
-    employee.setName("John Doe");
-
-    when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employee);
+    // Configure mocks
+    when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employeeDTO);
+    when(attendanceMapper.toEntity(any(AttendanceDTO.class))).thenReturn(attendance);
+    when(attendanceMapper.toDto(any(Attendance.class))).thenReturn(attendanceDTO);
   }
+
 
   @Test
   public void testSaveAttendance() {

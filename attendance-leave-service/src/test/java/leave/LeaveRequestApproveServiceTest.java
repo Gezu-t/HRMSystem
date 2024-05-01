@@ -10,83 +10,106 @@ import et.hrms.dal.model.leave.LeaveRequestEvents;
 import et.hrms.dal.repository.leave.LeaveRequestApproveRepository;
 import et.hrms.dal.repository.leave.LeaveRequestRepository;
 import et.hrms.service.leave.impl.LeaveRequestApproveServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LeaveRequestApproveServiceTest {
 
-  @InjectMocks
-  private LeaveRequestApproveServiceImpl leaveRequestApproveService;
+    @Mock
+    private LeaveRequestApproveRepository leaveRequestApproveRepository;
 
-  @Mock
-  private LeaveRequestApproveRepository leaveRequestApproveRepository;
+    @Mock
+    private LeaveRequestRepository leaveRequestRepository;
 
-  @Mock
-  private LeaveRequestRepository leaveRequestRepository;
+    @Mock
+    private EmployeeClientService employeeClientService;
 
-  @Mock
-  private EmployeeClientService employeeClientService;
+    @Mock
+    private LeaveRequestApproveMapper leaveRequestApproveMapper;
 
-  @Mock
-  private LeaveRequestApproveMapper leaveRequestApproveMapper;
+    @InjectMocks
+    private LeaveRequestApproveServiceImpl leaveRequestApproveService;
 
-  private LeaveRequestApproveDTO leaveRequestApproveDTO;
-  private LeaveRequestApprove leaveRequestApprove;
+    private EmployeeDTO activeEmployee;
+    private EmployeeDTO inactiveEmployee;
+    private LeaveRequestApproveDTO leaveRequestApproveDTO;
+    private LeaveRequest leaveRequest;
 
-  @Test
-  public void testCreateLeaveRequestApprove() {
-    Long leaveRequestId = 1L;
-    Long employeeId = 1L;
-    LeaveRequest leaveRequest = new LeaveRequest();
-    leaveRequest.setId(leaveRequestId);
+    @Before
+    public void setUp() {
+        leaveRequestApproveDTO = new LeaveRequestApproveDTO();
+        leaveRequestApproveDTO.setLeaveRequestApproveId(1L);
+        leaveRequestApproveDTO.setRequestApproveDate(LocalDate.now());
+        leaveRequestApproveDTO.setApprovalUserId(1L);
+        leaveRequestApproveDTO.setLeaveRequestId(1L);
+        leaveRequestApproveDTO.setLeaveRequestEvents(LeaveRequestEvents.APPROVE);
+        leaveRequestApproveDTO.setStatus(true);
+        leaveRequestApproveDTO.setApprovalUserComment("Approved for good performance");
+        leaveRequestApproveDTO.setDescription("All conditions met for approval");
 
-    List<EmployeeDTO> employee = new ArrayList<>();
-    EmployeeDTO employeeDTO = new EmployeeDTO();
-    employeeDTO.setId(employeeId);
-    employee.add(employeeDTO);
+        activeEmployee = new EmployeeDTO(1L, "John Doe", "Engineering", "senior engineer", "Active");
+        inactiveEmployee = new EmployeeDTO(1L, "Jane Doe", "HR", "Head director", "Inactive");
 
-    LeaveRequestApprove leaveRequestApprove = new LeaveRequestApprove();
-    leaveRequestApprove.setId(1L);
-    leaveRequestApprove.setLeaveRequestEvents(LeaveRequestEvents.APPROVE);
-    LeaveRequestApproveDTO leaveRequestApproveDTO = new LeaveRequestApproveDTO();
-    leaveRequestApproveDTO.setLeaveRequestApproveId(1L);
+        leaveRequest = new LeaveRequest();
+        leaveRequest.setId(1L);
+        Mockito.lenient().when(employeeClientService.getEmployeeById(1L)).thenReturn(inactiveEmployee);
+        Mockito.lenient().when(leaveRequestRepository.findById(1L)).thenReturn(Optional.of(leaveRequest));
+        // Other setup code
+    }
 
-    when(leaveRequestRepository.findById(leaveRequestId)).thenReturn(Optional.of(leaveRequest));
-    when(leaveRequestApproveMapper.toEntity(leaveRequestApproveDTO)).thenReturn(leaveRequestApprove);
+    @Test
+    public void shouldApproveLeaveWhenEmployeeIsActive() {
+        when(employeeClientService.getEmployeeById(1L)).thenReturn(activeEmployee);
+        when(leaveRequestRepository.findById(1L)).thenReturn(Optional.of(leaveRequest));
+        when(leaveRequestApproveMapper.toEntity(any(LeaveRequestApproveDTO.class))).thenReturn(new LeaveRequestApprove());
+        when(leaveRequestApproveRepository.save(any(LeaveRequestApprove.class))).thenReturn(new LeaveRequestApprove());
 
-    leaveRequestApproveService.createLeaveRequestApprove(employeeId, leaveRequestId, leaveRequestApproveDTO);
+        leaveRequestApproveService.createLeaveRequestApprove(1L, 1L, leaveRequestApproveDTO);
 
-    verify(leaveRequestRepository, times(1)).findById(leaveRequestId);
-    verify(leaveRequestApproveMapper, times(1)).toEntity(leaveRequestApproveDTO);
-    verify(leaveRequestApproveRepository, times(1)).save(leaveRequestApprove);
-  }
+        verify(leaveRequestApproveRepository).save(any(LeaveRequestApprove.class));
+    }
 
-//  @Test
-//  public void testGetAllEmployees() {
-//    // Setup
-//    EmployeeDTO[] mockEmployees = {new EmployeeDTO(1L, "John Doe"), new EmployeeDTO(2L, "Jane Doe")};
-//    Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.eq(EmployeeDTO[].class)))
-//            .thenReturn(mockEmployees);
-//
-//    // Execution
-//    EmployeeDTO[] employees = employeeClientService.getAllEmployees();
-//
-//    // Assertion
-//    Mockito.verify(restTemplate).getForObject(employeeServiceUrl + "/employees", EmployeeDTO[].class);
-//    assertEquals("John Doe", employees[0].getName());
-//    assertEquals(2, employees.length);
-//  }
 
+
+    @Test
+    public void shouldThrowExceptionWhenEmployeeIsNotActive() {
+        when(employeeClientService.getEmployeeById(1L)).thenReturn(inactiveEmployee);
+        when(leaveRequestRepository.findById(1L)).thenReturn(Optional.of(leaveRequest));
+
+        Exception exception = assertThrows(RuntimeException.class, () ->
+                leaveRequestApproveService.createLeaveRequestApprove(1L, 1L, leaveRequestApproveDTO)
+        );
+
+        assertEquals("Employee status is not active for approval", exception.getMessage());
+    }
+
+
+    @Test
+    public void shouldThrowExceptionWhenLeaveRequestNotFound() {
+        when(employeeClientService.getEmployeeById(1L)).thenReturn(activeEmployee);
+        when(leaveRequestRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () ->
+                leaveRequestApproveService.createLeaveRequestApprove(1L, 1L, leaveRequestApproveDTO)
+        );
+
+        assertEquals("Leave request not found: 1", exception.getMessage());
+    }
 
 
 }
