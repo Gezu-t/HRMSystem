@@ -66,4 +66,6 @@ public class AttendanceServiceImpl implements AttendanceService {
     Page<Attendance> attendances = attendanceRepository.findAll(pageable);
     return attendances.stream().map(attendanceMapper::toDto).toList();
   }
+
+
 }
