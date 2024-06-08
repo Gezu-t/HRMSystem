@@ -1,17 +1,15 @@
 package et.hrms.service.leave.impl;
 
-import et.hrms.service.leave.LeaveBalanceService;
-import org.springframework.stereotype.Service;
-
 import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.leave.LeaveBalanceDTO;
 import et.hrms.dal.mapper.leave.LeaveBalanceMapper;
 import et.hrms.dal.model.leave.LeaveBalance;
 import et.hrms.dal.repository.leave.LeaveBalanceRepository;
+import et.hrms.service.leave.LeaveBalanceService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,13 +17,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
     private static final Logger logger = LoggerFactory.getLogger(LeaveBalanceServiceImpl.class);
     private final LeaveBalanceRepository leaveBalanceRepository;
     private final EmployeeClientService employeeClientService;
     private final LeaveBalanceMapper leaveBalanceMapper;
+
+    public LeaveBalanceServiceImpl(LeaveBalanceRepository leaveBalanceRepository, EmployeeClientService employeeClientService, LeaveBalanceMapper leaveBalanceMapper) {
+        this.leaveBalanceRepository = leaveBalanceRepository;
+        this.employeeClientService = employeeClientService;
+        this.leaveBalanceMapper = leaveBalanceMapper;
+    }
 
     @Override
     public LeaveBalanceDTO createLeaveBalance(LeaveBalanceDTO leaveBalanceDTO) {

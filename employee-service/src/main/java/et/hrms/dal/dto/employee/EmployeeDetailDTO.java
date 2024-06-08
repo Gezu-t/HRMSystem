@@ -21,4 +21,43 @@ public class EmployeeDetailDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public Long getEmployeeDetailId() {
+        return employeeDetailId;
+    }
+
+    public void setEmployeeDetailId(Long employeeDetailId) {
+        this.employeeDetailId = employeeDetailId;
+    }
+
+    public @NotNull EmployeeDTO getEmployeeDTO() {
+        return employeeDTO;
+    }
+
+    public void setEmployeeDTO(@NotNull EmployeeDTO employeeDTO) {
+        this.employeeDTO = employeeDTO;
+    }
+
+    public @NotNull DepartmentDTO getDepartmentDTO() {
+        return departmentDTO;
+    }
+
+    public void setDepartmentDTO(@NotNull DepartmentDTO departmentDTO) {
+        this.departmentDTO = departmentDTO;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

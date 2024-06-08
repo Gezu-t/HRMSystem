@@ -10,4 +10,20 @@ import lombok.Setter;
 public class EducationTypeDTO {
   private Long educationTypeId;
   private String name;
+
+  public Long getEducationTypeId() {
+    return educationTypeId;
+  }
+
+  public void setEducationTypeId(Long educationTypeId) {
+    this.educationTypeId = educationTypeId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

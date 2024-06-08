@@ -3,8 +3,8 @@ package et.hrms.controller.education;
 
 import et.hrms.dal.dto.education.EducationDTO;
 import et.hrms.service.education.EducationService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/education")
-@RequiredArgsConstructor
-@Slf4j
 public class EducationControllerImpl implements EducationController {
 
+    private static final Logger log = LoggerFactory.getLogger(EducationControllerImpl.class);
     private final EducationService educationService;
+
+    public EducationControllerImpl(EducationService educationService) {
+        this.educationService = educationService;
+    }
 
     @Override
     @PostMapping("/employee/{employeeId}")

@@ -6,7 +6,11 @@ import et.hrms.dal.model.education.EducationLevel;
 import et.hrms.dal.repository.education.EducationLevelRepository;
 import et.hrms.exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,43 +18,55 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class EducationLevelServiceImpl implements EducationLevelService {
+
+  private static final Logger logger = LoggerFactory.getLogger(EducationLevelServiceImpl.class);
 
   private final EducationLevelRepository educationLevelRepository;
   private final EducationMapper educationMapper;
 
-
   @Override
-  public void createEducationLevel(EducationLevelDTO educationLevelDTO) {
-    EducationLevel educationLevel = educationLevelRepository.save(educationMapper.toEducationLevel(educationLevelDTO));
+  @Transactional
+  public void createEducationLevel(@Valid EducationLevelDTO educationLevelDTO) {
+    logger.info("Creating new education level: {}", educationLevelDTO);
+    EducationLevel educationLevel = educationMapper.toEducationLevel(educationLevelDTO);
+    educationLevelRepository.save(educationLevel);
+    logger.info("Education level created with ID: {}", educationLevel.getId());
   }
 
   @Override
-  public EducationLevelDTO updateEducationLevel(EducationLevelDTO educationLevelDTO) {
+  @Transactional
+  public EducationLevelDTO updateEducationLevel(@Valid EducationLevelDTO educationLevelDTO) {
+    logger.info("Updating education level: {}", educationLevelDTO);
     EducationLevel educationLevel = educationLevelRepository.findById(educationLevelDTO.getEducationLevelId())
-            .orElseThrow(() -> new EntityNotFoundException("Education level is not found by this ID: " + educationLevelDTO.getEducationLevelId()));
+            .orElseThrow(() -> new EntityNotFoundException("Education level not found for ID: " + educationLevelDTO.getEducationLevelId()));
+
     educationLevel.setEducationLevelName(educationLevelDTO.getEducationLevelName());
     EducationLevel updatedEducationLevel = educationLevelRepository.save(educationLevel);
+    logger.info("Education level updated: {}", updatedEducationLevel);
+
     return educationMapper.toEducationLevelDTO(updatedEducationLevel);
   }
 
   @Override
+  @Cacheable("educationLevels")
   public EducationLevelDTO findEducationLevelById(Long educationLevelId) {
+    logger.info("Finding education level by ID: {}", educationLevelId);
     EducationLevel educationLevel = educationLevelRepository.findById(educationLevelId)
-            .orElseThrow(() -> new EntityNotFoundException("Education level is not found by this ID: " + educationLevelId));
+            .orElseThrow(() -> new EntityNotFoundException("Education level not found for ID: " + educationLevelId));
 
     return educationMapper.toEducationLevelDTO(educationLevel);
   }
 
   @Override
-  public List<EducationLevelDTO> getAllEducationLevel() {
+  @Cacheable("educationLevels")
+  public List<EducationLevelDTO> getAllEducationLevels() {
+    logger.info("Fetching all education levels");
     List<EducationLevel> educationLevels = educationLevelRepository.findAll();
     return educationLevels.stream()
             .map(educationMapper::toEducationLevelDTO)
             .collect(Collectors.toList());
   }
 
-
-
 }
+

@@ -1,9 +1,10 @@
 package education;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.education.EducationLevelControllerImpl;
+import et.hrms.controller.EducationLevelControllerImpl;
 import et.hrms.dal.dto.education.EducationLevelDTO;
+import et.hrms.exceptions.GlobalExceptionHandler;
 import et.hrms.service.education.EducationLevelService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,27 +16,29 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EducationLevelControllerTest {
-
   private MockMvc mockMvc;
+
   @Mock
   private EducationLevelService educationLevelService;
 
   @InjectMocks
   private EducationLevelControllerImpl educationLevelController;
 
-
   private final ObjectMapper objectMapper = new ObjectMapper();
-
 
   @Before
   public void setup() {
-    mockMvc = MockMvcBuilders.standaloneSetup(educationLevelController).build();
+    mockMvc = MockMvcBuilders.standaloneSetup(educationLevelController)
+            .setControllerAdvice(new GlobalExceptionHandler())  // Add global exception handler
+            .build();
   }
 
   @Test
@@ -49,20 +52,20 @@ public class EducationLevelControllerTest {
 
     mockMvc.perform(get("/api/educationLevels/" + id))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json(objectMapper.writeValueAsString(educationLevelDTO)));
   }
 
   @Test
   public void testCreateEducationLevel() throws Exception {
     EducationLevelDTO educationLevelDTO = new EducationLevelDTO();
+    // ID should not be set for creation
     educationLevelDTO.setEducationLevelName("Bachelor");
 
     mockMvc.perform(post("/api/educationLevels")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(new ObjectMapper().writeValueAsString(educationLevelDTO)))
+                    .content(objectMapper.writeValueAsString(educationLevelDTO)))
             .andExpect(status().isCreated());
-
   }
 
   @Test
@@ -71,13 +74,14 @@ public class EducationLevelControllerTest {
     EducationLevelDTO educationLevelDTO = new EducationLevelDTO();
     educationLevelDTO.setEducationLevelId(id);
     educationLevelDTO.setEducationLevelName("Master");
-    String eduLevel = objectMapper.writeValueAsString(educationLevelDTO);
+
+    when(educationLevelService.updateEducationLevel(educationLevelDTO)).thenReturn(educationLevelDTO);
 
     mockMvc.perform(put("/api/educationLevels/" + id)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(eduLevel))
-                    .andExpect(status().isOk());
+                    .content(objectMapper.writeValueAsString(educationLevelDTO)))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json(objectMapper.writeValueAsString(educationLevelDTO)));
   }
-
 }
-

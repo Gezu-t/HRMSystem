@@ -19,5 +19,27 @@ public class EmployeeEducationDTO {
     @NotNull
     private Long educationId;
 
+    public Long getEmployeeEducationId() {
+        return employeeEducationId;
+    }
 
+    public void setEmployeeEducationId(Long employeeEducationId) {
+        this.employeeEducationId = employeeEducationId;
+    }
+
+    public @NotNull Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(@NotNull Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public @NotNull Long getEducationId() {
+        return educationId;
+    }
+
+    public void setEducationId(@NotNull Long educationId) {
+        this.educationId = educationId;
+    }
 }

@@ -39,12 +39,21 @@ public class LeaveBalanceServiceTest {
     @BeforeEach
     void setUp() {
         leaveBalanceDTO = new LeaveBalanceDTO(1L, "5", 2, 20, 1L, true);
-        leaveBalance = new LeaveBalance(1L, 18, 2, 20, 1L, null);
+        leaveBalance = new LeaveBalance();
+        leaveBalance.setId(1L);
+
     }
 
     @Test
     void testCreateLeaveBalance() {
-        when(employeeClientService.getEmployeeById(anyLong())).thenReturn(new EmployeeDTO(1L, "John Doe", "HR", "Manager", "Active"));
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(1L);
+        employeeDTO.setName("John Doe");
+        employeeDTO.setDepartment("HR");
+        employeeDTO.setPosition("Manager");
+        employeeDTO.setStatus("Active");
+
+        when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employeeDTO);
         when(leaveBalanceMapper.toEntity(any(LeaveBalanceDTO.class))).thenReturn(leaveBalance);
         when(leaveBalanceRepository.save(any(LeaveBalance.class))).thenReturn(leaveBalance);
         when(leaveBalanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO);
@@ -69,9 +78,14 @@ public class LeaveBalanceServiceTest {
 
     @Test
     void testUpdateLeaveBalance() {
-        // Setup lenient stubs if you confirm these are sometimes not invoked due to conditional logic in the method
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(1L);
+        employeeDTO.setName("John Doe");
+        employeeDTO.setDepartment("HR");
+        employeeDTO.setPosition("Manager");
+        employeeDTO.setStatus("Active");
         lenient().when(leaveBalanceRepository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(leaveBalance));
-        lenient().when(employeeClientService.getEmployeeById(anyLong())).thenReturn(new EmployeeDTO(1L, "John Doe", "HR", "Manager", "Active"));
+        lenient().when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employeeDTO);
         lenient().when(leaveBalanceRepository.save(any(LeaveBalance.class))).thenReturn(leaveBalance);
         lenient().when(leaveBalanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO);
 

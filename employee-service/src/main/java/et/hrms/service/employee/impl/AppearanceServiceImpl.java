@@ -3,13 +3,12 @@ package et.hrms.service.employee.impl;
 
 import et.hrms.dal.dto.employee.EmployeeAppearanceDTO;
 import et.hrms.dal.mapping.EmployeeAppearanceMapper;
-import et.hrms.dal.model.employee.EmployeeAppearance;
 import et.hrms.dal.model.employee.Employee;
+import et.hrms.dal.model.employee.EmployeeAppearance;
 import et.hrms.dal.repository.employee.AppearanceRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.exceptions.EntityNotFoundException;
 import et.hrms.service.employee.AppearanceService;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +21,17 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-@RequiredArgsConstructor
 public class AppearanceServiceImpl implements AppearanceService {
 
     private final EmployeeAppearanceMapper appearanceMapper;
     private final AppearanceRepository appearanceRepository;
     private final EmployeeRepository employeeRepository;
+
+    public AppearanceServiceImpl(EmployeeAppearanceMapper appearanceMapper, AppearanceRepository appearanceRepository, EmployeeRepository employeeRepository) {
+        this.appearanceMapper = appearanceMapper;
+        this.appearanceRepository = appearanceRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
 
     @Override

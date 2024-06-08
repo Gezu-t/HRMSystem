@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 public class UserControllerTest {
 
     private MockMvc mockMvc;
@@ -59,7 +58,6 @@ public class UserControllerTest {
         verify(userService, times(1)).createUser(any(UserDTO.class));
     }
 
-
     @Test
     public void getUserByIdTest() throws Exception {
         UserDTO userDTO = new UserDTO();
@@ -77,14 +75,13 @@ public class UserControllerTest {
         verify(userService, times(1)).getUserById(1L);
     }
 
-
     @Test
     public void updateUserTest() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1L);
         userDTO.setUsername("updatedUser");
 
-        when(userService.updateUser(userDTO)).thenReturn(userDTO);
+        when(userService.updateUser(any(UserDTO.class))).thenReturn(userDTO);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonUserDTO = objectMapper.writeValueAsString(userDTO);

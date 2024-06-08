@@ -21,4 +21,35 @@ public class EducationAwardDTO {
   private LocalDate date;
   private String description;
 
+  public Long getAwardId() {
+    return awardId;
+  }
+
+  public void setAwardId(Long awardId) {
+    this.awardId = awardId;
+  }
+
+  public @NotNull(message = "Award name must not be null value") @Max(254) String getName() {
+    return name;
+  }
+
+  public void setName(@NotNull(message = "Award name must not be null value") @Max(254) String name) {
+    this.name = name;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 }

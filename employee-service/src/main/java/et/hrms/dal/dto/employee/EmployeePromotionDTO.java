@@ -30,4 +30,76 @@ public class EmployeePromotionDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfLastSalaryChangeReason;
     private Boolean promotionStatus;
+
+    public Long getEmployeePromotionId() {
+        return employeePromotionId;
+    }
+
+    public void setEmployeePromotionId(Long employeePromotionId) {
+        this.employeePromotionId = employeePromotionId;
+    }
+
+    public String getEmployeePromotionReason() {
+        return employeePromotionReason;
+    }
+
+    public void setEmployeePromotionReason(String employeePromotionReason) {
+        this.employeePromotionReason = employeePromotionReason;
+    }
+
+    public LocalDate getDateOfPromotion() {
+        return dateOfPromotion;
+    }
+
+    public void setDateOfPromotion(LocalDate dateOfPromotion) {
+        this.dateOfPromotion = dateOfPromotion;
+    }
+
+    public LocalDate getDateOfLastPromotion() {
+        return dateOfLastPromotion;
+    }
+
+    public void setDateOfLastPromotion(LocalDate dateOfLastPromotion) {
+        this.dateOfLastPromotion = dateOfLastPromotion;
+    }
+
+    public LocalDate getDateOfLastSalaryChange() {
+        return dateOfLastSalaryChange;
+    }
+
+    public void setDateOfLastSalaryChange(LocalDate dateOfLastSalaryChange) {
+        this.dateOfLastSalaryChange = dateOfLastSalaryChange;
+    }
+
+    public LocalDate getDateOfLastSalaryIncrement() {
+        return dateOfLastSalaryIncrement;
+    }
+
+    public void setDateOfLastSalaryIncrement(LocalDate dateOfLastSalaryIncrement) {
+        this.dateOfLastSalaryIncrement = dateOfLastSalaryIncrement;
+    }
+
+    public LocalDate getDateOfLastSalaryDecrement() {
+        return dateOfLastSalaryDecrement;
+    }
+
+    public void setDateOfLastSalaryDecrement(LocalDate dateOfLastSalaryDecrement) {
+        this.dateOfLastSalaryDecrement = dateOfLastSalaryDecrement;
+    }
+
+    public LocalDate getDateOfLastSalaryChangeReason() {
+        return dateOfLastSalaryChangeReason;
+    }
+
+    public void setDateOfLastSalaryChangeReason(LocalDate dateOfLastSalaryChangeReason) {
+        this.dateOfLastSalaryChangeReason = dateOfLastSalaryChangeReason;
+    }
+
+    public Boolean getPromotionStatus() {
+        return promotionStatus;
+    }
+
+    public void setPromotionStatus(Boolean promotionStatus) {
+        this.promotionStatus = promotionStatus;
+    }
 }

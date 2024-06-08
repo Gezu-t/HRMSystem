@@ -43,27 +43,31 @@ public class AttendanceServiceTest {
 
   @Before
   public void setUp() {
-    // Initialize DTO with sample data
-    attendanceDTO = new AttendanceDTO(
-            1L,
-            "John Doe",
-            LocalDate.of(2023, 4, 30),
-            "Annual leave",
-            "Jane Doe",
-            LocalDate.of(2023, 4, 30),
-            "Pending",
-            "John Manager",
-            LocalDate.of(2023, 4, 30),
-            "HR Certification",
-            LocalDate.of(2023, 4, 30),
-            "Full day",
-            1L,
-            AttendanceStatus.APPROVED,
-            "HR"
-    );
+    // Initialize DTO with sample data dynamically
+    attendanceDTO = new AttendanceDTO();
+    attendanceDTO.setAttendanceId(1L);
+    attendanceDTO.setAbsenteeReportedBy("John Doe");
+    attendanceDTO.setAbsenteeDate(LocalDate.of(2023, 4, 30));
+    attendanceDTO.setAbsenteeDescription("Annual leave");
+    attendanceDTO.setRecordedBy("Jane Doe");
+    attendanceDTO.setRecordedDate(LocalDate.of(2023, 4, 30));
+    attendanceDTO.setAttendanceState("Pending");
+    attendanceDTO.setApprovedBy("John Manager");
+    attendanceDTO.setApprovedDate(LocalDate.of(2023, 4, 30));
+    attendanceDTO.setCertifiedBy("HR Certification");
+    attendanceDTO.setCertifiedDate(LocalDate.of(2023, 4, 30));
+    attendanceDTO.setDescription("Full day");
+    attendanceDTO.setEmployeeId(1L);
+    attendanceDTO.setAttendanceStatus(AttendanceStatus.APPROVED);
+    attendanceDTO.setForDepartment("HR");
 
     // Enhanced employee DTO
-    employeeDTO = new EmployeeDTO(1L, "John Doe", "IT", "Developer", "Active");
+    employeeDTO = new EmployeeDTO();
+    employeeDTO.setId(1L);
+    employeeDTO.setName("John Doe");
+    employeeDTO.setDepartment("IT");
+    employeeDTO.setPosition("Developer");
+    employeeDTO.setStatus("Active");
 
     // Setting up a sample attendance entity
     attendance = new Attendance();
@@ -74,7 +78,6 @@ public class AttendanceServiceTest {
     when(attendanceMapper.toEntity(any(AttendanceDTO.class))).thenReturn(attendance);
     when(attendanceMapper.toDto(any(Attendance.class))).thenReturn(attendanceDTO);
   }
-
 
   @Test
   public void testSaveAttendance() {
@@ -90,11 +93,7 @@ public class AttendanceServiceTest {
     verify(attendanceMapper, times(1)).toDto(attendance);
   }
 
-
-
-
-
-@Test
+  @Test
   public void testGetAttendanceById() {
     Long id = attendance.getId();
     when(attendanceRepository.findById(id)).thenReturn(Optional.of(attendance));
@@ -144,6 +143,4 @@ public class AttendanceServiceTest {
     Mockito.verify(attendanceRepository, Mockito.times(1)).findAll(Mockito.any(Pageable.class));
     Mockito.verify(attendanceMapper, Mockito.times(2)).toDto(Mockito.any(Attendance.class));
   }
-
-
 }

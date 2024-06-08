@@ -7,10 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "et.hrms.dal.model")
-public class LiveAttendanceApplication {
+public class AttendanceApplication {
     public static void main(String[] args) {
 
-        SpringApplication.run(LiveAttendanceApplication.class, args);
+        SpringApplication.run(AttendanceApplication.class, args);
 
     }
 }
