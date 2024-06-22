@@ -11,8 +11,6 @@
 
     <artifactId>employee-service</artifactId>
 
-
-
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,9 +21,6 @@
     </properties>
 
     <dependencies>
-
-
-
         <!-- JPA API for database operations -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -45,7 +40,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-
         <!-- Spring Boot Starter Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,11 +56,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version> <!-- Ensure the version is in sync with your project needs -->
+            <version>8.0.29</version>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- test -->
         <!-- JUnit Jupiter API for writing tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -110,7 +103,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <scope>provided</scope> <!-- Corrected scope -->
+            <scope>provided</scope>
         </dependency>
 
         <!-- MapStruct for mapping DTOs to Entities -->
@@ -123,10 +116,10 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${org.mapstruct.version}</version>
-            <scope>provided</scope> <!-- Ensuring it's only used at compile time -->
+            <scope>provided</scope>
         </dependency>
 
-        <!--SpringFox dependencies -->
+        <!-- SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -138,35 +131,37 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.0.4</version>
         </dependency>
 
-        <!-- jakarta -->
+        <!-- Jakarta dependencies -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
+
+        <!-- JUnit 4 for legacy tests -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- openApi config -->
+
+        <!-- OpenAPI config -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
@@ -176,6 +171,13 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-data-rest</artifactId>
             <version>1.5.9</version>
+        </dependency>
+
+        <!-- json  -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.15.3</version>
         </dependency>
 
     </dependencies>
@@ -193,6 +195,9 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -210,5 +215,3 @@
         </plugins>
     </build>
 </project>
-
-

@@ -1,70 +1,39 @@
 package et.hrms.dal.model.employee;
 
-
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-
+@Setter
+@Getter
 @Entity
 @Table(name = "employee_position")
 public class EmployeePosition implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 9120415745622636175L;
+
+    // Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String jobTitle;
+
+    @Column(length = 50)
     private String jobLevel;
 
+    @Column(nullable = false)
     private LocalDateTime startDate;
 
-    @OneToMany(mappedBy = "employeePosition", fetch = FetchType.LAZY)
-    private Set<EmployeePositionManagement> employeePositionManagements;
+    @OneToMany(mappedBy = "employeePosition", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EmployeePositionManagement> employeePositionManagements = new LinkedHashSet<>();
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getJobLevel() {
-        return jobLevel;
-    }
-
-    public void setJobLevel(String jobLevel) {
-        this.jobLevel = jobLevel;
-    }
-
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public Set<EmployeePositionManagement> getEmployeePositionManagements() {
-        return employeePositionManagements;
-    }
-
-    public void setEmployeePositionManagements(Set<EmployeePositionManagement> employeePositionManagements) {
-        this.employeePositionManagements = employeePositionManagements;
-    }
 }

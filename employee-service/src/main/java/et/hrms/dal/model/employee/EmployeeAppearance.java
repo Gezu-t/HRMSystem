@@ -1,12 +1,10 @@
 package et.hrms.dal.model.employee;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Setter
 @Getter
@@ -19,87 +17,31 @@ public class EmployeeAppearance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 5)
     private String height;
+
+    @Column(length = 5)
     private String weight;
+
+    @Column(length = 20)
     private String hairColor;
+
+    @Column(length = 20)
     private String eyeColor;
+
+    @Column(length = 20)
     private String skinColor;
+
+    @Column(length = 3)
     private String bloodGroup;
+
+    @Column(length = 10)
     private String chest;
 
-    @OneToOne
-    @JoinColumn(name = "employee")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getHairColor() {
-        return hairColor;
-    }
-
-    public void setHairColor(String hairColor) {
-        this.hairColor = hairColor;
-    }
-
-    public String getEyeColor() {
-        return eyeColor;
-    }
-
-    public void setEyeColor(String eyeColor) {
-        this.eyeColor = eyeColor;
-    }
-
-    public String getSkinColor() {
-        return skinColor;
-    }
-
-    public void setSkinColor(String skinColor) {
-        this.skinColor = skinColor;
-    }
-
-    public String getBloodGroup() {
-        return bloodGroup;
-    }
-
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
-
-    public String getChest() {
-        return chest;
-    }
-
-    public void setChest(String chest) {
-        this.chest = chest;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

@@ -1,277 +1,267 @@
 package department;
 
-import et.hrms.dal.dto.structure.DepartmentDTO;
-import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.model.structure.Branch;
-import et.hrms.dal.model.structure.Department;
-import et.hrms.dal.model.structure.Organization;
+import et.hrms.dal.dto.department.DepartmentUnderBranchDTO;
+import et.hrms.dal.dto.department.DepartmentUnderOrganizationDTO;
+import et.hrms.dal.mapping.department.DepartmentUnderBranchMapper;
+import et.hrms.dal.mapping.department.DepartmentUnderOrganizationMapper;
+import et.hrms.dal.model.department.Branch;
+import et.hrms.dal.model.department.DepartmentUnderBranch;
+import et.hrms.dal.model.department.DepartmentUnderOrganization;
+import et.hrms.dal.model.department.Organization;
 import et.hrms.dal.repository.structure.BranchRepository;
-import et.hrms.dal.repository.structure.DepartmentRepository;
+import et.hrms.dal.repository.structure.DepartmentUnderBranchRepository;
+import et.hrms.dal.repository.structure.DepartmentUnderOrganizationRepository;
 import et.hrms.dal.repository.structure.OrganizationRepository;
-import et.hrms.service.log.AuditServiceImpl;
-import et.hrms.service.structure.DepartmentServiceImpl;
-import org.junit.Test;
+import et.hrms.service.department.impl.DepartmentServiceImpl;
+import et.hrms.service.log.AuditService;
+import et.hrms.service.log.LogService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-
-
-@RunWith(MockitoJUnitRunner.class)
-public class DepartmentServiceTest {
+@ExtendWith(MockitoExtension.class)
+class DepartmentServiceTest {
 
     @InjectMocks
     private DepartmentServiceImpl departmentService;
+
     @Mock
-    private DepartmentRepository departmentRepository;
+    private DepartmentUnderBranchRepository departmentUnderBranchRepository;
+
     @Mock
-    private DepartmentMapper departmentMapper;
+    private DepartmentUnderOrganizationRepository departmentUnderOrganizationRepository;
+
+    @Mock
+    private DepartmentUnderBranchMapper departmentUnderBranchMapper;
+
+    @Mock
+    private DepartmentUnderOrganizationMapper departmentUnderOrganizationMapper;
+
     @Mock
     private BranchRepository branchRepository;
+
     @Mock
     private OrganizationRepository organizationRepository;
+
     @Mock
-    private AuditServiceImpl auditService;
+    private AuditService auditService;
+
+    @Mock
+    private LogService logService;
+
+    private DepartmentUnderBranchDTO departmentUnderBranchDTO;
+    private DepartmentUnderOrganizationDTO departmentUnderOrganizationDTO;
+    private DepartmentUnderBranch departmentUnderBranch;
+    private DepartmentUnderOrganization departmentUnderOrganization;
+    private Branch branch;
+    private Organization organization;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
+        departmentUnderBranchDTO = new DepartmentUnderBranchDTO();
+        departmentUnderBranchDTO.setId(1L);
+        departmentUnderBranchDTO.setDepartmentName("IT");
+        departmentUnderBranchDTO.setLocations("Location");
 
-    }
+        departmentUnderOrganizationDTO = new DepartmentUnderOrganizationDTO();
+        departmentUnderOrganizationDTO.setId(1L);
+        departmentUnderOrganizationDTO.setDepartmentName("IT");
+        departmentUnderOrganizationDTO.setLocations("Location");
 
-    @Test
-    public void testGetDepartmentById() {
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
+        departmentUnderBranch = new DepartmentUnderBranch();
+        departmentUnderBranch.setId(1L);
+        departmentUnderBranch.setDepartmentName("IT");
+        departmentUnderBranch.setLocations("Location");
 
-        DepartmentDTO expectedDepartmentDTO = new DepartmentDTO();
-        expectedDepartmentDTO.setDepartmentId(1L);
-        expectedDepartmentDTO.setDepartmentName("Sales");
+        departmentUnderOrganization = new DepartmentUnderOrganization();
+        departmentUnderOrganization.setId(1L);
+        departmentUnderOrganization.setDepartmentName("IT");
+        departmentUnderOrganization.setLocations("Location");
 
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(department));
-        when(departmentMapper.toDepartmentDTO(department)).thenReturn(expectedDepartmentDTO);
-
-        // Act
-        DepartmentDTO departmentDTO = departmentService.getDepartmentById(1L);
-
-        // Assert
-        assertNotNull(departmentDTO);
-        assertEquals(expectedDepartmentDTO.getDepartmentId(), departmentDTO.getDepartmentId());
-        assertEquals(expectedDepartmentDTO.getDepartmentName(), departmentDTO.getDepartmentName());
-
-        verify(departmentRepository, times(1)).findById(1L);
-        verify(departmentMapper, times(1)).toDepartmentDTO(department);
-
-
-    }
-
-    @Test
-    public void testUpdateDepartment() {
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
-
-        Branch branch = new Branch();
+        branch = new Branch();
         branch.setId(1L);
-        branch.setBranchName("Test Branch");
-        branch.setBranchCode("BR001");
 
-        DepartmentDTO updatedDepartmentDTO = new DepartmentDTO();
-        updatedDepartmentDTO.setDepartmentId(1L);
-        updatedDepartmentDTO.setDepartmentName("Updated Department");
-        updatedDepartmentDTO.setBranchId(1L);
-
-        when(departmentRepository.findById(1L)).thenReturn(Optional.of(department));
-        when(departmentRepository.save(any(Department.class))).thenReturn(department);
-        when(departmentMapper.toDepartmentDTO(any(Department.class))).thenReturn(updatedDepartmentDTO);
-
-        // Call the method under test
-        DepartmentDTO result = departmentService.updateDepartment(updatedDepartmentDTO.getDepartmentId(), updatedDepartmentDTO);
-
-        // Verify the results
-        assertNotNull(result);
-        assertEquals(1L, result.getDepartmentId());
-        assertEquals("Updated Department", result.getDepartmentName());
+        organization = new Organization();
+        organization.setId(1L);
     }
 
     @Test
-    public void testCreateDepartmentByBranchId() {
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
-
-        Branch branch = new Branch();
-        branch.setId(1L);
-        branch.setBranchName("Test Branch");
-        branch.setBranchCode("BR001");
-
-        department.setBranch(branch);
-        DepartmentDTO depDTO = new DepartmentDTO();
-        depDTO.setDepartmentId(1L);
-        depDTO.setDepartmentName("Software Development");
-        depDTO.setBranchId(1L);
-
-        List<DepartmentDTO> departmentDTOs = new ArrayList<>();
-        departmentDTOs.add(depDTO);
-
-        // Prepare test data and mock interactions
+    void createDepartmentByBranchId() {
         when(branchRepository.findById(anyLong())).thenReturn(Optional.of(branch));
-        when(departmentMapper.toDepartment(any(DepartmentDTO.class))).thenReturn(department);
-        when(departmentRepository.saveAll(anyList())).thenReturn(List.of(department));
-        // Call the method under test
-        departmentService.createDepartmentByBranchId(branch.getId(), departmentDTOs);
+        when(departmentUnderBranchMapper.toDepartmentUnderBranch(any(DepartmentUnderBranchDTO.class))).thenReturn(departmentUnderBranch);
+        when(departmentUnderBranchRepository.saveAll(anyList())).thenReturn(List.of(departmentUnderBranch));
 
-        // Verify the interactions
-        verify(branchRepository).findById(branch.getId());
-        verify(departmentMapper).toDepartment(depDTO);
-        verify(departmentRepository).saveAll(any());
+        departmentService.createDepartmentByBranchId(1L, List.of(departmentUnderBranchDTO));
+
+        verify(branchRepository).findById(anyLong());
+        verify(departmentUnderBranchMapper).toDepartmentUnderBranch(any(DepartmentUnderBranchDTO.class));
+        verify(departmentUnderBranchRepository).saveAll(anyList());
         verify(auditService, times(1)).logAction(any(), any(), any(), any());
     }
 
     @Test
-    public void testCreateDepartmentByOrganizationId() {
-        // Arrange
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
-
-        Organization organization = new Organization();
-        organization.setId(1L);
-
-        DepartmentDTO departmentDTO1 = new DepartmentDTO();
-        departmentDTO1.setDepartmentName("IT");
-//        departmentDTO1.setDescription("Information Technology");
-
-        DepartmentDTO departmentDTO2 = new DepartmentDTO();
-        departmentDTO2.setDepartmentName("HR");
-//        departmentDTO2.setDescription("Human Resources");
-
-        List<DepartmentDTO> departmentDTOs = new ArrayList<>();
-        departmentDTOs.add(departmentDTO1);
-        departmentDTOs.add(departmentDTO2);
-
+    void createDepartmentByOrganizationId() {
         when(organizationRepository.findById(anyLong())).thenReturn(Optional.of(organization));
-        when(departmentMapper.toDepartment(any(DepartmentDTO.class))).thenReturn(department);
-        when(departmentRepository.saveAll(anyList())).thenReturn(List.of(department));
+        when(departmentUnderOrganizationMapper.toDepartmentUnderOrganization(any(DepartmentUnderOrganizationDTO.class))).thenReturn(departmentUnderOrganization);
+        when(departmentUnderOrganizationRepository.saveAll(anyList())).thenReturn(List.of(departmentUnderOrganization));
 
-        departmentService.createDepartmentByOrganizationId(organization.getId(), departmentDTOs);
+        departmentService.createDepartmentByOrganizationId(1L, List.of(departmentUnderOrganizationDTO));
 
-        // Verify the interactions
-        verify(organizationRepository).findById(organization.getId());
-        verify(departmentMapper).toDepartment(departmentDTO2);
-        verify(departmentRepository).saveAll(any());
+        verify(organizationRepository).findById(anyLong());
+        verify(departmentUnderOrganizationMapper).toDepartmentUnderOrganization(any(DepartmentUnderOrganizationDTO.class));
+        verify(departmentUnderOrganizationRepository).saveAll(anyList());
+        verify(auditService, times(1)).logAction(any(), any(), any(), any());
     }
 
-
     @Test
-    public void testGetDepartmentByOrganization() {
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
+    void getDepartmentUnderBranchById() {
+        when(departmentUnderBranchRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderBranch));
+        when(departmentUnderBranchMapper.toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class))).thenReturn(departmentUnderBranchDTO);
 
-        Organization organization = new Organization();
-        organization.setId(1L);
-        organization.setOrganizationName("Test Organization");
-        organization.setEstablishmentDate(LocalDate.of(2020, 1, 1));
-        organization.setOwnerName("John Doe");
-        department.setOrganization(organization);
+        DepartmentUnderBranchDTO result = departmentService.getDepartmentUnderBranchById(1L);
 
-        DepartmentDTO depDTO = new DepartmentDTO();
-        depDTO.setDepartmentId(1L);
-        depDTO.setDepartmentName("Software Development");
-        depDTO.setBranchId(1L);
-
-        Sort sort = Sort.by(Sort.Direction.ASC, "departmentName");
-        when(departmentRepository.findByOrganizationId(anyLong(), eq(sort))).thenReturn(List.of(department));
-        DepartmentDTO departmentDTO = new DepartmentDTO();
-        departmentDTO.setDepartmentId(1L);
-        departmentDTO.setDepartmentName("Test Department");
-        departmentDTO.setLocations("Test Location");
-        when(departmentMapper.toDepartmentDTO(any(Department.class))).thenReturn(departmentDTO);
-        // Call the method under test
-        List<DepartmentDTO> result = departmentService.getDepartmentByOrganization(1L, Sort.by(Sort.Direction.ASC, "departmentName"));
-        // Verify the results
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Test Department", result.get(0).getDepartmentName());
-        assertEquals("Test Location", result.get(0).getLocations());
+        assertEquals(departmentUnderBranchDTO.getDepartmentName(), result.getDepartmentName());
+        verify(departmentUnderBranchRepository).findById(anyLong());
+        verify(departmentUnderBranchMapper).toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class));
     }
-//
-//    @Test
-//    public void testGetDepartmentByBranch() {
-//        BranchDTO branchDTO = new BranchDTO();
-//        branchDTO.setBranchName("Test Branch");
-//        branchDTO.setBranchId(1L);
-//        Branch branch = new Branch();
-//        branch.setId(1L);
-//        branch.setBranchName("Test Branch");
-//        List<DepartmentDTO> departmentDTOs = new ArrayList<>();
-//        for (int i = 1; i <= 3; i++) {
-//            DepartmentDTO departmentDTO = new DepartmentDTO();
-//            departmentDTO.setDepartmentName("Test Department " + i);
-//            departmentDTOs.add(departmentDTO);
-//        }
-//        when(branchRepository.findById(1L)).thenReturn(Optional.of(branch));
-////        departmentService.createDepartmentByBranchId(branchDTO.getBranchId(), departmentDTOs);
-//
-//        List<DepartmentDTO> foundDepartments = departmentService.createDepartmentByBranchId(1L, departmentDTOs);
-//
-//        assertEquals(departmentDTOs.size(), foundDepartments.size());
-//        for (int i = 0; i < departmentDTOs.size(); i++) {
-//            DepartmentDTO expectedDepartment = departmentDTOs.get(i);
-//            expectedDepartment.setBranchId(1L + i);
-//            DepartmentDTO actualDepartment = foundDepartments.get(i);
-//            actualDepartment.setBranchId(1L + i);
-//
-//            assertEquals(expectedDepartment.getDepartmentName(), actualDepartment.getDepartmentName());
-//            assertEquals(branchDTO.getBranchId(), actualDepartment.getBranchId());
-//        }
-//    }
 
     @Test
-    public void testGetAllDepartment() {
-        Department department = new Department();
-        department.setId(1L);
-        department.setDepartmentName("Sales");
+    void getDepartmentUnderOrganizationById() {
+        when(departmentUnderOrganizationRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderOrganization));
+        when(departmentUnderOrganizationMapper.toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class))).thenReturn(departmentUnderOrganizationDTO);
 
-        Organization organization = new Organization();
-        organization.setId(1L);
-        organization.setOrganizationName("Test Organization");
-        organization.setEstablishmentDate(LocalDate.of(2020, 1, 1));
-        organization.setOwnerName("John Doe");
-        department.setOrganization(organization);
+        DepartmentUnderOrganizationDTO result = departmentService.getDepartmentUnderOrganizationById(1L);
 
-        DepartmentDTO depDTO = new DepartmentDTO();
-        depDTO.setDepartmentId(1L);
-        depDTO.setDepartmentName("Software Development");
-        depDTO.setBranchId(1L);
-
-        // Prepare test data and mock interactions
-        Page<Department> departmentPage = new PageImpl<>(Collections.singletonList(department));
-        when(departmentRepository.findAll(any(Pageable.class))).thenReturn(departmentPage);
-        when(departmentMapper.toDepartmentDTO(any(Department.class))).thenReturn(depDTO);
-        // Call the method under test
-        List<DepartmentDTO> result = departmentService.getAllDepartment(0, 10);
-        // Verify the results
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(departmentUnderOrganizationDTO.getDepartmentName(), result.getDepartmentName());
+        verify(departmentUnderOrganizationRepository).findById(anyLong());
+        verify(departmentUnderOrganizationMapper).toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class));
+    }
+
+    @Test
+    void updateDepartmentUnderBranch() {
+        when(departmentUnderBranchRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderBranch));
+        when(departmentUnderBranchRepository.save(any(DepartmentUnderBranch.class))).thenReturn(departmentUnderBranch);
+        when(departmentUnderBranchMapper.toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class))).thenReturn(departmentUnderBranchDTO);
+
+        departmentService.updateDepartmentUnderBranch(1L, departmentUnderBranchDTO);
+
+        verify(departmentUnderBranchRepository).findById(anyLong());
+        verify(departmentUnderBranchMapper).updateDepartmentUnderBranchFromDTO(any(DepartmentUnderBranchDTO.class), any(DepartmentUnderBranch.class));
+        verify(departmentUnderBranchRepository).save(any(DepartmentUnderBranch.class));
+        verify(auditService).logAction(any(), any(), any(), any());
+    }
+
+    @Test
+    void updateDepartmentUnderOrganization() {
+        when(departmentUnderOrganizationRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderOrganization));
+        when(departmentUnderOrganizationRepository.save(any(DepartmentUnderOrganization.class))).thenReturn(departmentUnderOrganization);
+        when(departmentUnderOrganizationMapper.toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class))).thenReturn(departmentUnderOrganizationDTO);
+
+        departmentService.updateDepartmentUnderOrganization(1L, departmentUnderOrganizationDTO);
+
+        verify(departmentUnderOrganizationRepository).findById(anyLong());
+        verify(departmentUnderOrganizationMapper).updateDepartmentUnderOrganizationFromDTO(any(DepartmentUnderOrganizationDTO.class), any(DepartmentUnderOrganization.class));
+        verify(departmentUnderOrganizationRepository).save(any(DepartmentUnderOrganization.class));
+        verify(auditService).logAction(any(), any(), any(), any());
+    }
+
+    @Test
+    void getDepartmentByBranch() {
+        when(departmentUnderBranchRepository.findByBranchId(anyLong(), any(Sort.class))).thenReturn(List.of(departmentUnderBranch));
+        when(departmentUnderBranchMapper.toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class))).thenReturn(departmentUnderBranchDTO);
+
+        List<DepartmentUnderBranchDTO> result = departmentService.getDepartmentByBranch(1L, Sort.by("id"));
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(departmentUnderBranchDTO.getDepartmentName(), result.get(0).getDepartmentName());
+        verify(departmentUnderBranchRepository).findByBranchId(anyLong(), any(Sort.class));
+        verify(departmentUnderBranchMapper).toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class));
+    }
+
+    @Test
+    void getDepartmentByOrganization() {
+        when(departmentUnderOrganizationRepository.findByOrganizationId(anyLong(), any(Sort.class))).thenReturn(List.of(departmentUnderOrganization));
+        when(departmentUnderOrganizationMapper.toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class))).thenReturn(departmentUnderOrganizationDTO);
+
+        List<DepartmentUnderOrganizationDTO> result = departmentService.getDepartmentByOrganization(1L, Sort.by("id"));
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(departmentUnderOrganizationDTO.getDepartmentName(), result.get(0).getDepartmentName());
+        verify(departmentUnderOrganizationRepository).findByOrganizationId(anyLong(), any(Sort.class));
+        verify(departmentUnderOrganizationMapper).toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class));
+    }
+
+    @Test
+    void getAllDepartmentsUnderBranch() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
+        Page<DepartmentUnderBranch> departmentPage = new PageImpl<>(List.of(departmentUnderBranch), pageable, 1);
+
+        when(departmentUnderBranchRepository.findAll(any(Pageable.class))).thenReturn(departmentPage);
+        when(departmentUnderBranchMapper.toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class))).thenReturn(departmentUnderBranchDTO);
+
+        List<DepartmentUnderBranchDTO> result = departmentService.getAllDepartmentsUnderBranch(0, 10, Sort.by("id"));
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(departmentUnderBranchDTO.getDepartmentName(), result.get(0).getDepartmentName());
+        verify(departmentUnderBranchRepository).findAll(any(Pageable.class));
+        verify(departmentUnderBranchMapper).toDepartmentUnderBranchDTO(any(DepartmentUnderBranch.class));
+        verify(logService).log(any());
+    }
+
+    @Test
+    void getAllDepartmentsUnderOrganization() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
+        Page<DepartmentUnderOrganization> departmentPage = new PageImpl<>(List.of(departmentUnderOrganization), pageable, 1);
+
+        when(departmentUnderOrganizationRepository.findAll(any(Pageable.class))).thenReturn(departmentPage);
+        when(departmentUnderOrganizationMapper.toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class))).thenReturn(departmentUnderOrganizationDTO);
+
+        List<DepartmentUnderOrganizationDTO> result = departmentService.getAllDepartmentsUnderOrganization(0, 10, Sort.by("id"));
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(departmentUnderOrganizationDTO.getDepartmentName(), result.get(0).getDepartmentName());
+        verify(departmentUnderOrganizationRepository).findAll(any(Pageable.class));
+        verify(departmentUnderOrganizationMapper).toDepartmentUnderOrganizationDTO(any(DepartmentUnderOrganization.class));
+        verify(logService).log(any());
+    }
+
+    @Test
+    void deleteDepartmentUnderBranch() {
+        when(departmentUnderBranchRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderBranch));
+
+        departmentService.deleteDepartmentUnderBranch(1L);
+
+        verify(departmentUnderBranchRepository).findById(anyLong());
+        verify(departmentUnderBranchRepository).delete(any(DepartmentUnderBranch.class));
+        verify(auditService).logAction(any(), any(), any(), any());
+    }
+
+    @Test
+    void deleteDepartmentUnderOrganization() {
+        when(departmentUnderOrganizationRepository.findById(anyLong())).thenReturn(Optional.of(departmentUnderOrganization));
+
+        departmentService.deleteDepartmentUnderOrganization(1L);
+
+        verify(departmentUnderOrganizationRepository).findById(anyLong());
+        verify(departmentUnderOrganizationRepository).delete(any(DepartmentUnderOrganization.class));
+        verify(auditService).logAction(any(), any(), any(), any());
     }
 }

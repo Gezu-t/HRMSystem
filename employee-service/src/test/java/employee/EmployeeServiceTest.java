@@ -4,10 +4,10 @@ package employee;
 import et.hrms.dal.dto.employee.EmployeeAddressDTO;
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.employee.EmployeeDetailDTO;
-import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.mapping.EmployeeAddressMapper;
-import et.hrms.dal.mapping.EmployeeDetailMapper;
-import et.hrms.dal.mapping.EmployeeMapper;
+import et.hrms.dal.mapping.department.DepartmentMapper;
+import et.hrms.dal.mapping.employee.EmployeeAddressMapper;
+import et.hrms.dal.mapping.employee.EmployeeDetailMapper;
+import et.hrms.dal.mapping.employee.EmployeeMapper;
 import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.model.employee.EmployeeDetail;
 import et.hrms.dal.repository.employee.EmployeeDetailRepository;
@@ -65,10 +65,10 @@ public class EmployeeServiceTest {
         employee.setId(1L);
 
         List<EmployeeDetailDTO> employeeDetailDTOS = new ArrayList<>();
-        employeeDTO.setEmployeeDetailDTOS(employeeDetailDTOS);
+        employeeDTO.setEmployeeDetails(employeeDetailDTOS);
 
         List<EmployeeAddressDTO> employeeAddressDTOS = new ArrayList<>();
-        employeeDTO.setEmployeeAddressDTOS(employeeAddressDTOS);
+        employeeDTO.setEmployeeAddresses(employeeAddressDTOS);
 
         Mockito.when(employeeMapper.toEmployee(employeeDTO)).thenReturn(employee);
 //        Mockito.when(employeeRepository.save(employee)).thenReturn(employee);

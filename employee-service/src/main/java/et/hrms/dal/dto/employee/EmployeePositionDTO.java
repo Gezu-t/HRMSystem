@@ -11,50 +11,27 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Setter
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.Set;
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter
 public class EmployeePositionDTO {
 
-    private Long employeePositionId;
-    @NotNull @NotEmpty(message = "Job title is must not be empty")
+    private Long id;
+
+    @NotBlank
+    @Size(max = 100)
     private String jobTitle;
-    @NotNull
-    @NotEmpty(message = "Job level must not be empty")
+
+    @Size(max = 50)
     private String jobLevel;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate startDate;
 
-    public Long getEmployeePositionId() {
-        return employeePositionId;
-    }
+    private LocalDateTime startDate;
 
-    public void setEmployeePositionId(Long employeePositionId) {
-        this.employeePositionId = employeePositionId;
-    }
+    private Set<EmployeePositionManagementDTO> employeePositionManagements;
 
-    public @NotNull @NotEmpty(message = "Job title is must not be empty") String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(@NotNull @NotEmpty(message = "Job title is must not be empty") String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public @NotNull @NotEmpty(message = "Job level must not be empty") String getJobLevel() {
-        return jobLevel;
-    }
-
-    public void setJobLevel(@NotNull @NotEmpty(message = "Job level must not be empty") String jobLevel) {
-        this.jobLevel = jobLevel;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+    // Getters and Setters
 }

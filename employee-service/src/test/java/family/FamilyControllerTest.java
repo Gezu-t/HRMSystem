@@ -43,7 +43,7 @@ public class FamilyControllerTest {
     mockMvc = MockMvcBuilders.standaloneSetup(familyController).build();
 
     familyDTO = new FamilyDTO();
-    familyDTO.setFamilyId(1L);
+    familyDTO.setId(1L);
     familyDTO.setNationality("Italy");
     familyDTO.setGender("M");
     familyDTO.setFamilyFirstName("Test one");

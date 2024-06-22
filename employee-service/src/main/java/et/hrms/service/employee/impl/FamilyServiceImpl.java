@@ -1,7 +1,7 @@
 package et.hrms.service.employee.impl;
 
 import et.hrms.dal.dto.employee.FamilyDTO;
-import et.hrms.dal.mapping.FamilyMapper;
+import et.hrms.dal.mapping.employee.FamilyMapper;
 import et.hrms.dal.model.employee.Family;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.dal.repository.employee.FamilyRepository;
@@ -49,7 +49,7 @@ public class FamilyServiceImpl implements FamilyService {
             familyDTO.setFamilyLastName(family.getFamilyLastName());
             familyDTO.setGender(family.getGender());
             familyDTO.setNationality(family.getNationality());
-            familyDTO.setDateOfBirth(family.getDateBirth());
+            familyDTO.setDateBirth(family.getDateBirth());
             familyDTOS.add(familyDTO);
         }
 

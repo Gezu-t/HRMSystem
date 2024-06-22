@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
-
 
 @Setter
 @Getter
@@ -15,93 +16,38 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "family")
-public class Family {
+public class Family implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50)
     private String nationality;
+
+    @Column(length = 10)
     private String payGrade;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateBirth;
+
+    @Column(length = 10)
     private String gender;
+
+    @Column(length = 50, nullable = false)
     private String familyFirstName;
+
+    @Column(length = 50, nullable = false)
     private String familyLastName;
+
+    @Column(length = 15)
     private String emergencyContact;
 
-    @OneToOne
-    @JoinColumn(name = "employee")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public String getPayGrade() {
-        return payGrade;
-    }
-
-    public void setPayGrade(String payGrade) {
-        this.payGrade = payGrade;
-    }
-
-    public LocalDate getDateBirth() {
-        return dateBirth;
-    }
-
-    public void setDateBirth(LocalDate dateBirth) {
-        this.dateBirth = dateBirth;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getFamilyFirstName() {
-        return familyFirstName;
-    }
-
-    public void setFamilyFirstName(String familyFirstName) {
-        this.familyFirstName = familyFirstName;
-    }
-
-    public String getFamilyLastName() {
-        return familyLastName;
-    }
-
-    public void setFamilyLastName(String familyLastName) {
-        this.familyLastName = familyLastName;
-    }
-
-    public String getEmergencyContact() {
-        return emergencyContact;
-    }
-
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

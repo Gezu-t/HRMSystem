@@ -1,128 +1,66 @@
 package et.hrms.dal.dto.employee;
 
 
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+import java.time.LocalDate;
 @Data
 public class EmployeeAddressDTO {
 
-    private Long addressId;
-    @NotNull
+    private Long id;
+
+    @Size(max = 15)
     private String telNumberHome;
-    @NotNull
-    private String telNumberOffice;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 15)
     private String mobile;
-    @NotNull
+
     private Integer houseNumber;
-    @NotNull
+
+    @Size(max = 50)
     private String street;
-    @NotNull
+
     private Integer streetNumber;
-    @NotNull
+
+    @Size(max = 50)
+    private String building;
+
+    @Size(max = 10)
+    private String floor;
+
+    @Size(max = 10)
+    private String flat;
+
+    @Size(max = 50)
     private String region;
+
+    @Size(max = 50)
     private String province;
-    @NotNull
+
+    @Size(max = 50)
     private String city;
-    @NotNull
+
+    @Size(max = 10)
     private String postalCode;
-    @NotNull
+
+    @Size(max = 50)
     private String country;
 
-    public Long getAddressId() {
-        return addressId;
-    }
+    @Size(max = 20)
+    private String addressType;
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
-    }
+    @Size(max = 20)
+    private String addressStatus;
 
-    public @NotNull String getTelNumberHome() {
-        return telNumberHome;
-    }
+    private LocalDate addressStatusDate;
 
-    public void setTelNumberHome(@NotNull String telNumberHome) {
-        this.telNumberHome = telNumberHome;
-    }
+    @Size(max = 255)
+    private String addressStatusDescription;
 
-    public @NotNull String getTelNumberOffice() {
-        return telNumberOffice;
-    }
+    private Long employeeId;
 
-    public void setTelNumberOffice(@NotNull String telNumberOffice) {
-        this.telNumberOffice = telNumberOffice;
-    }
-
-    public @NotNull String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(@NotNull String mobile) {
-        this.mobile = mobile;
-    }
-
-    public @NotNull Integer getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(@NotNull Integer houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public @NotNull String getStreet() {
-        return street;
-    }
-
-    public void setStreet(@NotNull String street) {
-        this.street = street;
-    }
-
-    public @NotNull Integer getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(@NotNull Integer streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public @NotNull String getRegion() {
-        return region;
-    }
-
-    public void setRegion(@NotNull String region) {
-        this.region = region;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public @NotNull String getCity() {
-        return city;
-    }
-
-    public void setCity(@NotNull String city) {
-        this.city = city;
-    }
-
-    public @NotNull String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(@NotNull String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public @NotNull String getCountry() {
-        return country;
-    }
-
-    public void setCountry(@NotNull String country) {
-        this.country = country;
-    }
+    // Getters and Setters
 }

@@ -1,30 +1,53 @@
 package et.hrms.controller.structure;
 
-import et.hrms.dal.dto.structure.DepartmentDTO;
-import jakarta.validation.Valid;
-import org.springframework.data.domain.Sort;
+import et.hrms.dal.dto.department.DepartmentUnderBranchDTO;
+import et.hrms.dal.dto.department.DepartmentUnderOrganizationDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 public interface DepartmentController {
 
+    @PostMapping("/branch/{branchId}")
+    ResponseEntity<Void> createDepartmentByBranchId(
+            @PathVariable Long branchId,
+            @RequestBody List<DepartmentUnderBranchDTO> departmentUnderBranchDTOS);
 
-    ResponseEntity<Void> createDepartmentByBranchId(@PathVariable Long branchId,
-                                                   @RequestBody List<DepartmentDTO> departmentDTO);
-
+    @PostMapping("/organization/{organizationId}")
     ResponseEntity<Void> createDepartmentByOrganizationId(
             @PathVariable Long organizationId,
-            @RequestBody @Valid List<DepartmentDTO> departmentCreateRequests);
+            @RequestBody List<DepartmentUnderOrganizationDTO> departmentUnderOrganizationDTOS);
 
-    List<DepartmentDTO> getAllDepartment(@RequestParam("page") int page, @RequestParam("size") int size);
+    @GetMapping("/branch/{id}")
+    ResponseEntity<DepartmentUnderBranchDTO> getDepartmentUnderBranchById(@PathVariable Long id);
 
-    ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable Long departmentId,
-                                                   @RequestBody DepartmentDTO departmentDTO);
-    List<DepartmentDTO> getDepartmentByOrganization(@PathVariable Long organizationId, @RequestParam Sort sort);
+    @GetMapping("/organization/{id}")
+    ResponseEntity<DepartmentUnderOrganizationDTO> getDepartmentUnderOrganizationById(@PathVariable Long id);
 
-    List<DepartmentDTO> getDepartmentByBranch(Long branchId, Sort sort);
+    @PutMapping("/branch/{id}")
+    ResponseEntity<DepartmentUnderBranchDTO> updateDepartmentUnderBranch(
+            @PathVariable Long id,
+            @RequestBody DepartmentUnderBranchDTO departmentUnderBranchDTO);
+
+    @PutMapping("/organization/{id}")
+    ResponseEntity<DepartmentUnderOrganizationDTO> updateDepartmentUnderOrganization(
+            @PathVariable Long id,
+            @RequestBody DepartmentUnderOrganizationDTO departmentUnderOrganizationDTO);
+
+    @GetMapping("/branch")
+    ResponseEntity<List<DepartmentUnderBranchDTO>> getDepartmentByBranch(
+            @RequestParam Long branchId,
+            @RequestParam(defaultValue = "id") String sort);
+
+    @GetMapping("/organization")
+    ResponseEntity<List<DepartmentUnderOrganizationDTO>> getDepartmentByOrganization(
+            @RequestParam Long organizationId,
+            @RequestParam(defaultValue = "id") String sort);
+
+    @DeleteMapping("/branch/{id}")
+    ResponseEntity<Void> deleteDepartmentUnderBranch(@PathVariable Long id);
+
+    @DeleteMapping("/organization/{id}")
+    ResponseEntity<Void> deleteDepartmentUnderOrganization(@PathVariable Long id);
 }

@@ -2,7 +2,7 @@ package family;
 
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.employee.FamilyDTO;
-import et.hrms.dal.mapping.FamilyMapper;
+import et.hrms.dal.mapping.employee.FamilyMapper;
 import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.model.employee.Family;
 import et.hrms.dal.repository.employee.EmployeeRepository;
@@ -44,7 +44,7 @@ public class FamilyServiceTest {
   @Before
   public void setUp() {
     familyDTO = new FamilyDTO();
-    familyDTO.setFamilyId(1L);
+    familyDTO.setId(1L);
     familyDTO.setNationality("Italy");
     familyDTO.setGender("M");
     familyDTO.setFamilyFirstName("Test one");
@@ -53,7 +53,7 @@ public class FamilyServiceTest {
     family = new Family();
     family.setId(1L);
     employeeDTO = new EmployeeDTO();
-    employeeDTO.setEmployeeId(1L);
+    employeeDTO.setId(1L);
     employee = new Employee();
     employee.setId(1L);
   }

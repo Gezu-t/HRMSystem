@@ -1,18 +1,17 @@
 package et.hrms.service.employee.impl;
 
-import et.hrms.dal.dto.employee.EmployeeAddressDTO;
-import et.hrms.dal.dto.employee.EmployeeDTO;
-import et.hrms.dal.dto.employee.EmployeeDetailDTO;
-import et.hrms.dal.mapping.DepartmentMapper;
-import et.hrms.dal.mapping.EmployeeAddressMapper;
-import et.hrms.dal.mapping.EmployeeDetailMapper;
-import et.hrms.dal.mapping.EmployeeMapper;
-import et.hrms.dal.model.employee.Employee;
-import et.hrms.dal.model.employee.EmployeeAddress;
-import et.hrms.dal.model.employee.EmployeeDetail;
+import et.hrms.dal.dto.education.EducationDTO;
+import et.hrms.dal.dto.employee.*;
+import et.hrms.dal.mapping.department.DepartmentMapper;
+import et.hrms.dal.mapping.education.EducationMapper;
+import et.hrms.dal.mapping.employee.*;
+import et.hrms.dal.model.education.Education;
+import et.hrms.dal.model.employee.*;
 import et.hrms.dal.repository.employee.EmployeeDetailRepository;
 import et.hrms.dal.repository.employee.EmployeeRepository;
 import et.hrms.dal.repository.structure.DepartmentRepository;
+import et.hrms.dal.repository.structure.DepartmentUnderBranchRepository;
+import et.hrms.dal.repository.structure.DepartmentUnderOrganizationRepository;
 import et.hrms.exceptions.EmployeeNotFoundException;
 import et.hrms.service.employee.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -36,15 +34,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final DepartmentRepository departmentRepository;
     private final EmployeeDetailRepository employeeDetailRepository;
     private final DepartmentMapper departmentMapper;
+    private final EducationMapper educationMapper;
+    private final EmployeePromotionMapper promotionMapper;
+    private final EmployeeAppearanceMapper appearanceMapper;
+    private final FamilyMapper familyMapper;
+    private final DepartmentUnderBranchRepository departmentUnderBranchRepository;
+    private final DepartmentUnderOrganizationRepository departmentUnderOrganizationRepository;
 
     @Override
     @Transactional
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
-        var employee = employeeMapper.toEmployee(employeeDTO);
+        Employee employee = employeeMapper.toEmployee(employeeDTO);
 
-        if (employee.getId() == null && employeeDTO != null) {
-            employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetailDTOS()));
-            employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddressDTOS()));
+        if (employeeDTO.getId() == null) {
+            employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetails()));
+            employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddresses()));
+            employee.setEducations(createEmployeeEducations(employee, employeeDTO.getEducationDTOS()));
+            employee.setEmployeePromotions(createEmployeePromotions(employee, employeeDTO.getEmployeePromotions()));
+            employee.setEmployeeAppearance(createEmployeeAppearance(employee, employeeDTO.getEmployeeAppearanceDTO()));
+            employee.setFamily(createFamily(employee, employeeDTO.getFamilyDTO()));
             validateAndSaveEmployee(employee);
         }
 
@@ -66,8 +74,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private EmployeeDetail createEmployeeDetail(Employee employee, EmployeeDetailDTO dto) {
-        var employeeDetail = employeeDetailMapper.toEmployeeDetail(dto);
-        var department = departmentRepository.findById(dto.getDepartmentDTO().getDepartmentId())
+        EmployeeDetail employeeDetail = employeeDetailMapper.toEmployeeDetail(dto);
+        var department = departmentRepository.findById(dto.getDepartmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Department information is not found"));
         employeeDetail.setDepartment(department);
         employeeDetail.setEmployee(employee);
@@ -81,9 +89,45 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private EmployeeAddress createEmployeeAddress(Employee employee, EmployeeAddressDTO dto) {
-        var address = addressMapper.toEmployeeAddress(dto);
+        EmployeeAddress address = addressMapper.toEmployeeAddress(dto);
         address.setEmployee(employee);
         return address;
+    }
+
+    private List<Education> createEmployeeEducations(Employee employee, List<EducationDTO> employeeEducationDTOS) {
+        return employeeEducationDTOS.stream()
+                .map(dto -> createEmployeeEducation(employee, dto))
+                .collect(Collectors.toList());
+    }
+
+    private Education createEmployeeEducation(Employee employee, EducationDTO dto) {
+        Education education = educationMapper.toEducation(dto);
+        education.setEmployee(employee);
+        return education;
+    }
+
+    private List<EmployeePromotion> createEmployeePromotions(Employee employee, List<EmployeePromotionDTO> employeePromotionDTOS) {
+        return employeePromotionDTOS.stream()
+                .map(dto -> createEmployeePromotion(employee, dto))
+                .collect(Collectors.toList());
+    }
+
+    private EmployeePromotion createEmployeePromotion(Employee employee, EmployeePromotionDTO dto) {
+        EmployeePromotion promotion = promotionMapper.toEmployeePromotion(dto);
+        promotion.setEmployee(employee);
+        return promotion;
+    }
+
+    private EmployeeAppearance createEmployeeAppearance(Employee employee, EmployeeAppearanceDTO dto) {
+        EmployeeAppearance appearance = appearanceMapper.toAppearance(dto);
+        appearance.setEmployee(employee);
+        return appearance;
+    }
+
+    private Family createFamily(Employee employee, FamilyDTO dto) {
+        Family family = familyMapper.toFamily(dto);
+        family.setEmployee(employee);
+        return family;
     }
 
     @Override
@@ -122,20 +166,31 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(addressMapper::toEmployeeAddressDTO)
                 .collect(Collectors.toList());
 
+        var employeeEducationDTOS = employee.getEducations().stream()
+                .map(educationMapper::toEducationDTO)
+                .collect(Collectors.toList());
+
+        var employeePromotionDTOS = employee.getEmployeePromotions().stream()
+                .map(promotionMapper::toEmployeePromotionDTO)
+                .collect(Collectors.toList());
+
         var employeeDTO = employeeMapper.toEmployeeDTO(employee);
-        employeeDTO.setEmployeeDetailDTOS(employeeDetailDTOS);
-        employeeDTO.setEmployeeAddressDTOS(employeeAddressDTOS);
+        employeeDTO.setEmployeeDetails(employeeDetailDTOS);
+        employeeDTO.setEmployeeAddresses(employeeAddressDTOS);
+        employeeDTO.setEducationDTOS(employeeEducationDTOS);
+        employeeDTO.setEmployeePromotions(employeePromotionDTOS);
+        employeeDTO.setEmployeeAppearanceDTO(appearanceMapper.toAppearanceDTO(employee.getEmployeeAppearance()));
+        employeeDTO.setFamilyDTO(familyMapper.toFamilyDTO(employee.getFamily()));
 
         return employeeDTO;
     }
 
     private EmployeeDetailDTO convertToEmployeeDetailDTO(EmployeeDetail employeeDetail) {
-        var departmentDTO = departmentMapper.toDepartmentDTO(employeeDetail.getDepartment());
+        var departmentDTO = departmentMapper.toDepartment(employeeDetail.getDepartment());
         var employeeDetailDTO = employeeDetailMapper.toEmployeeDetailDTO(employeeDetail);
-        employeeDetailDTO.setDepartmentDTO(departmentDTO);
+        employeeDetailDTO.setDepartmentId(employeeDetail.getDepartment().getId());
         return employeeDetailDTO;
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -145,5 +200,4 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(employeeMapper::toEmployeeDTO)
                 .collect(Collectors.toList());
     }
-
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -13,102 +15,40 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "employee_promotion")
-public class EmployeePromotion {
+public class EmployeePromotion implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -7141502596008484282L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 10)
     private String dateOfLastPromotion;
+
+    @Column(length = 10)
     private String dateOfLastIncrement;
+
+    @Column(length = 10)
     private String dateOfLastDecrement;
+
+    @Column(length = 10)
     private String dateOfLastSalaryChange;
+
+    @Column(length = 10)
     private String dateOfLastSalaryIncrement;
+
+    @Column(length = 10)
     private String dateOfLastSalaryDecrement;
+
+    @Column(length = 255)
     private String dateOfLastSalaryChangeReason;
+
     private Boolean promotionStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDateOfLastPromotion() {
-        return dateOfLastPromotion;
-    }
-
-    public void setDateOfLastPromotion(String dateOfLastPromotion) {
-        this.dateOfLastPromotion = dateOfLastPromotion;
-    }
-
-    public String getDateOfLastIncrement() {
-        return dateOfLastIncrement;
-    }
-
-    public void setDateOfLastIncrement(String dateOfLastIncrement) {
-        this.dateOfLastIncrement = dateOfLastIncrement;
-    }
-
-    public String getDateOfLastDecrement() {
-        return dateOfLastDecrement;
-    }
-
-    public void setDateOfLastDecrement(String dateOfLastDecrement) {
-        this.dateOfLastDecrement = dateOfLastDecrement;
-    }
-
-    public String getDateOfLastSalaryChange() {
-        return dateOfLastSalaryChange;
-    }
-
-    public void setDateOfLastSalaryChange(String dateOfLastSalaryChange) {
-        this.dateOfLastSalaryChange = dateOfLastSalaryChange;
-    }
-
-    public String getDateOfLastSalaryIncrement() {
-        return dateOfLastSalaryIncrement;
-    }
-
-    public void setDateOfLastSalaryIncrement(String dateOfLastSalaryIncrement) {
-        this.dateOfLastSalaryIncrement = dateOfLastSalaryIncrement;
-    }
-
-    public String getDateOfLastSalaryDecrement() {
-        return dateOfLastSalaryDecrement;
-    }
-
-    public void setDateOfLastSalaryDecrement(String dateOfLastSalaryDecrement) {
-        this.dateOfLastSalaryDecrement = dateOfLastSalaryDecrement;
-    }
-
-    public String getDateOfLastSalaryChangeReason() {
-        return dateOfLastSalaryChangeReason;
-    }
-
-    public void setDateOfLastSalaryChangeReason(String dateOfLastSalaryChangeReason) {
-        this.dateOfLastSalaryChangeReason = dateOfLastSalaryChangeReason;
-    }
-
-    public Boolean getPromotionStatus() {
-        return promotionStatus;
-    }
-
-    public void setPromotionStatus(Boolean promotionStatus) {
-        this.promotionStatus = promotionStatus;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

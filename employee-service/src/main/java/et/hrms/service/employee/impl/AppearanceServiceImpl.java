@@ -2,7 +2,7 @@ package et.hrms.service.employee.impl;
 
 
 import et.hrms.dal.dto.employee.EmployeeAppearanceDTO;
-import et.hrms.dal.mapping.EmployeeAppearanceMapper;
+import et.hrms.dal.mapping.employee.EmployeeAppearanceMapper;
 import et.hrms.dal.model.employee.Employee;
 import et.hrms.dal.model.employee.EmployeeAppearance;
 import et.hrms.dal.repository.employee.AppearanceRepository;
@@ -64,7 +64,7 @@ public class AppearanceServiceImpl implements AppearanceService {
                 .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
                         MessageFormat.format("EmployeeAppearance information is not found by employee id{0}.", employeeId)));
 
-        appearance.setId(employeeAppearanceDTO.getAppearanceId());
+        appearance.setId(employeeAppearanceDTO.getId());
         appearance.setHeight(employeeAppearanceDTO.getHeight());
         appearance.setWeight(employeeAppearanceDTO.getWeight());
         appearance.setBloodGroup(employeeAppearanceDTO.getBloodGroup());
