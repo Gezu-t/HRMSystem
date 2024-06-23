@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>et.hrms</groupId>
-        <artifactId>hrms</artifactId>
+        <artifactId>HRMSystem</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

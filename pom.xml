@@ -4,18 +4,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>et.hrms</groupId>
-    <artifactId>hrms</artifactId>
+    <artifactId>HRMSystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Human Resources Management System</name>
     <description>Human Resources Management System</description>
 
     <modules>
-        <module>employee-service</module>
+        <module>employee-management/employee-service</module>
+        <module>employee-management/employee-profile-service</module>
+        <module>employee-management/employee-record-service</module>
+
         <module>recruitment-service</module>
         <module>attendance-leave-service</module>
         <module>api-gateway</module>
         <module>performance_management-service</module>
+
+        <module>user-management/user-service</module>
     </modules>
 
     <properties>
@@ -78,7 +83,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.10.1</version> <!-- Updated version -->
+                    <version>3.10.1</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
