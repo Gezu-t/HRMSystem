@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     private static final Logger logger = LoggerFactory.getLogger(LeaveRequestServiceImpl.class);
@@ -32,6 +31,12 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     private final LeaveRequestRepository leaveRequestRepository;
     private final EmployeeClientService employeeClientService;
     private final LeaveRequestTypeRepository leaveRequestTypeRepository;
+
+    public LeaveRequestServiceImpl(LeaveRequestRepository leaveRequestRepository, EmployeeClientService employeeClientService, LeaveRequestTypeRepository leaveRequestTypeRepository) {
+        this.leaveRequestRepository = leaveRequestRepository;
+        this.employeeClientService = employeeClientService;
+        this.leaveRequestTypeRepository = leaveRequestTypeRepository;
+    }
 
     @Override
     public LeaveRequestDTO getLeaveRequestWithEmployee(Long leaveRequestId) {

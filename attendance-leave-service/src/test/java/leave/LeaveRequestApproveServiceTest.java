@@ -62,8 +62,20 @@ public class LeaveRequestApproveServiceTest {
         leaveRequestApproveDTO.setApprovalUserComment("Approved for good performance");
         leaveRequestApproveDTO.setDescription("All conditions met for approval");
 
-        activeEmployee = new EmployeeDTO(1L, "John Doe", "Engineering", "senior engineer", "Active");
-        inactiveEmployee = new EmployeeDTO(1L, "Jane Doe", "HR", "Head director", "Inactive");
+        // Enhanced employee DTO
+        activeEmployee = new EmployeeDTO();
+        activeEmployee.setId(1L);
+        activeEmployee.setName("John Doe");
+        activeEmployee.setDepartment("IT");
+        activeEmployee.setPosition("Developer");
+        activeEmployee.setStatus("Active");
+
+        inactiveEmployee = new EmployeeDTO();
+        inactiveEmployee.setId(1L);
+        inactiveEmployee.setName("John Doe");
+        inactiveEmployee.setDepartment("IT");
+        inactiveEmployee.setPosition("Developer");
+        inactiveEmployee.setStatus("InActive");
 
         leaveRequest = new LeaveRequest();
         leaveRequest.setId(1L);

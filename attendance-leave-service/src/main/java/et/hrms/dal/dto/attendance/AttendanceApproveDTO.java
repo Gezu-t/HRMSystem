@@ -1,14 +1,16 @@
 package et.hrms.dal.dto.attendance;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-@Setter@Getter@AllArgsConstructor
-public class AttendanceApproveDTO {
+public class AttendanceApproveDTO implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = 7981402252791258800L;
+
 
   private Long attendanceApproveId;
   private String approvedBy;
