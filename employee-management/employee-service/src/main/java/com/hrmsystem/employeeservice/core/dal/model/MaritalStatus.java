@@ -2,7 +2,7 @@ package com.hrmsystem.employeeservice.core.dal.model;
 
 import lombok.Getter;
 
-@Getter
+
 public enum MaritalStatus {
     /**
      * Indicates no information is available for the marital status.

@@ -5,7 +5,7 @@ import lombok.Getter;
 /**
  * Represents the gender status of an individual.
  */
-@Getter
+
 public enum GenderType {
 
     /**
