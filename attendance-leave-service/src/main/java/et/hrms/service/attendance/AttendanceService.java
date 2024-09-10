@@ -1,9 +1,4 @@
-<<<<<<<< HEAD:hrms-server/src/main/java/et/hrms/service/project/AttendanceService.java
-package et.hrms.service.project;
-========
 package et.hrms.service.attendance;
->>>>>>>> hrms-001:attendance-leave-service/src/main/java/et/hrms/service/attendance/AttendanceService.java
-
 import et.hrms.dal.dto.attendance.AttendanceDTO;
 import et.hrms.dal.dto.employee.EmployeeDTO;
 import org.springframework.data.domain.Sort;
