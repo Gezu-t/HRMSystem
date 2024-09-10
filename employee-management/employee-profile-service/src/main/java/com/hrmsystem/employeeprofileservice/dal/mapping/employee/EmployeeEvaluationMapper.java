@@ -2,7 +2,7 @@ package com.hrmsystem.employeeprofileservice.dal.mapping.employee;
 
 
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.EmployeeEvaluationDTO;
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeEvaluation;
+import dal.model.employee.EmployeeEvaluation;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;

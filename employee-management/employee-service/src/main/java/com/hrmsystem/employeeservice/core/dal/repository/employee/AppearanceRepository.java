@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.dal.repository.employee;
 
 
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeAppearance;
+import dal.model.employee.EmployeeAppearance;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

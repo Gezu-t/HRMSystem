@@ -3,8 +3,9 @@ package com.hrmsystem.employeeprofileservice.service.job;
 
 import com.hrmsystem.employeeprofileservice.dal.dto.job.JobDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.JobMapper;
-import com.hrmsystem.employeeservice.core.dal.model.job.Job;
-import com.hrmsystem.employeeservice.core.dal.repository.job.JobRepository;
+
+import dal.model.job.Job;
+import dal.repository.job.JobRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

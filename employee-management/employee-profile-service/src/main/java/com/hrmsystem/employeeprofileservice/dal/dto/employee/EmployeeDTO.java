@@ -1,9 +1,9 @@
 package com.hrmsystem.employeeprofileservice.dal.dto.employee;
 
 import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationDTO;
-import com.hrmsystem.employeeservice.core.dal.model.GenderType;
-import com.hrmsystem.employeeservice.core.dal.model.MaritalStatus;
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeType;
+import dal.model.GenderType;
+import dal.model.MaritalStatus;
+import dal.model.employee.EmployeeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.repository.employee;
 
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeDetail;
+import dal.model.employee.EmployeeDetail;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

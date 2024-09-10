@@ -9,10 +9,10 @@ import com.hrmsystem.employeeprofileservice.dal.mapping.employee.EmployeeAddress
 import com.hrmsystem.employeeprofileservice.dal.mapping.employee.EmployeeDetailMapper;
 import com.hrmsystem.employeeprofileservice.dal.mapping.employee.EmployeeMapper;
 import com.hrmsystem.employeeprofileservice.service.employee.impl.EmployeeServiceImpl;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Employee;
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeDetail;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeDetailRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeRepository;
+import dal.model.employee.Employee;
+import dal.model.employee.EmployeeDetail;
+import dal.repository.employee.EmployeeDetailRepository;
+import dal.repository.employee.EmployeeRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

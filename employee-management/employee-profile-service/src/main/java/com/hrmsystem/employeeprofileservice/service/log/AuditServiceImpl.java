@@ -1,8 +1,8 @@
 package com.hrmsystem.employeeprofileservice.service.log;
 
 
-import com.hrmsystem.employeeservice.core.dal.model.AuditData;
-import com.hrmsystem.employeeservice.core.dal.repository.AuditRepository;
+import dal.model.AuditData;
+import dal.repository.AuditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

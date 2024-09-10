@@ -2,9 +2,9 @@ package com.hrmsystem.employeeprofileservice.service.education;
 
 import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationTypeDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.education.EducationDetailMapper;
-import com.hrmsystem.employeeservice.core.dal.model.education.EducationType;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationTypeRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
+import dal.model.education.EducationType;
+import dal.repository.education.EducationTypeRepository;
+import exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

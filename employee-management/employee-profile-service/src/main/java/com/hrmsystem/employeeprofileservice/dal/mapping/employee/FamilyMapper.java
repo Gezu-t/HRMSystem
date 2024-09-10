@@ -1,8 +1,8 @@
 package com.hrmsystem.employeeprofileservice.dal.mapping.employee;
 
 
-import com.hrmsystem.employeeservice.core.dal.model.employee.Family;
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.FamilyDTO;
+import dal.model.employee.Family;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

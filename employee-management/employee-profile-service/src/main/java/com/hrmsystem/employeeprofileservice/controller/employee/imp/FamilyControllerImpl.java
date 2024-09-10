@@ -3,8 +3,8 @@ package com.hrmsystem.employeeprofileservice.controller.employee.imp;
 
 import com.hrmsystem.employeeprofileservice.controller.employee.FamilyController;
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.FamilyDTO;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import com.hrmsystem.employeeprofileservice.service.employee.FamilyService;
+import exceptions.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

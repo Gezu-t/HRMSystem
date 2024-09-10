@@ -2,7 +2,7 @@ package com.hrmsystem.employeeprofileservice.dal.mapping.organization;
 
 
 import com.hrmsystem.employeeprofileservice.dal.dto.department.OrganizationDTO;
-import com.hrmsystem.employeeservice.core.dal.model.organization.Organization;
+import dal.model.organization.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

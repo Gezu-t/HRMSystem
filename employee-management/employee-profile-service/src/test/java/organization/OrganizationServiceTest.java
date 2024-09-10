@@ -7,10 +7,10 @@ import com.hrmsystem.employeeprofileservice.dal.mapping.organization.Organizatio
 import com.hrmsystem.employeeprofileservice.service.log.AuditService;
 import com.hrmsystem.employeeprofileservice.service.log.LogService;
 import com.hrmsystem.employeeprofileservice.service.organization.impl.OrganizationServiceImpl;
-import com.hrmsystem.employeeservice.core.dal.model.organization.Organization;
-import com.hrmsystem.employeeservice.core.dal.model.organization.OrganizationAddress;
-import com.hrmsystem.employeeservice.core.dal.repository.organization.OrganizationAddressRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.organization.OrganizationRepository;
+import dal.model.organization.Organization;
+import dal.model.organization.OrganizationAddress;
+import dal.repository.organization.OrganizationAddressRepository;
+import dal.repository.organization.OrganizationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

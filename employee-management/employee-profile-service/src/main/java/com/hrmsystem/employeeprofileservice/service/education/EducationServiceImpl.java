@@ -4,14 +4,14 @@ import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationDTO;
 import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationDetailDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.education.EducationDetailMapper;
 import com.hrmsystem.employeeprofileservice.dal.mapping.education.EducationMapper;
-import com.hrmsystem.employeeservice.core.dal.model.education.*;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Employee;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationAwardRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationLevelRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationTypeRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
+import dal.model.education.*;
+import dal.model.employee.Employee;
+import dal.repository.education.EducationAwardRepository;
+import dal.repository.education.EducationLevelRepository;
+import dal.repository.education.EducationRepository;
+import dal.repository.education.EducationTypeRepository;
+import dal.repository.employee.EmployeeRepository;
+import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -65,7 +65,7 @@ public class EducationServiceImpl implements EducationService {
       education.setEducationAward(educationAward);
     }
     education.setCreatedAt(LocalDateTime.now());
-    List<     EducationDetail> educationDetails = new ArrayList<>();
+    List<EducationDetail> educationDetails = new ArrayList<>();
     for (EducationDetailDTO educationDetailDTO : educationDTO.getEducationDetailDTOS()) {
            EducationDetail educationDetail = educationDetailMapper.toEducationDetail(educationDetailDTO);
            EducationType educationType = educationTypeRepository.findById(educationDetailDTO.getEducationTypeId())

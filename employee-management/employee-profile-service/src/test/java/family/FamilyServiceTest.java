@@ -4,10 +4,11 @@ import com.hrmsystem.employeeprofileservice.dal.dto.employee.EmployeeDTO;
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.FamilyDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.employee.FamilyMapper;
 import com.hrmsystem.employeeprofileservice.service.employee.impl.FamilyServiceImpl;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Employee;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Family;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.FamilyRepository;
+
+import dal.model.employee.Employee;
+import dal.model.employee.Family;
+import dal.repository.employee.EmployeeRepository;
+import dal.repository.employee.FamilyRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

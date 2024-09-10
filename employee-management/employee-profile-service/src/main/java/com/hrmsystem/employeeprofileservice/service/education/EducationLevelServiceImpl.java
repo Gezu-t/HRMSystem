@@ -2,9 +2,9 @@ package com.hrmsystem.employeeprofileservice.service.education;
 
 import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationLevelDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.education.EducationMapper;
-import com.hrmsystem.employeeservice.core.dal.model.education.EducationLevel;
-import com.hrmsystem.employeeservice.core.dal.repository.education.EducationLevelRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
+import dal.model.education.EducationLevel;
+import dal.repository.education.EducationLevelRepository;
+import exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

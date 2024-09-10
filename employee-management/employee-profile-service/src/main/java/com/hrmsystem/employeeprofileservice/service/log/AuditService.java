@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeprofileservice.service.log;
 
 
-import com.hrmsystem.employeeservice.core.dal.model.AuditData;
+import dal.model.AuditData;
 
 import java.util.List;
 

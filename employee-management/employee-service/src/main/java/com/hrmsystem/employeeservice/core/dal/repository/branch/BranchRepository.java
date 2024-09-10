@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.repository.branch;
 
-import com.hrmsystem.employeeservice.core.dal.model.branch.Branch;
+import dal.model.branch.Branch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

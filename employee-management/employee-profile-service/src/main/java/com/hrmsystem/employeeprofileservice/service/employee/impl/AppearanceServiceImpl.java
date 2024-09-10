@@ -4,11 +4,12 @@ package com.hrmsystem.employeeprofileservice.service.employee.impl;
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.EmployeeAppearanceDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.employee.EmployeeAppearanceMapper;
 import com.hrmsystem.employeeprofileservice.service.employee.AppearanceService;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Employee;
-import com.hrmsystem.employeeservice.core.dal.model.employee.EmployeeAppearance;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.AppearanceRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
+
+import dal.model.employee.Employee;
+import dal.model.employee.EmployeeAppearance;
+import dal.repository.employee.AppearanceRepository;
+import dal.repository.employee.EmployeeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

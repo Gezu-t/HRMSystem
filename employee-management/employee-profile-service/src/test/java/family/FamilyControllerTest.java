@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hrmsystem.employeeprofileservice.controller.employee.imp.FamilyControllerImpl;
 import com.hrmsystem.employeeprofileservice.dal.dto.employee.FamilyDTO;
 import com.hrmsystem.employeeprofileservice.service.employee.FamilyService;
-import com.hrmsystem.employeeservice.core.dal.model.employee.Family;
+import dal.model.employee.Family;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

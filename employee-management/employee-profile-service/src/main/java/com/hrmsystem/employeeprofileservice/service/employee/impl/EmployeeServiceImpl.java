@@ -5,13 +5,14 @@ import com.hrmsystem.employeeprofileservice.dal.dto.employee.*;
 import com.hrmsystem.employeeprofileservice.dal.mapping.department.DepartmentMapper;
 import com.hrmsystem.employeeprofileservice.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeprofileservice.dal.mapping.employee.*;
+import com.hrmsystem.employeeprofileservice.exceptions.EmployeeNotFoundException;
 import com.hrmsystem.employeeprofileservice.service.employee.EmployeeService;
-import com.hrmsystem.employeeservice.core.dal.model.education.Education;
-import com.hrmsystem.employeeservice.core.dal.model.employee.*;
-import com.hrmsystem.employeeservice.core.dal.repository.department.DepartmentRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeDetailRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.employee.EmployeeRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EmployeeNotFoundException;
+
+import dal.model.education.Education;
+import dal.model.employee.*;
+import dal.repository.department.DepartmentRepository;
+import dal.repository.employee.EmployeeDetailRepository;
+import dal.repository.employee.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -63,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    private List< EmployeeDetail> createEmployeeDetails( Employee employee, List<EmployeeDetailDTO> employeeDetailDTOS) {
+    private List<EmployeeDetail> createEmployeeDetails(Employee employee, List<EmployeeDetailDTO> employeeDetailDTOS) {
         return employeeDetailDTOS.stream()
                 .map(dto -> createEmployeeDetail(employee, dto))
                 .collect(Collectors.toList());
@@ -90,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return address;
     }
 
-    private List<Education> createEmployeeEducations( Employee employee, List<EducationDTO> employeeEducationDTOS) {
+    private List<Education> createEmployeeEducations(Employee employee, List<EducationDTO> employeeEducationDTOS) {
         return employeeEducationDTOS.stream()
                 .map(dto -> createEmployeeEducation(employee, dto))
                 .collect(Collectors.toList());

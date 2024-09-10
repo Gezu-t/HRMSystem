@@ -7,11 +7,12 @@ import com.hrmsystem.employeeprofileservice.dal.mapping.organization.Organizatio
 import com.hrmsystem.employeeprofileservice.service.log.AuditService;
 import com.hrmsystem.employeeprofileservice.service.log.LogService;
 import com.hrmsystem.employeeprofileservice.service.organization.OrganizationService;
-import com.hrmsystem.employeeservice.core.dal.model.organization.Organization;
-import com.hrmsystem.employeeservice.core.dal.model.organization.OrganizationAddress;
-import com.hrmsystem.employeeservice.core.dal.repository.organization.OrganizationAddressRepository;
-import com.hrmsystem.employeeservice.core.dal.repository.organization.OrganizationRepository;
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
+
+import dal.model.organization.Organization;
+import dal.model.organization.OrganizationAddress;
+import dal.repository.organization.OrganizationAddressRepository;
+import dal.repository.organization.OrganizationRepository;
+import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

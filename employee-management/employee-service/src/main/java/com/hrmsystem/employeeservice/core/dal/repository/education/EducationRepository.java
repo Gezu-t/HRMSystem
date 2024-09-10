@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.repository.education;
 
-import com.hrmsystem.employeeservice.core.dal.model.education.Education;
+import dal.model.education.Education;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

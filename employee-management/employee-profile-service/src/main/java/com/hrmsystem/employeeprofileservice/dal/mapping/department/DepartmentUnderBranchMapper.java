@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeprofileservice.dal.mapping.department;
 
 import com.hrmsystem.employeeprofileservice.dal.dto.department.DepartmentUnderBranchDTO;
-import com.hrmsystem.employeeservice.core.dal.model.department.DepartmentUnderBranch;
+import dal.model.department.DepartmentUnderBranch;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

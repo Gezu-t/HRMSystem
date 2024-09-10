@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.repository.organization;
 
-import com.hrmsystem.employeeservice.core.dal.model.organization.Organization;
+import dal.model.organization.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

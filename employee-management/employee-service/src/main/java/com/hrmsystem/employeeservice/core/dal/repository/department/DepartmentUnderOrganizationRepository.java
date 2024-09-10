@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.repository.department;
 
-import com.hrmsystem.employeeservice.core.dal.model.department.DepartmentUnderOrganization;
+import dal.model.department.DepartmentUnderOrganization;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

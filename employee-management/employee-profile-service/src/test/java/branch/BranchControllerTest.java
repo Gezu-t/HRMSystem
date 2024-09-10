@@ -6,7 +6,7 @@ import com.hrmsystem.employeeprofileservice.dal.dto.department.BranchAddressDTO;
 import com.hrmsystem.employeeprofileservice.dal.dto.department.BranchDTO;
 import com.hrmsystem.employeeprofileservice.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeprofileservice.service.branch.BranchService;
-import com.hrmsystem.employeeservice.core.dal.repository.branch.BranchRepository;
+import dal.repository.branch.BranchRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
