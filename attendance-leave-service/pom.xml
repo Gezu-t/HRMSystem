@@ -25,7 +25,11 @@
 
     <dependencies>
 
-
+        <dependency>
+            <groupId>et.hrms</groupId>
+            <artifactId>employee-shared</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- JPA API for database operations -->
         <dependency>

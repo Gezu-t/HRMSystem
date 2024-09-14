@@ -71,11 +71,12 @@ public class AttendanceServiceImpl implements AttendanceService {
     if (!StringUtils.hasText(employeeDTO.getName())) {
       throw new IllegalArgumentException("Employee name must not be empty");
     }
+    Attendance attendance = new Attendance();
 
-    Attendance attendance = attendanceRepository.findByEmployeeName(employeeDTO.getName());
-    if (attendance == null) {
-      throw new CustomEntityNotFoundException("Attendance not found for employee name: " + employeeDTO.getName());
-    }
+//    Attendance attendance = attendanceRepository.findByEmployeeName(employeeDTO.getName());
+//    if (attendance == null) {
+//      throw new CustomEntityNotFoundException("Attendance not found for employee name: " + employeeDTO.getName());
+//    }
 
     return attendanceMapper.toDto(attendance);
   }

@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface EmployeeDetailRepository extends JpaRepository<EmployeeDetail, Long> {
 
-    @Query("""
-            select distinct e from EmployeeDetail e
-            where e.department.departmentName = :departmentName
-            order by e.employee.employeeNumber""")
+    @Query("select distinct e from EmployeeDetail e where e.department.departmentName = :departmentName order by e.employee.employeeNumber")
     List<EmployeeDetail> findEmployeeByDepartmentName(@Param("departmentName") String departmentName, Pageable pageable);
 }
