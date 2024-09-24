@@ -1,8 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.department.impl;
 
-import com.hrmsystem.employeeservice.core.controller.department.DepartmentController;
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentUnderBranchDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentUnderOrganizationDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
 import com.hrmsystem.employeeservice.core.service.department.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -15,89 +13,79 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/departments")
 @RequiredArgsConstructor
-public class DepartmentControllerImpl implements DepartmentController {
+public class DepartmentControllerImpl {
 
     private final DepartmentService departmentService;
 
-    @Override
+    // Create department under a specific branch
     @PostMapping("/branch/{branchId}")
-    public ResponseEntity<Void> createDepartmentByBranchId(
+    public ResponseEntity<DepartmentDTO> createDepartmentByBranch(
             @PathVariable Long branchId,
-            @RequestBody List<DepartmentUnderBranchDTO> departmentUnderBranchDTOS) {
-        departmentService.createDepartmentByBranchId(branchId, departmentUnderBranchDTOS);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            @RequestBody DepartmentDTO departmentDTO) {
+        DepartmentDTO createdDepartment = departmentService.createDepartment(departmentDTO, branchId, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdDepartment);
     }
 
-    @Override
+    // Create department under a specific organization
     @PostMapping("/organization/{organizationId}")
-    public ResponseEntity<Void> createDepartmentByOrganizationId(
+    public ResponseEntity<DepartmentDTO> createDepartmentByOrganization(
             @PathVariable Long organizationId,
-            @RequestBody List<DepartmentUnderOrganizationDTO> departmentUnderOrganizationDTOS) {
-        departmentService.createDepartmentByOrganizationId(organizationId, departmentUnderOrganizationDTOS);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+            @RequestBody DepartmentDTO departmentDTO) {
+        DepartmentDTO createdDepartment = departmentService.createDepartment(departmentDTO, null, organizationId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdDepartment);
     }
 
-    @Override
-    @GetMapping("/branch/{id}")
-    public ResponseEntity<DepartmentUnderBranchDTO> getDepartmentUnderBranchById(@PathVariable Long id) {
-        DepartmentUnderBranchDTO departmentDTO = departmentService.getDepartmentUnderBranchById(id);
+    // Get a department by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable Long id) {
+        DepartmentDTO departmentDTO = departmentService.getDepartmentById(id);
         return ResponseEntity.ok(departmentDTO);
     }
 
-    @Override
-    @GetMapping("/organization/{id}")
-    public ResponseEntity<DepartmentUnderOrganizationDTO> getDepartmentUnderOrganizationById(@PathVariable Long id) {
-        DepartmentUnderOrganizationDTO departmentDTO = departmentService.getDepartmentUnderOrganizationById(id);
-        return ResponseEntity.ok(departmentDTO);
-    }
-
-    @Override
-    @PutMapping("/branch/{id}")
-    public ResponseEntity<DepartmentUnderBranchDTO> updateDepartmentUnderBranch(
+    // Update a department by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<DepartmentDTO> updateDepartment(
             @PathVariable Long id,
-            @RequestBody DepartmentUnderBranchDTO departmentUnderBranchDTO) {
-        DepartmentUnderBranchDTO updatedDepartment = departmentService.updateDepartmentUnderBranch(id, departmentUnderBranchDTO);
+            @RequestBody DepartmentDTO departmentDTO) {
+        DepartmentDTO updatedDepartment = departmentService.updateDepartment(id, departmentDTO);
         return ResponseEntity.ok(updatedDepartment);
     }
 
-    @Override
-    @PutMapping("/organization/{id}")
-    public ResponseEntity<DepartmentUnderOrganizationDTO> updateDepartmentUnderOrganization(
-            @PathVariable Long id,
-            @RequestBody DepartmentUnderOrganizationDTO departmentUnderOrganizationDTO) {
-        DepartmentUnderOrganizationDTO updatedDepartment = departmentService.updateDepartmentUnderOrganization(id, departmentUnderOrganizationDTO);
-        return ResponseEntity.ok(updatedDepartment);
-    }
-
-    @Override
+    // Get departments under a specific branch
     @GetMapping("/branch")
-    public ResponseEntity<List<DepartmentUnderBranchDTO>> getDepartmentByBranch(
+    public ResponseEntity<List<DepartmentDTO>> getDepartmentsByBranch(
             @RequestParam Long branchId,
-            @RequestParam(defaultValue = "id") String sort) {
-        List<DepartmentUnderBranchDTO> departments = departmentService.getDepartmentByBranch(branchId, Sort.by(sort));
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        List<DepartmentDTO> departments = departmentService.getDepartmentsByBranch(branchId, Sort.by(direction, sort));
         return ResponseEntity.ok(departments);
     }
 
-    @Override
+    // Get departments under a specific organization
     @GetMapping("/organization")
-    public ResponseEntity<List<DepartmentUnderOrganizationDTO>> getDepartmentByOrganization(
+    public ResponseEntity<List<DepartmentDTO>> getDepartmentsByOrganization(
             @RequestParam Long organizationId,
-            @RequestParam(defaultValue = "id") String sort) {
-        List<DepartmentUnderOrganizationDTO> departments = departmentService.getDepartmentByOrganization(organizationId, Sort.by(sort));
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        List<DepartmentDTO> departments = departmentService.getDepartmentsByOrganization(organizationId, Sort.by(direction, sort));
         return ResponseEntity.ok(departments);
     }
 
-    @Override
-    @DeleteMapping("/branch/{id}")
-    public ResponseEntity<Void> deleteDepartmentUnderBranch(@PathVariable Long id) {
-        departmentService.deleteDepartmentUnderBranch(id);
-        return ResponseEntity.noContent().build();
+    // Get all departments with pagination and sorting
+    @GetMapping
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        List<DepartmentDTO> departments = departmentService.getAllDepartments(page, size, Sort.by(direction, sort));
+        return ResponseEntity.ok(departments);
     }
 
-    @Override
-    @DeleteMapping("/organization/{id}")
-    public ResponseEntity<Void> deleteDepartmentUnderOrganization(@PathVariable Long id) {
-        departmentService.deleteDepartmentUnderOrganization(id);
+    // Delete a department by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable Long id) {
+        departmentService.deleteDepartment(id);
         return ResponseEntity.noContent().build();
     }
 }

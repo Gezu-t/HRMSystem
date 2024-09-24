@@ -1,69 +1,40 @@
 package com.hrmsystem.employeeprofileservice.dal.dto.employee;
 
-import com.hrmsystem.employeeprofileservice.dal.dto.education.EducationDTO;
-import dal.model.GenderType;
-import dal.model.MaritalStatus;
-import dal.model.employee.EmployeeType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class EmployeeDTO {
-
     private Long id;
-
-    @NotBlank
     private String employeeNumber;
-
-    @NotBlank
     private String firstName;
-
-    @NotBlank
     private String lastName;
-
-    @NotNull
-    private GenderType genderStatus;
-
-    private MaritalStatus maritalStatus;
-
+    private String genderStatus;
+    private String maritalStatus;
     private LocalDate dateOfBirth;
-
     private LocalDate dateOfJoining;
-
-    private EmployeeType employeeType;
-
+    private String employeeType;
     private LocalDate dateOfLeaving;
-
     private LocalDate dateOfResignation;
-
     private Boolean employeeStatus;
-
     private LocalDate employeeStatusDate;
-
     private byte[] employeeProfileImage;
 
-    private List<EmployeeAddressDTO> employeeAddresses;
+    private Long departmentId;
+    private String departmentName;
+    private Long branchId;
+    private String branchName;
+    private Long organizationId;
+    private String organizationName;
 
-    private List<EmployeeDetailDTO> employeeDetails;
-
+    private EmployeeAppearanceDTO employeeAppearance;
+    private FamilyDTO family;
+    private List<EmployeePositionManagementDTO> employeePositionManagements;
     private List<EmployeeEvaluationDTO> employeeEvaluations;
-
+    private List<EmployeeAddressDTO> employeeAddresses;
+    private List<EmployeeDetailDTO> employeeDetails;
     private List<EmployeePromotionDTO> employeePromotions;
 
-    private List<EducationDTO> educationDTOS;
-    private FamilyDTO familyDTO;
-    private EmployeeAppearanceDTO employeeAppearanceDTO;
-
 }
-

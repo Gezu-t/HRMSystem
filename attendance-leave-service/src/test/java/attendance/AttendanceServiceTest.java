@@ -61,7 +61,7 @@ public class AttendanceServiceTest {
     attendanceDTO.setAttendanceStatus(AttendanceStatus.APPROVED);
     attendanceDTO.setForDepartment("HR");
 
-    // Enhanced employee DTO
+    // Enhanced employeeprofile DTO
     employeeDTO = new EmployeeDTO();
     employeeDTO.setId(1L);
     employeeDTO.setName("John Doe");

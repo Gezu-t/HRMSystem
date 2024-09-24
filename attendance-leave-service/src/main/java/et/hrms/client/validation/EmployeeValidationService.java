@@ -9,15 +9,15 @@ public class EmployeeValidationService {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeValidationService.class);
 
     /**
-     * Validates the status of an employee to ensure they are currently active.
+     * Validates the status of an employeeprofile to ensure they are currently active.
      *
-     * @param employee The employee data transferred object (DTO) to validate.
-     * @throws IllegalStateException if the employee status is not active.
+     * @param employee The employeeprofile data transferred object (DTO) to validate.
+     * @throws IllegalStateException if the employeeprofile status is not active.
      */
     public void validateEmployeeStatus(EmployeeDTO employee) {
-        // Null check for the entire employee object to prevent NullPointerException
+        // Null check for the entire employeeprofile object to prevent NullPointerException
         if (employee == null) {
-            logger.error("Attempted to validate employee status but employee data is null");
+            logger.error("Attempted to validate employeeprofile status but employeeprofile data is null");
             throw new IllegalArgumentException("Employee data must not be null");
         }
 

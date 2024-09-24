@@ -32,7 +32,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
     @Override
     public LeaveBalanceDTO createLeaveBalance(LeaveBalanceDTO leaveBalanceDTO) {
-        logger.info("Creating new leave balance for employee ID: {}", leaveBalanceDTO.getEmployeeId());
+        logger.info("Creating new leave balance for employeeprofile ID: {}", leaveBalanceDTO.getEmployeeId());
         validateEmployeeExists(leaveBalanceDTO.getEmployeeId());
 
         LeaveBalance leaveBalance = leaveBalanceMapper.toEntity(leaveBalanceDTO);
@@ -70,7 +70,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         try {
             employeeClientService.getEmployeeById(employeeId);
         } catch (EntityNotFoundException e) {
-            logger.error("Employee validation failed, employee not found: {}", employeeId);
+            logger.error("Employee validation failed, employeeprofile not found: {}", employeeId);
             throw new IllegalStateException("Employee with ID " + employeeId + " does not exist", e);
         }
     }

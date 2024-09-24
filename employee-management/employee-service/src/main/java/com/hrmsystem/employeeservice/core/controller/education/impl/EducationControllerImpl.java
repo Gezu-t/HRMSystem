@@ -27,7 +27,7 @@ public class EducationControllerImpl implements EducationController {
     @Override
     @PostMapping("/employee/{employeeId}")
     public ResponseEntity<Void> createEducation(@PathVariable Long employeeId, @RequestBody EducationDTO educationDTO) {
-        log.info("Creating education for employee with ID: {}", employeeId);
+        log.info("Creating education for employeeprofile with ID: {}", employeeId);
         educationService.createEducation(employeeId, educationDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -35,7 +35,7 @@ public class EducationControllerImpl implements EducationController {
     @Override
     @PutMapping("/employee/{employeeId}")
     public ResponseEntity<EducationDTO> updateEducationInfo(@PathVariable Long employeeId, @RequestBody EducationDTO educationDTO) {
-        log.info("Updating education for employee with ID: {}", employeeId);
+        log.info("Updating education for employeeprofile with ID: {}", employeeId);
         EducationDTO updatedEducation = educationService.updateEducationInfo(employeeId, educationDTO);
         return new ResponseEntity<>(updatedEducation, HttpStatus.OK);
     }

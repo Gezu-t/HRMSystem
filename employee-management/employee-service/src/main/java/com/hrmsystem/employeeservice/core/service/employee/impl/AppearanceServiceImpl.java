@@ -62,7 +62,7 @@ public class AppearanceServiceImpl implements AppearanceService {
     public EmployeeAppearanceDTO updateAppearance(long employeeId, EmployeeAppearanceDTO employeeAppearanceDTO) {
         var appearance = appearanceRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        MessageFormat.format("EmployeeAppearance information is not found by employee id{0}.", employeeId)));
+                        MessageFormat.format("EmployeeAppearance information is not found by employeeprofile id{0}.", employeeId)));
 
         appearance.setId(employeeAppearanceDTO.getId());
         appearance.setHeight(employeeAppearanceDTO.getHeight());

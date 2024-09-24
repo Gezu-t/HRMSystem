@@ -44,7 +44,7 @@ public class EducationServiceImpl implements EducationService {
   private final EducationDetailMapper educationDetailMapper;
 
   /**
-   * Create the employee education information based the employee id specified
+   * Create the employeeprofile education information based the employeeprofile id specified
    *
    * @param employeeId   it uses to create specific education system
    * @param educationDTO It uses the object of EducationDTO

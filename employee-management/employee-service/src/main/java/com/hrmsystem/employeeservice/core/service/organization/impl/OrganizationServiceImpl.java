@@ -1,8 +1,8 @@
 package com.hrmsystem.employeeservice.core.service.organization.impl;
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.OrganizationAddressDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.department.OrganizationDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationAddressDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.organization.OrganizationAddressMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.organization.OrganizationMapper;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;

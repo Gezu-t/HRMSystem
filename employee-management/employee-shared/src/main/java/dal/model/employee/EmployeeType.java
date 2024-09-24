@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum EmployeeType {
-  FULL_TIME("Full-time employee"),
-  PART_TIME("Part-time employee"),
+  FULL_TIME("Full-time employeeprofile"),
+  PART_TIME("Part-time employeeprofile"),
   CONTRACTOR("Contractor"),
   INTERN("Intern");
 

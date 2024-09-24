@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.branch;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.BranchAddressDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchAddressDTO;
 import dal.model.branch.BranchAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

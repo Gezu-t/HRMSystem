@@ -52,14 +52,14 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         leaveRequestDTO.setEmployeeName(employee.getName());
         leaveRequestDTO.setEmployeeDepartment(employee.getDepartment());
 
-        logger.info("Successfully fetched leave request with employee details.");
+        logger.info("Successfully fetched leave request with employeeprofile details.");
         return leaveRequestDTO;
     }
 
     @Override
     @Transactional
     public LeaveRequestDTO createLeaveRequest(CreateLeaveRequestDTO dto) {
-        logger.info("Creating new leave request for employee ID: {}", dto.getEmployeeId());
+        logger.info("Creating new leave request for employeeprofile ID: {}", dto.getEmployeeId());
 
         LeaveRequestType leaveRequestType = leaveRequestTypeRepository.findById(dto.getLeaveTypeId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid leave request type ID: " + dto.getLeaveTypeId()));
@@ -83,11 +83,11 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     }
 
     /**
-     * Handles leave requests for an employee based on the employee's name.
+     * Handles leave requests for an employeeprofile based on the employeeprofile's name.
      *
-     * @param employeeName The name of the employee to search for and process a leave request.
-     * @return Optional<EmployeeDTO> The employee details if found and processed.
-     * @throws IllegalArgumentException if no employee is found or the employee name is not provided.
+     * @param employeeName The name of the employeeprofile to search for and process a leave request.
+     * @return Optional<EmployeeDTO> The employeeprofile details if found and processed.
+     * @throws IllegalArgumentException if no employeeprofile is found or the employeeprofile name is not provided.
      */
     @Override
     public Optional<EmployeeDTO> handleLeaveRequestForEmployee(String employeeName) {
@@ -95,12 +95,12 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         EmployeeDTO[] foundEmployees = employeeClientService.searchEmployeesByName(employeeName);
         if (foundEmployees.length == 0) {
-            throw new IllegalArgumentException("No employee found with the name: " + employeeName);
+            throw new IllegalArgumentException("No employeeprofile found with the name: " + employeeName);
         }
 
-        // Assuming we need to process the leave request for the first found employee
+        // Assuming we need to process the leave request for the first found employeeprofile
         EmployeeDTO employeeToProcess = Arrays.stream(foundEmployees).findFirst()
-                .orElseThrow(() -> new IllegalStateException("Unexpected error processing employee data"));
+                .orElseThrow(() -> new IllegalStateException("Unexpected error processing employeeprofile data"));
 
         // Further processing can go here, like creating a leave request in the database, etc.
         // Assuming this method would be void if no further return is needed or it could return some result type
@@ -112,9 +112,9 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 //        return CompletableFuture.supplyAsync(() -> {
 //            EmployeeDTO[] foundEmployees = employeeClientService.searchEmployeesByName(employeeName);
 //            if (foundEmployees.length == 0) {
-//                throw new RuntimeException("No employee found with the name: " + employeeName);
+//                throw new RuntimeException("No employeeprofile found with the name: " + employeeName);
 //            }
-//            // For simplicity, assume processing the first found employee
+//            // For simplicity, assume processing the first found employeeprofile
 //            return foundEmployees[0];
 //        });
 //    }

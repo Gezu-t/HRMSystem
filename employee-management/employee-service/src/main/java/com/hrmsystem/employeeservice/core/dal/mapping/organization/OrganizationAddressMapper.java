@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.organization;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.OrganizationAddressDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationAddressDTO;
 import dal.model.organization.OrganizationAddress;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

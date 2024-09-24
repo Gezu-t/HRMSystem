@@ -1,5 +1,8 @@
 package dal.model.department;
 
+import dal.model.branch.Branch;
+import dal.model.employee.Employee;
+import dal.model.organization.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,13 +12,13 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "department")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Department implements Serializable {
+public class Department implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5953809346581924427L;
@@ -40,6 +43,17 @@ public abstract class Department implements Serializable {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id", nullable = false)
+    private Branch branch;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Employee> employees;
 
     @PrePersist
     protected void onCreate() {

@@ -1,17 +1,17 @@
 package com.hrmsystem.employeeprofileservice.dal.model;
 
 import dal.model.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(callSuper = true)
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 @Table(name = "employee_profiles")
-@Data
 public class EmployeeProfile extends BaseEntity {
+
+
+
     @Column(name = "employee_id", unique = true, nullable = false)
     private Long employeeId;
 

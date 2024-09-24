@@ -38,7 +38,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
   @Override
   public AttendanceDTO saveAttendance(Long employeeId, AttendanceDTO attendanceDTO) {
-    log.info("Saving attendance for employee ID: {}", employeeId);
+    log.info("Saving attendance for employeeprofile ID: {}", employeeId);
 
     validateAttendanceDTO(attendanceDTO);
 
@@ -52,7 +52,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     attendance.setCreatedAt(LocalDateTime.now());
     attendance = attendanceRepository.save(attendance);
 
-    log.info("Attendance saved for employee ID: {}", employeeId);
+    log.info("Attendance saved for employeeprofile ID: {}", employeeId);
     return attendanceMapper.toDto(attendance);
   }
 
@@ -67,7 +67,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
   @Override
   public AttendanceDTO getAttendanceByEmployeeName(EmployeeDTO employeeDTO) {
-    log.info("Fetching attendance by employee name: {}", employeeDTO.getName());
+    log.info("Fetching attendance by employeeprofile name: {}", employeeDTO.getName());
     if (!StringUtils.hasText(employeeDTO.getName())) {
       throw new IllegalArgumentException("Employee name must not be empty");
     }
@@ -75,7 +75,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 //    Attendance attendance = attendanceRepository.findByEmployeeName(employeeDTO.getName());
 //    if (attendance == null) {
-//      throw new CustomEntityNotFoundException("Attendance not found for employee name: " + employeeDTO.getName());
+//      throw new CustomEntityNotFoundException("Attendance not found for employeeprofile name: " + employeeDTO.getName());
 //    }
 
     return attendanceMapper.toDto(attendance);

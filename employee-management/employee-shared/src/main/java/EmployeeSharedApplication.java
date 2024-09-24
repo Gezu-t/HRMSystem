@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EntityScan(basePackages = {"com.hrmsystem.employeeservice.core.dal.model"})
-@EnableJpaRepositories(basePackages = {"com.hrmsystem.employeeservice.core.dal.repository"})
+@EntityScan(basePackages = {"dal.model"})
+@EnableJpaRepositories(basePackages = {"dal.repository"})
 public class EmployeeSharedApplication {
 
   public static void main(String[] args) {

@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.branch;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.BranchDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

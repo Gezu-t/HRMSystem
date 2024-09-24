@@ -1,6 +1,6 @@
 spring:
   application:
-    name: employee-record-service
+    name: employeeprofile-record-service
 
 eureka:
   client:

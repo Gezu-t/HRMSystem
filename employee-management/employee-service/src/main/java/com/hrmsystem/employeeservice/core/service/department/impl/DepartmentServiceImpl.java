@@ -1,20 +1,15 @@
 package com.hrmsystem.employeeservice.core.service.department.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentUnderBranchDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentUnderOrganizationDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
-import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentUnderBranchMapper;
-import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentUnderOrganizationMapper;
 import com.hrmsystem.employeeservice.core.service.department.DepartmentService;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;
 import com.hrmsystem.employeeservice.core.service.log.LogService;
 import dal.model.branch.Branch;
-import dal.model.department.DepartmentUnderBranch;
-import dal.model.department.DepartmentUnderOrganization;
+import dal.model.department.Department;
 import dal.model.organization.Organization;
 import dal.repository.branch.BranchRepository;
-import dal.repository.department.DepartmentUnderBranchRepository;
-import dal.repository.department.DepartmentUnderOrganizationRepository;
+import dal.repository.department.DepartmentRepository;
 import dal.repository.organization.OrganizationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -40,162 +35,118 @@ public class DepartmentServiceImpl implements DepartmentService {
     private static final String USERNAME = "username";
     private static final String CREATE = "Create";
     private static final String UPDATE = "Update";
+    private static final String DELETE = "Delete";
 
-    private final DepartmentUnderBranchRepository departmentUnderBranchRepository;
-    private final DepartmentUnderOrganizationRepository departmentUnderOrganizationRepository;
     private final DepartmentMapper departmentMapper;
+    private final DepartmentRepository departmentRepository;
     private final BranchRepository branchRepository;
     private final OrganizationRepository organizationRepository;
-    private final DepartmentUnderBranchMapper departmentUnderBranchMapper;
-    private final DepartmentUnderOrganizationMapper underOrganizationMapper;
     private final AuditService auditService;
-    private final LogService  logService;
+    private final LogService logService;
 
-    private <T> T saveAndLog(T department, String action) {
-        if (department instanceof DepartmentUnderBranch) {
-            DepartmentUnderBranch savedDepartment = departmentUnderBranchRepository.save((DepartmentUnderBranch) department);
-            auditService.logAction(USERNAME, DEPARTMENT, action, savedDepartment.getId());
-            return (T) savedDepartment;
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public DepartmentDTO createDepartment(DepartmentDTO departmentDTO, Long branchId, Long organizationId) {
+        Department department = departmentMapper.toDepartment(departmentDTO);
+
+        if (branchId != null) {
+            Branch branch = branchRepository.findById(branchId)
+                    .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
+            department.setBranch(branch);
+            department.setOrganization(branch.getOrganization());
+        } else if (organizationId != null) {
+            Organization organization = organizationRepository.findById(organizationId)
+                    .orElseThrow(() -> new EntityNotFoundException("Organization not found by id: " + organizationId));
+            department.setOrganization(organization);
         } else {
-            DepartmentUnderOrganization savedDepartment = departmentUnderOrganizationRepository.save((DepartmentUnderOrganization) department);
-            auditService.logAction(USERNAME, DEPARTMENT, action, savedDepartment.getId());
-            return (T) savedDepartment;
+            throw new IllegalArgumentException("Either branchId or organizationId must be provided");
         }
-    }
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void createDepartmentByBranchId(long branchId, List<DepartmentUnderBranchDTO> departmentUnderBranchDTOS) {
-        Branch branch = branchRepository.findById(branchId)
-                .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
-
-        List<DepartmentUnderBranch> departments = departmentUnderBranchDTOS.stream()
-                .map(departmentUnderBranchMapper::toDepartmentUnderBranch)
-                .peek(department -> department.setBranch(branch))
-                .collect(Collectors.toList());
-
-        departmentUnderBranchRepository.saveAll(departments);
-        departments.forEach(department -> auditService.logAction(USERNAME, DEPARTMENT, CREATE, department.getId()));
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void createDepartmentByOrganizationId(Long organizationId, List<DepartmentUnderOrganizationDTO> underOrganizationDTOS) {
-        Organization organization = organizationRepository.findById(organizationId)
-                .orElseThrow(() -> new EntityNotFoundException("Organization not found by id: " + organizationId));
-
-        List<DepartmentUnderOrganization> departments = underOrganizationDTOS.stream()
-                .map(underOrganizationMapper::toDepartmentUnderOrganization)
-                .peek(department -> department.setOrganization(organization))
-                .collect(Collectors.toList());
-
-        departmentUnderOrganizationRepository.saveAll(departments);
-        departments.forEach(department -> auditService.logAction(USERNAME, DEPARTMENT, CREATE, department.getId()));
+        Department savedDepartment = departmentRepository.save(department);
+        auditService.logAction(USERNAME, DEPARTMENT, CREATE, savedDepartment.getId());
+        return departmentMapper.toDepartmentDTO(savedDepartment);
     }
 
     @Override
     @Cacheable(value = "departmentCache", key = "#id")
-    public DepartmentUnderBranchDTO getDepartmentUnderBranchById(Long id) {
-        DepartmentUnderBranch department = departmentUnderBranchRepository.findById(id)
+    public DepartmentDTO getDepartmentById(Long id) {
+        Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + id));
-        return departmentUnderBranchMapper.toDepartmentUnderBranchDTO(department);
-    }
-
-    @Override
-    @Cacheable(value = "departmentCache", key = "#id")
-    public DepartmentUnderOrganizationDTO getDepartmentUnderOrganizationById(Long id) {
-        DepartmentUnderOrganization department = departmentUnderOrganizationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + id));
-        return underOrganizationMapper.toDepartmentUnderOrganizationDTO(department);
+        return departmentMapper.toDepartmentDTO(department);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public DepartmentUnderBranchDTO updateDepartmentUnderBranch(Long departmentId, DepartmentUnderBranchDTO departmentDTO) {
-        DepartmentUnderBranch department = departmentUnderBranchRepository.findById(departmentId)
+    public DepartmentDTO updateDepartment(Long departmentId, DepartmentDTO departmentDTO) {
+        Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + departmentId));
 
-        departmentUnderBranchMapper.updateDepartmentUnderBranchFromDTO(departmentDTO, department);
+        departmentMapper.updateDepartmentFromDTO(departmentDTO, department);
         department.setUpdatedAt(LocalDateTime.now());
-        DepartmentUnderBranch updatedDepartment = saveAndLog(department, UPDATE);
-        return departmentUnderBranchMapper.toDepartmentUnderBranchDTO(updatedDepartment);
+        Department updatedDepartment = departmentRepository.save(department);
+        auditService.logAction(USERNAME, DEPARTMENT, UPDATE, updatedDepartment.getId());
+        return departmentMapper.toDepartmentDTO(updatedDepartment);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public DepartmentUnderOrganizationDTO updateDepartmentUnderOrganization(Long departmentId, DepartmentUnderOrganizationDTO departmentDTO) {
-        DepartmentUnderOrganization department = departmentUnderOrganizationRepository.findById(departmentId)
-                .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + departmentId));
-
-        underOrganizationMapper.updateDepartmentUnderOrganizationFromDTO(departmentDTO, department);
-        department.setUpdatedAt(LocalDateTime.now());
-        DepartmentUnderOrganization updatedDepartment = saveAndLog(department, UPDATE);
-        return underOrganizationMapper.toDepartmentUnderOrganizationDTO(updatedDepartment);
-    }
-
-    @Override
-    public List<DepartmentUnderBranchDTO> getDepartmentByBranch(Long branchId, Sort sort) {
-        List<DepartmentUnderBranch> departments = departmentUnderBranchRepository.findByBranchId(branchId, sort);
+    public List<DepartmentDTO> getDepartmentsByBranch(Long branchId, Sort sort) {
+        List<Department> departments = departmentRepository.findByBranchId(branchId, sort);
         return departments.stream()
-                .map(departmentUnderBranchMapper::toDepartmentUnderBranchDTO)
+                .map(departmentMapper::toDepartmentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<DepartmentUnderOrganizationDTO> getDepartmentByOrganization(Long organizationId, Sort sort) {
-        List<DepartmentUnderOrganization> departments = departmentUnderOrganizationRepository.findByOrganizationId(organizationId, sort);
+    public List<DepartmentDTO> getDepartmentsByOrganization(Long organizationId, Sort sort) {
+        List<Department> departments = departmentRepository.findByOrganizationIdAndBranchIsNull(organizationId, sort);
         return departments.stream()
-                .map(underOrganizationMapper::toDepartmentUnderOrganizationDTO)
+                .map(departmentMapper::toDepartmentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<DepartmentUnderBranchDTO> getAllDepartmentsUnderBranch(int page, int size, Sort sort) {
+    @Transactional(readOnly = true)
+    public List<DepartmentDTO> getAllDepartments(int page, int size, Sort sort) {
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<DepartmentUnderBranch> departments = departmentUnderBranchRepository.findAll(pageable);
+        Page<Department> departments = departmentRepository.findAll(pageable);
         if (page > departments.getTotalPages() - 1) {
             logService.log("Requested page exceeds total number of pages. Returning empty list.");
             return Collections.emptyList();
         }
 
-        logService.log("Successfully retrieved all department information under branches.");
+        logService.log("Successfully retrieved all department information.");
         return departments.stream()
-                .map(departmentUnderBranchMapper::toDepartmentUnderBranchDTO)
+                .map(departmentMapper::toDepartmentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<DepartmentUnderOrganizationDTO> getAllDepartmentsUnderOrganization(int page, int size, Sort sort) {
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<DepartmentUnderOrganization> departments = departmentUnderOrganizationRepository.findAll(pageable);
-        if (page > departments.getTotalPages() - 1) {
-            logService.log("Requested page exceeds total number of pages. Returning empty list.");
-            return Collections.emptyList();
-        }
-
-        logService.log("Successfully retrieved all department information under organizations.");
-        return departments.stream()
-                .map(underOrganizationMapper::toDepartmentUnderOrganizationDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void deleteDepartmentUnderBranch(Long id) {
-        DepartmentUnderBranch department = departmentUnderBranchRepository.findById(id)
+    public void deleteDepartment(Long id) {
+        Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + id));
-        departmentUnderBranchRepository.delete(department);
-        auditService.logAction(USERNAME, DEPARTMENT, "Delete", id);
+        departmentRepository.delete(department);
+        auditService.logAction(USERNAME, DEPARTMENT, DELETE, id);
     }
 
-    @Override
+   /* @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void deleteDepartmentUnderOrganization(Long id) {
-        DepartmentUnderOrganization department = departmentUnderOrganizationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + id));
-        departmentUnderOrganizationRepository.delete(department);
-        auditService.logAction(USERNAME, DEPARTMENT, "Delete", id);
-    }
+    public DepartmentDTO updateDepartment(Long departmentId, DepartmentDTO departmentDTO) {
+        // Find the existing department entity by ID
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + departmentId));
+
+        // Update the department entity using the mapper and data from departmentDTO
+        departmentMapper.updateDepartmentFromDTO(departmentDTO, department);
+
+        // Update the timestamp
+        department.setUpdatedAt(LocalDateTime.now());
+
+        // Save the updated entity to the database
+        Department updatedDepartment = departmentRepository.save(department);
+
+        // Convert the updated entity to a DTO and return it
+        return departmentMapper.toDepartmentDTO(updatedDepartment);
+    }*/
+
 }

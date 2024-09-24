@@ -3,7 +3,10 @@ package dal.model.employee;
 
 import dal.model.GenderType;
 import dal.model.MaritalStatus;
+import dal.model.branch.Branch;
+import dal.model.department.Department;
 import dal.model.education.Education;
+import dal.model.organization.Organization;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +22,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
-@Table(name = "employee")
+@Table(name = "employeeprofile")
 public class Employee implements Serializable {
 
     @Serial
@@ -62,6 +65,18 @@ public class Employee implements Serializable {
 
     @Lob
     private byte[] employeeProfileImage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private EmployeeAppearance employeeAppearance;

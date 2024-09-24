@@ -28,16 +28,16 @@ public class LeaveRequestControllerImpl implements LeaveRequestController {
     }
 
     /**
-     * Get employee details based on employee name.
-     * @param employeeName The employee's name to search for.
+     * Get employeeprofile details based on employeeprofile name.
+     * @param employeeName The employeeprofile's name to search for.
      * @return ResponseEntity containing EmployeeDTO or not found status.
      */
     @Override
-    @GetMapping("/employee/{employeeName}")
+    @GetMapping("/employeeprofile/{employeeName}")
     public ResponseEntity<EmployeeDTO> getEmployeeDetails(@PathVariable String employeeName) {
         try {
             EmployeeDTO employee = leaveRequestService.handleLeaveRequestForEmployee(employeeName)
-                    .orElseThrow(() -> new RuntimeException("No employee found with the name: " + employeeName));
+                    .orElseThrow(() -> new RuntimeException("No employeeprofile found with the name: " + employeeName));
             return ResponseEntity.ok(employee);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
@@ -47,14 +47,14 @@ public class LeaveRequestControllerImpl implements LeaveRequestController {
     }
 
 //    /**
-//     * Get employee details asynchronously based on employee name.
-//     * @param employeeName The employee's name to search for.
+//     * Get employeeprofile details asynchronously based on employeeprofile name.
+//     * @param employeeName The employeeprofile's name to search for.
 //     * @return A CompletableFuture wrapped in ResponseEntity containing EmployeeDTO.
 //     */
-//    @GetMapping("/employee/{employeeName}")
+//    @GetMapping("/employeeprofile/{employeeName}")
 //    public CompletableFuture<ResponseEntity<EmployeeDTO>> getEmployeeDetails(@PathVariable String employeeName) {
 //        return leaveRequestService.handleLeaveRequestForEmployeeAsync(employeeName)
-//                .thenApply(employee -> ResponseEntity.ok(employee))
+//                .thenApply(employeeprofile -> ResponseEntity.ok(employeeprofile))
 //                .exceptionally(ex -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 //    }
 

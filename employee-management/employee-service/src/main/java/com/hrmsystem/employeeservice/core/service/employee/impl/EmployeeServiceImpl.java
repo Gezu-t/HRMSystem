@@ -6,11 +6,16 @@ import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMappe
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.employee.*;
 import com.hrmsystem.employeeservice.core.service.employee.EmployeeService;
+import dal.model.branch.Branch;
+import dal.model.department.Department;
 import dal.model.education.Education;
 import dal.model.employee.*;
+import dal.model.organization.Organization;
+import dal.repository.branch.BranchRepository;
 import dal.repository.department.DepartmentRepository;
 import dal.repository.employee.EmployeeDetailRepository;
 import dal.repository.employee.EmployeeRepository;
+import dal.repository.organization.OrganizationRepository;
 import exceptions.EmployeeNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDetailMapper employeeDetailMapper;
     private final DepartmentRepository departmentRepository;
     private final EmployeeDetailRepository employeeDetailRepository;
+    private final BranchRepository branchRepository;
+    private final OrganizationRepository organizationRepository;
     private final DepartmentMapper departmentMapper;
     private final EducationMapper educationMapper;
     private final EmployeePromotionMapper promotionMapper;
@@ -40,26 +47,58 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
-       Employee employee = employeeMapper.toEmployee(employeeDTO);
+        // Convert DTO to entity
+        Employee employee = employeeMapper.toEmployee(employeeDTO);
 
-        if (employeeDTO.getId() == null) {
-            employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetails()));
-            employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddresses()));
-            employee.setEducations(createEmployeeEducations(employee, employeeDTO.getEducationDTOS()));
-            employee.setEmployeePromotions(createEmployeePromotions(employee, employeeDTO.getEmployeePromotions()));
-            employee.setEmployeeAppearance(createEmployeeAppearance(employee, employeeDTO.getEmployeeAppearanceDTO()));
-            employee.setFamily(createFamily(employee, employeeDTO.getFamilyDTO()));
-            validateAndSaveEmployee(employee);
-        }
+        // Validate employeeprofile data
+        validateEmployeeData(employeeDTO);
+
+        // Fetch related entities if their IDs are provided
+        setRelatedEntities(employeeDTO, employee);
+
+        // Create associated entities and set bidirectional links
+        employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetails()));
+        employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddresses()));
+        employee.setEducations(createEmployeeEducations(employee, employeeDTO.getEducations()));
+        employee.setEmployeePromotions(createEmployeePromotions(employee, employeeDTO.getEmployeePromotions()));
+        employee.setEmployeeAppearance(createEmployeeAppearance(employee, employeeDTO.getEmployeeAppearance()));
+        employee.setFamily(createFamily(employee, employeeDTO.getFamily()));
+
+        // Save the employeeprofile and related entities using cascading
+        employeeRepository.save(employee);
 
         return employeeMapper.toEmployeeDTO(employee);
     }
 
-    private void validateAndSaveEmployee( Employee employee) {
-        if (!employee.getEmployeeAddresses().isEmpty() && !employee.getEmployeeDetails().isEmpty()) {
-            employeeRepository.save(employee);
-        } else {
-            throw new EntityNotFoundException("Employee has some problem persisting");
+    private void validateEmployeeData(EmployeeDTO employeeDTO) {
+        if (employeeDTO.getEmployeeAddresses() == null || employeeDTO.getEmployeeAddresses().isEmpty()) {
+            throw new IllegalArgumentException("Employee addresses must be provided.");
+        }
+        if (employeeDTO.getEmployeeDetails() == null || employeeDTO.getEmployeeDetails().isEmpty()) {
+            throw new IllegalArgumentException("Employee details must be provided.");
+        }
+    }
+
+    private void setRelatedEntities(EmployeeDTO employeeDTO, Employee employee) {
+        // Set Department
+        if (employeeDTO.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(employeeDTO.getDepartmentId())
+                    .orElseThrow(() -> new EntityNotFoundException("Department not found for ID: " + employeeDTO.getDepartmentId()));
+            employee.setDepartment(department);
+        }
+
+        // Set Branch
+        if (employeeDTO.getBranchId() != null) {
+            Branch branch = branchRepository.findById(employeeDTO.getBranchId())
+                    .orElseThrow(() -> new EntityNotFoundException("Branch not found for ID: " + employeeDTO.getBranchId()));
+            employee.setBranch(branch);
+        }
+
+        // Set Organization
+        if (employeeDTO.getOrganizationId() != null) {
+            Organization organization = organizationRepository.findById(employeeDTO.getOrganizationId())
+                    .orElseThrow(() -> new EntityNotFoundException("Organization not found for ID: " + employeeDTO.getOrganizationId()));
+            employee.setOrganization(organization);
         }
     }
 
@@ -70,11 +109,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private EmployeeDetail createEmployeeDetail(Employee employee, EmployeeDetailDTO dto) {
-         EmployeeDetail employeeDetail = employeeDetailMapper.toEmployeeDetail(dto);
-        var department = departmentRepository.findById(dto.getDepartmentId())
-                .orElseThrow(() -> new EntityNotFoundException("Department information is not found"));
+        EmployeeDetail employeeDetail = employeeDetailMapper.toEmployeeDetail(dto);
+        Department department = departmentRepository.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new EntityNotFoundException("Department not found for ID: " + dto.getDepartmentId()));
         employeeDetail.setDepartment(department);
-        employeeDetail.setEmployee(employee);
+        employeeDetail.setEmployee(employee); // Set bidirectional link
         return employeeDetail;
     }
 
@@ -84,9 +123,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    private  EmployeeAddress createEmployeeAddress( Employee employee, EmployeeAddressDTO dto) {
-         EmployeeAddress address = addressMapper.toEmployeeAddress(dto);
-        address.setEmployee(employee);
+    private EmployeeAddress createEmployeeAddress(Employee employee, EmployeeAddressDTO dto) {
+        EmployeeAddress address = addressMapper.toEmployeeAddress(dto);
+        address.setEmployee(employee); // Set bidirectional link
         return address;
     }
 
@@ -96,9 +135,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    private Education createEmployeeEducation( Employee employee, EducationDTO dto) {
+    private Education createEmployeeEducation(Employee employee, EducationDTO dto) {
         Education education = educationMapper.toEducation(dto);
-        education.setEmployee(employee);
+        education.setEmployee(employee); // Set bidirectional link
         return education;
     }
 
@@ -108,21 +147,21 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    private  EmployeePromotion createEmployeePromotion( Employee employee, EmployeePromotionDTO dto) {
-         EmployeePromotion promotion = promotionMapper.toEmployeePromotion(dto);
-        promotion.setEmployee(employee);
+    private EmployeePromotion createEmployeePromotion(Employee employee, EmployeePromotionDTO dto) {
+        EmployeePromotion promotion = promotionMapper.toEmployeePromotion(dto);
+        promotion.setEmployee(employee); // Set bidirectional link
         return promotion;
     }
 
     private EmployeeAppearance createEmployeeAppearance(Employee employee, EmployeeAppearanceDTO dto) {
-         EmployeeAppearance appearance = appearanceMapper.toAppearance(dto);
-        appearance.setEmployee(employee);
+        EmployeeAppearance appearance = appearanceMapper.toAppearance(dto);
+        appearance.setEmployee(employee); // Set bidirectional link
         return appearance;
     }
 
-    private Family createFamily( Employee employee, FamilyDTO  dto) {
-         Family family = familyMapper.toFamily(dto);
-        family.setEmployee(employee);
+    private Family createFamily(Employee employee, FamilyDTO dto) {
+        Family family = familyMapper.toFamily(dto);
+        family.setEmployee(employee); // Set bidirectional link
         return family;
     }
 
@@ -153,7 +192,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return convertToEmployeeDTO(employee);
     }
 
-    private EmployeeDTO convertToEmployeeDTO( Employee employee) {
+    private EmployeeDTO convertToEmployeeDTO(Employee employee) {
         var employeeDetailDTOS = employee.getEmployeeDetails().stream()
                 .map(this::convertToEmployeeDetailDTO)
                 .collect(Collectors.toList());
@@ -173,16 +212,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         var employeeDTO = employeeMapper.toEmployeeDTO(employee);
         employeeDTO.setEmployeeDetails(employeeDetailDTOS);
         employeeDTO.setEmployeeAddresses(employeeAddressDTOS);
-        employeeDTO.setEducationDTOS(employeeEducationDTOS);
+        employeeDTO.setEducations(employeeEducationDTOS);
         employeeDTO.setEmployeePromotions(employeePromotionDTOS);
-        employeeDTO.setEmployeeAppearanceDTO(appearanceMapper.toAppearanceDTO(employee.getEmployeeAppearance()));
-        employeeDTO.setFamilyDTO(familyMapper.toFamilyDTO(employee.getFamily()));
+        employeeDTO.setEmployeeAppearance(appearanceMapper.toAppearanceDTO(employee.getEmployeeAppearance()));
+        employeeDTO.setFamily(familyMapper.toFamilyDTO(employee.getFamily()));
 
         return employeeDTO;
     }
 
-    private EmployeeDetailDTO convertToEmployeeDetailDTO( EmployeeDetail employeeDetail) {
-        var departmentDTO = departmentMapper.toDepartment(employeeDetail.getDepartment());
+    private EmployeeDetailDTO convertToEmployeeDetailDTO(EmployeeDetail employeeDetail) {
         var employeeDetailDTO = employeeDetailMapper.toEmployeeDetailDTO(employeeDetail);
         employeeDetailDTO.setDepartmentId(employeeDetail.getDepartment().getId());
         return employeeDetailDTO;
@@ -191,7 +229,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(readOnly = true)
     public List<EmployeeDTO> searchEmployeesByName(String name) {
-        List< Employee> employees = employeeRepository.searchByFirstNameOrLastName(name);
+        List<Employee> employees = employeeRepository.searchByFirstNameOrLastName(name);
         return employees.stream()
                 .map(employeeMapper::toEmployeeDTO)
                 .collect(Collectors.toList());

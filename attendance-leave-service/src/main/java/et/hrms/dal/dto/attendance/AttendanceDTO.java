@@ -18,7 +18,7 @@ public class AttendanceDTO implements Serializable {
   private static final long serialVersionUID = -3485894793224113890L;
 
   private Long attendanceId;
-  @NotNull(message = "attendance employee name must not be null")
+  @NotNull(message = "attendance employeeprofile name must not be null")
   private String absenteeReportedBy;
   @NotNull(message = "attendance date must not be null")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
@@ -54,11 +54,11 @@ public class AttendanceDTO implements Serializable {
     this.attendanceId = attendanceId;
   }
 
-  public @NotNull(message = "attendance employee name must not be null") String getAbsenteeReportedBy() {
+  public @NotNull(message = "attendance employeeprofile name must not be null") String getAbsenteeReportedBy() {
     return absenteeReportedBy;
   }
 
-  public void setAbsenteeReportedBy(@NotNull(message = "attendance employee name must not be null") String absenteeReportedBy) {
+  public void setAbsenteeReportedBy(@NotNull(message = "attendance employeeprofile name must not be null") String absenteeReportedBy) {
     this.absenteeReportedBy = absenteeReportedBy;
   }
 

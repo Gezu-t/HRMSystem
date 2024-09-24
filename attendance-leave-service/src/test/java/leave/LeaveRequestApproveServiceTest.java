@@ -62,7 +62,7 @@ public class LeaveRequestApproveServiceTest {
         leaveRequestApproveDTO.setApprovalUserComment("Approved for good performance");
         leaveRequestApproveDTO.setDescription("All conditions met for approval");
 
-        // Enhanced employee DTO
+        // Enhanced employeeprofile DTO
         activeEmployee = new EmployeeDTO();
         activeEmployee.setId(1L);
         activeEmployee.setName("John Doe");

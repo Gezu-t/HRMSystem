@@ -1,7 +1,8 @@
 package dal.model.branch;
 
 
-import dal.model.department.DepartmentUnderBranch;
+import dal.model.department.Department;
+import dal.model.employee.Employee;
 import dal.model.organization.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -46,8 +47,13 @@ public class Branch implements Serializable {
     @JoinColumn(name = "branch_address_id", referencedColumnName = "id")
     private BranchAddress branchAddress;
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DepartmentUnderBranch> departments;
+
+
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    private List<Department> departments;
+
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    private List<Employee> employees;
 
 
     @PrePersist

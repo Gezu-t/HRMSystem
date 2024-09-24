@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.service.branch.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.BranchAddressDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.department.BranchDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchAddressDTO;
+import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchAddressMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.service.branch.BranchService;

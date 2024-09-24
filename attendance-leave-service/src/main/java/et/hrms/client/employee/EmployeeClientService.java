@@ -16,7 +16,7 @@ public class EmployeeClientService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${employee.service.url}")
+    @Value("${employeeprofile.service.url}")
     private String employeeServiceUrl;
 
     public EmployeeClientService(RestTemplate restTemplate) {
@@ -29,7 +29,7 @@ public class EmployeeClientService {
             String url = employeeServiceUrl + "/employees/" + employeeId;
             return restTemplate.getForObject(url, EmployeeDTO.class);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to retrieve employee: " + employeeId, e);
+            throw new RuntimeException("Failed to retrieve employeeprofile: " + employeeId, e);
         }
     }
 

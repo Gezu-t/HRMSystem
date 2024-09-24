@@ -1,5 +1,7 @@
 
 spring:
+  application:
+    name: attendance-leave-service
   datasource:
     url: jdbc:mysql://localhost:3306/attendance_leave?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
@@ -22,9 +24,13 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
-server:
-  port: 8081
 
-employee:
-  service:
-    url: http://localhost:8080/api/employees
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 0

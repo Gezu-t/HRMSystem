@@ -1,6 +1,8 @@
 package dal.model.organization;
 
-import dal.model.department.DepartmentUnderOrganization;
+import dal.model.branch.Branch;
+import dal.model.department.Department;
+import dal.model.employee.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -43,8 +45,16 @@ public class Organization implements Serializable {
     @JoinColumn(name = "organization_address_id", referencedColumnName = "id")
     private OrganizationAddress organizationAddress;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DepartmentUnderOrganization> departments;
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Branch> branches;
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Department> departments;
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Employee> employees;
+
+
 
     @PrePersist
     private void prePersist() {

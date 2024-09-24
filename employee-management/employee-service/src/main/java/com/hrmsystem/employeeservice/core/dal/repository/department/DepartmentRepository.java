@@ -1,8 +1,0 @@
-package com.hrmsystem.employeeservice.core.dal.repository.department;
-
-import dal.model.department.Department;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface DepartmentRepository extends JpaRepository<Department, Long> {
-
-}

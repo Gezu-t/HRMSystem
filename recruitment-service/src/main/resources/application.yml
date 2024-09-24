@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: recruitment-service
   datasource:
     url: jdbc:mysql://localhost:3306/recruitment?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
@@ -21,5 +23,11 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
 server:
-  port: 8082
+  port: 0
