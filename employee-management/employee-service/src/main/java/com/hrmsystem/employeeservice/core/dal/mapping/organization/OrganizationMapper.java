@@ -25,7 +25,7 @@ public interface OrganizationMapper {
 
     @Mapping(target = "branches", ignore = true)
     @Mapping(target = "departments", ignore = true)
-    void updateOrganizationFromDTO(OrganizationDTO dto, @MappingTarget Organization entity);
+    void updateOrganization(OrganizationDTO dto, @MappingTarget Organization entity);
 
     @AfterMapping
     default void mapBranchesAndDepartments(Organization entity, @MappingTarget OrganizationDTO dto) {

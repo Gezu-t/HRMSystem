@@ -1,6 +1,7 @@
 package com.hrmsystem.employeeservice.core.dal.dto.branch;
 
 
+import com.hrmsystem.employeeservice.core.dal.dto.common.AddressDTO;
 import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,6 @@ public class BranchDTO implements Serializable {
   private Long organizationId;
   private String organizationName;
   private List<DepartmentDTO> departments;
-  private BranchAddressDTO branchAddressDTO;
+  private AddressDTO branchAddressDTO;
 
 }

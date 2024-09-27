@@ -1,5 +1,6 @@
 package dal.model.organization;
 
+import dal.model.branch.Address;
 import dal.model.branch.Branch;
 import dal.model.department.Department;
 import dal.model.employee.Employee;
@@ -11,12 +12,13 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "organization", schema = "public")
+@Table(name = "organization")
 public class Organization implements Serializable {
 
     @Serial
@@ -37,13 +39,9 @@ public class Organization implements Serializable {
     @Column(nullable = false)
     private LocalDate establishmentDate;
 
-    @NotBlank
-    @Column(nullable = false, length = 100)
-    private String ownerName;
-
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_address_id", referencedColumnName = "id")
-    private OrganizationAddress organizationAddress;
+    private Address organizationAddress;
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Branch> branches;
@@ -54,7 +52,11 @@ public class Organization implements Serializable {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Employee> employees;
 
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Owners> owners;
 
+    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
     @PrePersist
     private void prePersist() {

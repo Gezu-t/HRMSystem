@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/organizations")
-@CrossOrigin(origins = "http://localhost:8081")
 @RequiredArgsConstructor
 public class OrganizationControllerImpl implements OrganizationController {
 

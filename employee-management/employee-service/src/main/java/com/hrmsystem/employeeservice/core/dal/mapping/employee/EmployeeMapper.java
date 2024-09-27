@@ -40,7 +40,7 @@ public interface EmployeeMapper {
     Employee toEmployee(EmployeeDTO employeeDTO);
 
     @InheritConfiguration(name = "toEmployee")
-    void updateEmployeeFromDTO(EmployeeDTO employeeDTO, @MappingTarget Employee employee);
+    void updateEmployee(EmployeeDTO employeeDTO, @MappingTarget Employee employee);
 
     @AfterMapping
     default void setEnumAndEntityValues(EmployeeDTO dto, @MappingTarget Employee entity) {

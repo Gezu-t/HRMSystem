@@ -45,9 +45,7 @@ public class Branch implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_address_id", referencedColumnName = "id")
-    private BranchAddress branchAddress;
-
-
+    private Address branchAddress;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Department> departments;
@@ -56,17 +54,5 @@ public class Branch implements Serializable {
     private List<Employee> employees;
 
 
-    @PrePersist
-    private void prePersist() {
-        if (branchAddress != null) {
-            branchAddress.setBranch(this);
-        }
-    }
 
-    @PreUpdate
-    private void preUpdate() {
-        if (branchAddress != null) {
-            branchAddress.setBranch(this);
-        }
-    }
 }

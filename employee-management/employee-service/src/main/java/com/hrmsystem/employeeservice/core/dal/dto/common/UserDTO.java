@@ -1,4 +1,4 @@
-package com.hrmsystem.employeeservice.core.dal.dto;
+package com.hrmsystem.employeeservice.core.dal.dto.common;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

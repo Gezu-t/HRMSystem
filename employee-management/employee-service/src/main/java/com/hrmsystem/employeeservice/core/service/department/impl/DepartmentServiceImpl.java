@@ -81,7 +81,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Department not found by id: " + departmentId));
 
-        departmentMapper.updateDepartmentFromDTO(departmentDTO, department);
+        departmentMapper.updateDepartment(departmentDTO, department);
         department.setUpdatedAt(LocalDateTime.now());
         Department updatedDepartment = departmentRepository.save(department);
         auditService.logAction(USERNAME, DEPARTMENT, UPDATE, updatedDepartment.getId());

@@ -29,7 +29,7 @@ public interface DepartmentMapper {
 
     @Mapping(target = "branch", ignore = true)
     @Mapping(target = "organization", ignore = true)
-    void updateDepartmentFromDTO(DepartmentDTO dto, @MappingTarget Department entity);
+    void updateDepartment(DepartmentDTO dto, @MappingTarget Department entity);
 
     List<DepartmentDTO> toDepartmentDTOList(List<Department> entities);
 

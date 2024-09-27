@@ -1,21 +1,27 @@
-package com.hrmsystem.employeeservice.core.dal.dto.organization;
+package dal.model.branch;
 
-
-import jakarta.persistence.Embeddable;
+import dal.model.organization.Organization;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Embeddable
-public class OrganizationAddressDTO {
+@Entity
+@Table(name = "address")
+public class Address implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -743290746686206556L;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 15)
@@ -59,5 +65,10 @@ public class OrganizationAddressDTO {
     @Size(max = 50)
     private String country;
 
-    // Getters and Setters
+    @OneToOne(mappedBy = "organizationAddress", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Organization organization;
+
+    @OneToOne(mappedBy = "branchAddress", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Branch branch;
+
 }

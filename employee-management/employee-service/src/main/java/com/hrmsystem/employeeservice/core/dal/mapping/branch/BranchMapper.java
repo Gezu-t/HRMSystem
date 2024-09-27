@@ -24,7 +24,7 @@ public interface BranchMapper {
     Branch toBranch(BranchDTO dto);
 
     @Mapping(target = "organization", ignore = true)
-    void updateBranchFromDTO(BranchDTO dto, @MappingTarget Branch entity);
+    void updateBranch(BranchDTO dto, @MappingTarget Branch entity);
 
     List<BranchDTO> toBranchDTOList(List<Branch> entities);
 
