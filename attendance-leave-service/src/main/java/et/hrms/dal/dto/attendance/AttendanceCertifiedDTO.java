@@ -2,12 +2,13 @@ package et.hrms.dal.dto.attendance;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import et.hrms.dal.model.attendance.AttendanceCertifiedStatus;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
+@Data
 public class AttendanceCertifiedDTO implements Serializable {
 
   @Serial
@@ -21,43 +22,4 @@ public class AttendanceCertifiedDTO implements Serializable {
   private AttendanceCertifiedStatus certifyStatus;
   private String description;
 
-  public Long getAttendanceCertifiedId() {
-    return attendanceCertifiedId;
-  }
-
-  public void setAttendanceCertifiedId(Long attendanceCertifiedId) {
-    this.attendanceCertifiedId = attendanceCertifiedId;
-  }
-
-  public String getCertifiedBy() {
-    return certifiedBy;
-  }
-
-  public void setCertifiedBy(String certifiedBy) {
-    this.certifiedBy = certifiedBy;
-  }
-
-  public LocalDate getCertifiedDate() {
-    return certifiedDate;
-  }
-
-  public void setCertifiedDate(LocalDate certifiedDate) {
-    this.certifiedDate = certifiedDate;
-  }
-
-  public AttendanceCertifiedStatus getCertifyStatus() {
-    return certifyStatus;
-  }
-
-  public void setCertifyStatus(AttendanceCertifiedStatus certifyStatus) {
-    this.certifyStatus = certifyStatus;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
 }

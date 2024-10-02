@@ -23,11 +23,8 @@ public class EmployeeDTO {
     private byte[] employeeProfileImage;
 
     private Long departmentId;
-    private String departmentName;
     private Long branchId;
-    private String branchName;
     private Long organizationId;
-    private String organizationName;
 
     private EmployeeAppearanceDTO employeeAppearance;
     private FamilyDTO family;

@@ -23,11 +23,8 @@ import org.mapstruct.*;
 public interface EmployeeMapper {
 
     @Mapping(target = "departmentId", source = "department.id")
-    @Mapping(target = "departmentName", source = "department.departmentName")
     @Mapping(target = "branchId", source = "branch.id")
-    @Mapping(target = "branchName", source = "branch.branchName")
     @Mapping(target = "organizationId", source = "organization.id")
-    @Mapping(target = "organizationName", source = "organization.organizationName")
     EmployeeDTO toEmployeeDTO(Employee employee);
 
     @InheritInverseConfiguration

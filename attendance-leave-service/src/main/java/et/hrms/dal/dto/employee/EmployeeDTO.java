@@ -1,58 +1,27 @@
 package et.hrms.dal.dto.employee;
 
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.Data;
 
-public class EmployeeDTO implements Serializable {
+import java.time.LocalDate;
 
-
-    @Serial
-    private static final long serialVersionUID = -2879116760040809204L;
-
-
+@Data
+public class EmployeeDTO {
     private Long id;
-    private String name;
-    private String department;
-    private String position;
-    private String status;
+    private String employeeNumber;
+    private String firstName;
+    private String lastName;
+    private String genderStatus;
+    private String maritalStatus;
+    private LocalDate dateOfBirth;
+    private LocalDate dateOfJoining;
+    private String employeeType;
+    private LocalDate dateOfLeaving;
+    private LocalDate dateOfResignation;
+    private Boolean employeeStatus;
+    private LocalDate employeeStatusDate;
+    private byte[] employeeProfileImage;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    private Long departmentId;
+    private Long branchId;
+    private Long organizationId;
 }
