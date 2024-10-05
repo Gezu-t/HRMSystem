@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e2d56c80-a7fc-48f1-89a1-69dda5480814" name="Changes" comment="modified OrganizationDTO" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="module" />
+    </option>
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="employee-shared" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;GezahegnTsegaye&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/GezahegnTsegaye/HRMSystem.git&quot;,
+    &quot;accountId&quot;: &quot;cbe63dd3-5d44-40f5-b5c1-e3a866235958&quot;
+  }
+}</component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="JvmLoggingSettingsStorage">
+    <option name="loggerId" value="Slf4j" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ehh2EO13vGx1vKPE0gMZeX9QCF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AttendanceApplication.executor": "Run",
+    "Application.EmployeeApplication.executor": "Run",
+    "Application.EmployeeProfileApplication.executor": "Run",
+    "Application.EmployeeServiceApplication.executor": "Run",
+    "Application.EurekaServerApplication.executor": "Run",
+    "Application.LiveAttendanceApplication.executor": "Run",
+    "Application.PerformanceManagementApplication.executor": "Run",
+    "Application.RecruitmentApplication.executor": "Run",
+    "Application.UserApplicationManager.executor": "Run",
+    "Application.com.hrmsystem.employeeprofileservice.EmployeeProfileApplication.executor": "Run",
+    "Application.com.hrmsystem.employeeservice.core.EmployeeApplication.executor": "Run",
+    "JUnit.All in HRMSystem (1).executor": "Run",
+    "JUnit.All in HRMSystem (2).executor": "Run",
+    "JUnit.All in HRMSystem (3).executor": "Debug",
+    "JUnit.All in HRMSystem.executor": "Run",
+    "JUnit.All in attendance-leave-service.executor": "Run",
+    "JUnit.All in employee-service.executor": "Run",
+    "JUnit.All in hrms (1).executor": "Debug",
+    "JUnit.All in hrms.executor": "Run",
+    "JUnit.All in recruitment-service.executor": "Run",
+    "JUnit.AttendanceControllerTest.executor": "Run",
+    "JUnit.AttendanceControllerTest.testGetAllAttendance.executor": "Run",
+    "JUnit.AttendanceServiceTest.executor": "Run",
+    "JUnit.AttendanceServiceTest.testSaveAttendance.executor": "Run",
+    "JUnit.AttendanceServiceTests.executor": "Run",
+    "JUnit.BranchControllerTest.executor": "Run",
+    "JUnit.BranchServiceTest.executor": "Run",
+    "JUnit.DepartmentControllerTest (1).executor": "Run",
+    "JUnit.DepartmentControllerTest.executor": "Run",
+    "JUnit.DepartmentControllerTest.getDepartmentByBranch.executor": "Run",
+    "JUnit.DepartmentServiceTest (1).executor": "Run",
+    "JUnit.DepartmentServiceTest.executor": "Run",
+    "JUnit.DepartmentServiceTest.testUpdateDepartment.executor": "Run",
+    "JUnit.EducationControllerTest.executor": "Run",
+    "JUnit.EducationLevelControllerTest.executor": "Run",
+    "JUnit.EducationServiceImplTest.executor": "Run",
+    "JUnit.EmployeeControllerTest.executor": "Run",
+    "JUnit.EmployeeServiceTest.executor": "Run",
+    "JUnit.FamilyControllerTest (1).executor": "Run",
+    "JUnit.FamilyControllerTest.executor": "Run",
+    "JUnit.FamilyServiceTest.executor": "Run",
+    "JUnit.LeaveBalanceServiceTest.executor": "Run",
+    "JUnit.LeaveBalanceServiceTest.testGetLeaveBalanceById.executor": "Run",
+    "JUnit.LeaveRequestApproveControllerTest.executor": "Run",
+    "JUnit.LeaveRequestApproveServiceTest.executor": "Run",
+    "JUnit.OrganizationControllerTest.executor": "Run",
+    "JUnit.OrganizationServiceTest.executor": "Run",
+    "JUnit.UserServiceTest.executor": "Run",
+    "JUnit.UserServiceTest.updateUserTest.executor": "Run",
+    "Maven.HRMSystem [clean,install,-DskipTests].executor": "Run",
+    "Maven.HRMSystem [clean,install].executor": "Run",
+    "Maven.HRMSystem [clean].executor": "Run",
+    "Maven.HRMSystem [install].executor": "Run",
+    "Maven.employee-profile-service [clean,install].executor": "Run",
+    "Maven.employee-profile-service [clean].executor": "Run",
+    "Maven.employee-service [clean,install].executor": "Run",
+    "Maven.employee-service [clean].executor": "Run",
+    "Maven.hrms [clean,install,-DskipTests].executor": "Run",
+    "Maven.hrms [clean,install].executor": "Run",
+    "Maven.hrms [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.EmployeeApplication.executor": "Run",
+    "Spring Boot.EurekaServerApplication.executor": "Run",
+    "Spring Boot.HrmsBeApplication.executor": "Run",
+    "Spring Boot.LiveAttendanceApplication.executor": "Run",
+    "Spring Boot.RecruitmentApplication.executor": "Run",
+    "git-widget-placeholder": "employee-organization-update",
+    "jdk.selected.JAVA_MODULE": "17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/gezahegn/Documents/project_insight/HRMSystem/employee-management/employee-shared/src/main/java/dal/dto",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "Errors",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="et.hrms.dal.dto.employee" />
+      <recent name="et.hrms.service.leave" />
+      <recent name="et.hrms.controller.leave" />
+      <recent name="et.hrms.service" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/employee-management/employee-shared/src/main/java/dal/dto" />
+      <recent name="$PROJECT_DIR$/employee-management/employee-profile-service/src/main/java/com/hrmsystem/employeeprofileservice/dal/dto" />
+      <recent name="$PROJECT_DIR$/employee-management/employee-service/src/test/java" />
+      <recent name="$PROJECT_DIR$/employee-management/employee-service/src/main/java/com/hrmsystem/employeeservice/core/dal" />
+      <recent name="$PROJECT_DIR$/employee-management/employee-service/src/main/java/com/hrmsystem/employeeservice/core" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/employee-management" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.hrmsystem.employeeservice.core.dal.mapping" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="et.hrms.dal.dto.employee" />
+      <recent name="et.hrms.dal.mapper" />
+      <recent name="et.hrms.dal.repository" />
+      <recent name="et.hrms.dal.dto" />
+      <recent name="et.hrms.dal.model" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean install" />
+      <command value="mvn install" />
+      <command value="mvn clean" />
+      <command value="mvn clean install -DskipTests" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.EmployeeServiceApplication">
+    <configuration name="AttendanceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="et.hrms.AttendanceApplication" />
+      <module name="attendance-leave-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="et.hrms.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hrmsystem.employeeservice.core.EmployeeServiceApplication" />
+      <module name="employee-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hrmsystem.employeeservice.core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hrmsystem.eureka.EurekaServerApplication" />
+      <module name="eureka-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hrmsystem.eureka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LeaveBalanceServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="attendance-leave-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="leave.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="leave" />
+      <option name="MAIN_CLASS_NAME" value="leave.LeaveBalanceServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LeaveRequestApproveServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="attendance-leave-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="leave.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="leave" />
+      <option name="MAIN_CLASS_NAME" value="leave.LeaveRequestApproveServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AttendanceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="attendance-leave-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="et.hrms.AttendanceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeProfileApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="employee-profile-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hrmsystem.employeeprofileservice.EmployeeProfileApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="employee-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hrmsystem.employeeservice.core.EmployeeServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hrmsystem.eureka.EurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PerformanceManagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="performance_management-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="et.hrms.PerformanceManagementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RecruitmentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="recruitment-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="et.hrms.RecruitmentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplicationManager" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="et.hrms.UserApplicationManager" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.EmployeeServiceApplication" />
+        <item itemvalue="JUnit.LeaveRequestApproveServiceTest" />
+        <item itemvalue="JUnit.LeaveBalanceServiceTest" />
+        <item itemvalue="Application.EurekaServerApplication" />
+        <item itemvalue="Application.AttendanceApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e2d56c80-a7fc-48f1-89a1-69dda5480814" name="Changes" comment="" />
+      <created>1712362507507</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712362507507</updated>
+      <workItem from="1712362508706" duration="679000" />
+      <workItem from="1712403473937" duration="1898000" />
+      <workItem from="1712520265611" duration="365000" />
+      <workItem from="1712520636734" duration="12197000" />
+      <workItem from="1713651525970" duration="2369000" />
+      <workItem from="1713697061904" duration="29505000" />
+      <workItem from="1714151050639" duration="3129000" />
+      <workItem from="1714162840476" duration="24651000" />
+      <workItem from="1715259102155" duration="47074000" />
+      <workItem from="1715437504175" duration="9000" />
+      <workItem from="1727462997911" duration="18580000" />
+      <workItem from="1727734081383" duration="10000" />
+      <workItem from="1727898992901" duration="37869000" />
+    </task>
+    <task id="LOCAL-00001" summary="modified to a microservices">
+      <option name="closed" value="true" />
+      <created>1713734425454</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713734425454</updated>
+    </task>
+    <task id="LOCAL-00002" summary="modified test and pom file">
+      <option name="closed" value="true" />
+      <created>1714079817912</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714079817912</updated>
+    </task>
+    <task id="LOCAL-00003" summary="open api configuration and adding employee search">
+      <option name="closed" value="true" />
+      <created>1714169144682</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714169144682</updated>
+    </task>
+    <task id="LOCAL-00004" summary="modifying client request">
+      <option name="closed" value="true" />
+      <created>1714237267092</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714237267092</updated>
+    </task>
+    <task id="LOCAL-00005" summary="modifying client request">
+      <option name="closed" value="true" />
+      <created>1715820755998</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715820755998</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Modifying the department structure&#10;&#10;- Adding Department under organization&#10;- Adding department under branch">
+      <option name="closed" value="true" />
+      <created>1719057914929</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719057914929</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added a new module PerformanceManagementApplication">
+      <option name="closed" value="true" />
+      <created>1719061858314</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719061858314</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update the structure">
+      <option name="closed" value="true" />
+      <created>1719158763204</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719158763204</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update the new modified one">
+      <option name="closed" value="true" />
+      <created>1719158863510</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719158863510</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update the new modified one">
+      <option name="closed" value="true" />
+      <created>1725218685928</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725218685928</updated>
+    </task>
+    <task id="LOCAL-00011" summary="user update">
+      <option name="closed" value="true" />
+      <created>1725927311129</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1725927311129</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add eureka server module">
+      <option name="closed" value="true" />
+      <created>1725927327271</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1725927327271</updated>
+    </task>
+    <task id="LOCAL-00013" summary="modified employee management structure">
+      <option name="closed" value="true" />
+      <created>1725927372092</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725927372092</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update attendance leave services">
+      <option name="closed" value="true" />
+      <created>1725927390071</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1725927390071</updated>
+    </task>
+    <task id="LOCAL-00015" summary="modify parent pom">
+      <option name="closed" value="true" />
+      <created>1725927410148</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1725927410148</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update attendance and leave">
+      <option name="closed" value="true" />
+      <created>1726351409949</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1726351409949</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix issues">
+      <option name="closed" value="true" />
+      <created>1727186037426</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1727186037426</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix issues with address">
+      <option name="closed" value="true" />
+      <created>1727464466476</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1727464466476</updated>
+    </task>
+    <task id="LOCAL-00019" summary="update structure of Organization">
+      <option name="closed" value="true" />
+      <created>1728127222168</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1728127222168</updated>
+    </task>
+    <task id="LOCAL-00020" summary="modified OrganizationDTO">
+      <option name="closed" value="true" />
+      <created>1728132797263</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1728132797263</updated>
+    </task>
+    <task id="LOCAL-00021" summary="modified OrganizationDTO">
+      <option name="closed" value="true" />
+      <created>1728132802862</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1728132802862</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="modified to a microservices" />
+    <MESSAGE value="modified test and pom file" />
+    <MESSAGE value="open api configuration and adding employee search" />
+    <MESSAGE value="modifying client request" />
+    <MESSAGE value="Modifying the department structure&#10;&#10;- Adding Department under organization&#10;- Adding department under branch" />
+    <MESSAGE value="added a new module PerformanceManagementApplication" />
+    <MESSAGE value="update the structure" />
+    <MESSAGE value="update the new modified one" />
+    <MESSAGE value="user update" />
+    <MESSAGE value="add eureka server module" />
+    <MESSAGE value="modified employee management structure" />
+    <MESSAGE value="update attendance leave services" />
+    <MESSAGE value="modify parent pom" />
+    <MESSAGE value="update attendance and leave" />
+    <MESSAGE value="fix issues" />
+    <MESSAGE value="fix issues with address" />
+    <MESSAGE value="update structure of Organization" />
+    <MESSAGE value="modified OrganizationDTO" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified OrganizationDTO" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/employee-management/employee-service/src/main/java/et/hrms/service/department/impl/BranchServiceImpl.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/employee-management/employee-profile-service/src/main/java/com/hrmsystem/employeeprofileservice/service/branch/impl/BranchServiceImpl.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/employee-management/employee-service/src/main/java/com/hrmsystem/employeeservice/core/service/employee/impl/FamilyServiceImpl.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/employee-management/employee-service/src/main/java/com/hrmsystem/employeeservice/core/service/organization/impl/OrganizationServiceImpl.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/employee-management/employee-service/src/main/java/com/hrmsystem/employeeservice/core/controller/organization/impl/OrganizationControllerImpl.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
