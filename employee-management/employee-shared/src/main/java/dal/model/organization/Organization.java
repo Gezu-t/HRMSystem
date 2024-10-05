@@ -13,6 +13,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -39,20 +40,20 @@ public class Organization implements Serializable {
     @Column(nullable = false)
     private LocalDate establishmentDate;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
-    private List<Address> address;
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Branch> branches;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Department> departments;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
-    private List<Owners> owners;
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Owners> owners = new ArrayList<>();
 
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;

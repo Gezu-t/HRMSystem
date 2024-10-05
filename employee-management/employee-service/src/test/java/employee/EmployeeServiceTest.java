@@ -1,5 +1,6 @@
 package employee;
 
+import dal.dto.common.AddressDTO;
 import dal.dto.employee.EmployeeAddressDTO;
 import dal.dto.employee.EmployeeDTO;
 import dal.dto.employee.EmployeeDetailDTO;
@@ -68,8 +69,8 @@ public class EmployeeServiceTest {
         employeeDetailDTOS.add(employeeDetailDTO);
         employeeDTO.setEmployeeDetails(employeeDetailDTOS);
 
-        List<EmployeeAddressDTO> employeeAddressDTOS = new ArrayList<>();
-        employeeDTO.setEmployeeAddresses(employeeAddressDTOS);
+        List<AddressDTO> employeeAddressDTOS = new ArrayList<>();
+        employeeDTO.setAddresses(employeeAddressDTOS);
 
         Department department = new Department();
         department.setId(1L);

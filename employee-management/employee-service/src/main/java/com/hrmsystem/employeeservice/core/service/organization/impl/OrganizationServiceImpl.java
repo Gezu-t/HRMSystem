@@ -33,9 +33,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -56,13 +57,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void createOrganization(OrganizationDTO organizationDTO) {
         Organization organization = organizationMapper.toOrganization(organizationDTO);
         organization.setCreatedAt(LocalDateTime.now());
-
         // Set Address
-        if (organizationDTO.getAddresses() != null) {
-            setAddresses(organization, organizationDTO.getAddresses());
-        } else {
-            log.warn("No address DTO provided for organization");
-        }
+        setAddresses(organization, organizationDTO.getAddresses());
         // Set Other Entities
         setOwners(organization, organizationDTO.getOwners());
 
@@ -73,22 +69,34 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
     private void setAddresses(Organization organization, List<AddressDTO> addressDTOs) {
-        if (addressDTOs != null && organization.getAddress() != null) {
-            List<Address> addresses = addressDTOs.stream().map(addressDTO -> {
-                // Find the existing address if it exists, otherwise create a new Address
-                Address address = addressDTO.getId() != null
-                        ? organization.getAddress().stream()
-                        .filter(a -> a.getId().equals(addressDTO.getId()))
-                        .findFirst().orElse(new Address())
-                        : new Address();
 
-                // Map the fields from addressDTO to the Address entity
-                addressMapper.updateAddress(addressDTO, address);
-                address.setOrganization(organization);
-                return address;
-            }).collect(Collectors.toList()); // Ensure compatibility across Java versions
+        log.debug("Setting addresses for organization: {}", organization.getId());
+        log.debug("Received addressDTOs: {}", addressDTOs);
+        if (addressDTOs != null) {
+            if (organization.getAddresses() == null) {
+                organization.setAddresses(new ArrayList<>());
+            }
 
-            organization.setAddress(addresses);
+            List<Address> addresses = addressDTOs.stream()
+                    .filter(Objects::nonNull)
+                    .map(addressDTO -> {
+                        Address address = addressDTO.getId() != null
+                                ? organization.getAddresses().stream()
+                                .filter(a -> a.getId().equals(addressDTO.getId()))
+                                .findFirst().orElse(new Address())
+                                : new Address();
+
+                        addressMapper.updateAddress(addressDTO, address);
+                        address.setOrganization(organization);
+                        return address;
+                    }).toList();
+
+            organization.getAddresses().clear();
+            organization.getAddresses().addAll(addresses);
+            log.debug("Mapped addresses: {}", addresses);
+        } else {
+            log.debug("AddressDTOs is null, setting organization address to null");
+            organization.setAddresses(null);
         }
     }
 
@@ -183,6 +191,37 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .orElseThrow(() -> new EntityNotFoundException("Organization not found by this id: " + id));
         return organizationMapper.toOrganizationDTO(organization);
     }
+//
+//    @Override
+//    @Transactional
+//    public OrganizationDTO updateOrganization(Long id, OrganizationDTO organizationDTO) {
+//        Organization existingOrganization = organizationRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Organization not found by this id: " + id));
+//
+//        updateExistingOrganization(existingOrganization, organizationDTO);
+//
+//        existingOrganization.setUpdatedAt(LocalDateTime.now());
+//        Organization updatedOrganization = organizationRepository.save(existingOrganization);
+//        auditService.logAction("username", "Organization", "Update", updatedOrganization.getId());
+//        return organizationMapper.toOrganizationDTO(updatedOrganization);
+//    }
+
+//    private void updateExistingOrganization(Organization existingOrganization, OrganizationDTO organizationDTO) {
+//        existingOrganization.setOrganizationName(organizationDTO.getOrganizationName());
+//        existingOrganization.setOrganizationCode(organizationDTO.getOrganizationCode());
+//        existingOrganization.setEstablishmentDate(organizationDTO.getEstablishmentDate());
+//
+//        // Update Address
+//        setAddresses(existingOrganization, organizationDTO.getAddresses());
+//
+//        // Update other entities
+//        // Update other entities using set methods
+//        setOwners(existingOrganization, organizationDTO.getOwners());
+//
+////        setBranches(existingOrganization, organizationDTO.getBranches());
+////        setDepartments(existingOrganization, organizationDTO.getDepartments());
+////        setEmployees(existingOrganization, organizationDTO.getEmployees());
+//    }
 
     @Override
     @Transactional
@@ -190,65 +229,95 @@ public class OrganizationServiceImpl implements OrganizationService {
         Organization existingOrganization = organizationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Organization not found by this id: " + id));
 
-        updateExistingOrganization(existingOrganization, organizationDTO);
-
-        existingOrganization.setUpdatedAt(LocalDateTime.now());
-        Organization updatedOrganization = organizationRepository.save(existingOrganization);
-        auditService.logAction("username", "Organization", "Update", updatedOrganization.getId());
-        return organizationMapper.toOrganizationDTO(updatedOrganization);
-    }
-
-    private void updateExistingOrganization(Organization existingOrganization, OrganizationDTO organizationDTO) {
+        // Update simple fields
         existingOrganization.setOrganizationName(organizationDTO.getOrganizationName());
         existingOrganization.setOrganizationCode(organizationDTO.getOrganizationCode());
         existingOrganization.setEstablishmentDate(organizationDTO.getEstablishmentDate());
 
-        // Update Address
-        setAddresses(existingOrganization, organizationDTO.getAddresses());
+        // Update owners
+        updateOwners(existingOrganization, organizationDTO.getOwners());
 
-        // Update other entities
-        // Update other entities using set methods
-        setOwners(existingOrganization, organizationDTO.getOwners());
+        // Update addresses
+        updateAddresses(existingOrganization, organizationDTO.getAddresses());
 
-//        setBranches(existingOrganization, organizationDTO.getBranches());
-//        setDepartments(existingOrganization, organizationDTO.getDepartments());
-//        setEmployees(existingOrganization, organizationDTO.getEmployees());
+        existingOrganization.setUpdatedAt(LocalDateTime.now());
+        Organization updatedOrganization = organizationRepository.save(existingOrganization);
+        return organizationMapper.toOrganizationDTO(updatedOrganization);
     }
 
-//    private void updateOrganizationAddress(Organization organization, AddressDTO addressDTO) {
-//        if (addressDTO != null) {
-//            if (organization.getAddress() == null) {
-//                organization.setAddress(addressMapper.toAddress(addressDTO));
-//            } else {
-//                addressMapper.updateAddress(addressDTO, organization.getAddress()); // Correct order
-//            }
-//        } else {
-//            organization.setAddress(null);
-//        }
-//    }
+    private void updateOwners(Organization organization, List<OwnersDTO> ownersDTOs) {
+        // Clear existing owners if the new list is empty
+        if (ownersDTOs == null || ownersDTOs.isEmpty()) {
+            organization.getOwners().clear();
+            return;
+        }
 
-//    private void updateOwners(Organization organization, List<OwnersDTO> ownersDTOs) {
-//        if (ownersDTOs == null) {
-//            organization.getOwners().clear();
-//        } else {
-//            List<Owners> updatedOwners = ownersDTOs.stream()
-//                    .map(ownerDTO -> {
-//                        Owners owner = ownerDTO.getId() != null
-//                                ? organization.getOwners().stream()
-//                                .filter(o -> o.getId().equals(ownerDTO.getId()))
-//                                .findFirst()
-//                                .orElse(new Owners())
-//                                : new Owners();
-//
-//                        ownersMapper.updateOwners(ownerDTO, owner); // Correct order
-//                        owner.setOrganization(organization);
-//                        return owner;
-//                    })
-//                    .collect(Collectors.toList());
-//            organization.getOwners().clear();
-//            organization.getOwners().addAll(updatedOwners);
-//        }
-//    }
+        // Create a map of existing owners by ID
+        Map<Long, Owners> existingOwnersMap = organization.getOwners().stream()
+                .collect(Collectors.toMap(Owners::getId, Function.identity()));
+
+        List<Owners> updatedOwners = new ArrayList<>();
+
+        for (OwnersDTO ownerDTO : ownersDTOs) {
+            Owners owner;
+            if (ownerDTO.getId() != null && existingOwnersMap.containsKey(ownerDTO.getId())) {
+                // Update existing owner
+                owner = existingOwnersMap.get(ownerDTO.getId());
+                existingOwnersMap.remove(ownerDTO.getId());
+            } else {
+                // Create new owner
+                owner = new Owners();
+                owner.setOrganization(organization);
+            }
+            // Update owner properties
+            ownersMapper.updateOwners(ownerDTO, owner);
+            updatedOwners.add(owner);
+        }
+
+        // Remove owners that are no longer in the DTO
+        organization.getOwners().removeAll(existingOwnersMap.values());
+
+        // Set the updated list of owners
+        organization.getOwners().clear();
+        organization.getOwners().addAll(updatedOwners);
+    }
+
+    private void updateAddresses(Organization organization, List<AddressDTO> addressDTOs) {
+        // Clear existing addresses if the new list is empty
+        if (addressDTOs == null || addressDTOs.isEmpty()) {
+            organization.getAddresses().clear();
+            return;
+        }
+
+        // Create a map of existing addresses by ID
+        Map<Long, Address> existingAddressesMap = organization.getAddresses().stream()
+                .collect(Collectors.toMap(Address::getId, Function.identity()));
+
+        List<Address> updatedAddresses = new ArrayList<>();
+
+        for (AddressDTO addressDTO : addressDTOs) {
+            Address address;
+            if (addressDTO.getId() != null && existingAddressesMap.containsKey(addressDTO.getId())) {
+                // Update existing address
+                address = existingAddressesMap.get(addressDTO.getId());
+                existingAddressesMap.remove(addressDTO.getId());
+            } else {
+                // Create new address
+                address = new Address();
+                address.setOrganization(organization);
+            }
+            // Update address properties
+            addressMapper.updateAddress(addressDTO, address);
+            updatedAddresses.add(address);
+        }
+
+        // Remove addresses that are no longer in the DTO
+        organization.getAddresses().removeAll(existingAddressesMap.values());
+
+        // Set the updated list of addresses
+        organization.getAddresses().clear();
+        organization.getAddresses().addAll(updatedAddresses);
+    }
 
     @Override
     public List<OrganizationDTO> getAllOrganization(int page, int size, Sort sort) {

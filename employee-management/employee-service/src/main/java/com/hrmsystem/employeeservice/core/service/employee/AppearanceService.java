@@ -14,6 +14,5 @@ public interface AppearanceService {
 
     EmployeeAppearanceDTO updateAppearance(long appearanceId, EmployeeAppearanceDTO employeeAppearanceDTO);
 
-    @SneakyThrows
     List<EmployeeAppearanceDTO> getAllAppearanceLists(int page, int size, Sort sort);
 }

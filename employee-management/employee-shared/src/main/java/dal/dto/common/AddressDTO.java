@@ -8,11 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressDTO {
+public class AddressDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 921525198600918987L;
 
     private Long id;
     @Size(max = 15, message = "Home telephone number cannot exceed 15 characters")

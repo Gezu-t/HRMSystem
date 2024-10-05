@@ -12,6 +12,7 @@ public interface EmployeePositionMapper {
     EmployeePositionMapper INSTANCE = Mappers.getMapper(EmployeePositionMapper.class);
 
     EmployeePosition toEmployeePosition(EmployeePositionDTO employeePositionDTO);
+
     EmployeePositionDTO toEmployeePositionDTO(EmployeePosition employeePosition);
 
 }

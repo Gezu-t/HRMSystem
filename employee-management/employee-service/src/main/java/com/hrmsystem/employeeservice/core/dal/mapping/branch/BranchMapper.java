@@ -31,7 +31,6 @@ public interface BranchMapper {
     default void setOrganization(Branch entity, @MappingTarget BranchDTO dto) {
         if (entity.getOrganization() != null) {
             dto.setOrganizationId(entity.getOrganization().getId());
-            dto.setOrganizationName(entity.getOrganization().getOrganizationName());
         }
     }
 
@@ -40,7 +39,6 @@ public interface BranchMapper {
         if (dto.getOrganizationId() != null) {
             Organization organization = new Organization();
             organization.setId(dto.getOrganizationId());
-            organization.setOrganizationName(dto.getOrganizationName());
             entity.setOrganization(organization);
         }
     }

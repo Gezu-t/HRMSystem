@@ -1,5 +1,6 @@
 package dal.model.branch;
 
+import dal.model.employee.Employee;
 import dal.model.organization.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -66,10 +67,18 @@ public class Address implements Serializable {
     private String country;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
+    @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
     private Branch branch;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+
 
 }

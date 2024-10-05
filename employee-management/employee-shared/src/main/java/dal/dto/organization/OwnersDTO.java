@@ -25,5 +25,4 @@ public class OwnersDTO {
     private String role;
     private String email;
     private String phoneNumber;
-//    private OrganizationDTO organizationDTO;
 }

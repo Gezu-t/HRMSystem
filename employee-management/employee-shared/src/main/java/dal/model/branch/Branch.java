@@ -43,11 +43,10 @@ public class Branch implements Serializable {
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> address;
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Department> departments;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)

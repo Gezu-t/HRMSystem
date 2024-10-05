@@ -5,7 +5,7 @@ import et.hrms.dal.model.leave.LeaveRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = LeaveRequestTypeMapper.class)
+@Mapper( componentModel = "spring")
 public interface LeaveRequestMapper {
     LeaveRequestMapper INSTANCE = Mappers.getMapper(LeaveRequestMapper.class);
 

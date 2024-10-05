@@ -23,13 +23,11 @@ public class OrganizationDTO {
     private Long id;
     @NotBlank
     private String organizationName;
+    @NotBlank
     private String organizationCode;
     @PastOrPresent
     private LocalDate establishmentDate;
-    private List<AddressDTO> addresses = new ArrayList<>();
     private List<OwnersDTO> owners = new ArrayList<>();
+    private List<AddressDTO> addresses = new ArrayList<>();
 
-//    private List<BranchDTO> branches = new ArrayList<>();
-//    private List<DepartmentDTO> departments = new ArrayList<>();
-//    private List<EmployeeDTO> employees = new ArrayList<>();
 }

@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -25,8 +26,7 @@ public class BranchDTO implements Serializable {
   private String branchCode;
   private String branchName;
   private Long organizationId;
-  private String organizationName;
-  private List<DepartmentDTO> departments;
-  private AddressDTO branchAddressDTO;
+  private List<DepartmentDTO> departments = new ArrayList<>();
+  private List<AddressDTO> addresses = new ArrayList<>();
 
 }

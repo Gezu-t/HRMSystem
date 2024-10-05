@@ -1,11 +1,14 @@
 package com.hrmsystem.employeeservice.core.service.employee.impl;
 
-import dal.dto.education.EducationDTO;
-import dal.dto.employee.*;
+import com.hrmsystem.employeeservice.core.dal.mapping.common.AddressMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.employee.*;
 import com.hrmsystem.employeeservice.core.service.employee.EmployeeService;
+import dal.dto.common.AddressDTO;
+import dal.dto.education.EducationDTO;
+import dal.dto.employee.*;
+import dal.model.branch.Address;
 import dal.model.branch.Branch;
 import dal.model.department.Department;
 import dal.model.education.Education;
@@ -19,20 +22,24 @@ import dal.repository.organization.OrganizationRepository;
 import exceptions.EmployeeNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeMapper employeeMapper;
     private final EmployeeRepository employeeRepository;
-    private final EmployeeAddressMapper addressMapper;
+    private final AddressMapper addressMapper;
     private final EmployeeDetailMapper employeeDetailMapper;
     private final DepartmentRepository departmentRepository;
     private final EmployeeDetailRepository employeeDetailRepository;
@@ -58,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // Create associated entities and set bidirectional links
         employee.setEmployeeDetails(createEmployeeDetails(employee, employeeDTO.getEmployeeDetails()));
-        employee.setEmployeeAddresses(createEmployeeAddresses(employee, employeeDTO.getEmployeeAddresses()));
+        setAddresses(employee, employeeDTO.getAddresses());
         employee.setEducations(createEmployeeEducations(employee, employeeDTO.getEducations()));
         employee.setEmployeePromotions(createEmployeePromotions(employee, employeeDTO.getEmployeePromotions()));
         employee.setEmployeeAppearance(createEmployeeAppearance(employee, employeeDTO.getEmployeeAppearance()));
@@ -71,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private void validateEmployeeData(EmployeeDTO employeeDTO) {
-        if (employeeDTO.getEmployeeAddresses() == null || employeeDTO.getEmployeeAddresses().isEmpty()) {
+        if (employeeDTO.getAddresses() == null || employeeDTO.getAddresses().isEmpty()) {
             throw new IllegalArgumentException("Employee addresses must be provided.");
         }
         if (employeeDTO.getEmployeeDetails() == null || employeeDTO.getEmployeeDetails().isEmpty()) {
@@ -117,17 +124,50 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDetail;
     }
 
-    private List<EmployeeAddress> createEmployeeAddresses(Employee employee, List<EmployeeAddressDTO> employeeAddressDTOS) {
-        return employeeAddressDTOS.stream()
-                .map(dto -> createEmployeeAddress(employee, dto))
-                .collect(Collectors.toList());
-    }
 
-    private EmployeeAddress createEmployeeAddress(Employee employee, EmployeeAddressDTO dto) {
-        EmployeeAddress address = addressMapper.toEmployeeAddress(dto);
-        address.setEmployee(employee); // Set bidirectional link
-        return address;
+    private void setAddresses(Employee employee, List<AddressDTO> addressDTOs) {
+        log.debug("Setting addresses for employee: {}", employee.getId());
+        log.debug("Received addressDTOs: {}", addressDTOs);
+
+        if (addressDTOs != null) {
+            if (employee.getAddresses() == null) {
+                employee.setAddresses(new ArrayList<>());
+            }
+
+            List<Address> addresses = addressDTOs.stream()
+                    .filter(Objects::nonNull)  // Filter out null DTOs
+                    .map(addressDTO -> {
+                        Address address = addressDTO.getId() != null
+                                ? employee.getAddresses().stream()
+                                .filter(a -> a.getId().equals(addressDTO.getId()))
+                                .findFirst().orElse(new Address())
+                                : new Address();
+
+                        addressMapper.updateAddress(addressDTO, address);
+                        address.setEmployee(employee);
+                        return address;
+                    }).collect(Collectors.toList());
+
+            log.debug("Mapped addresses: {}", addresses);
+
+            employee.getAddresses().clear();
+            employee.getAddresses().addAll(addresses);
+        } else {
+            log.debug("AddressDTOs is null, setting employee addresses to null");
+            employee.setAddresses(null);
+        }
     }
+//    private List<EmployeeAddress> createEmployeeAddresses(Employee employee, List<AddressDTO> employeeAddressDTOS) {
+//        return employeeAddressDTOS.stream()
+//                .map(dto -> createEmployeeAddress(employee, dto))
+//                .collect(Collectors.toList());
+//    }
+//
+//    private EmployeeAddress createEmployeeAddress(Employee employee, AddressDTO dto) {
+//       Address address = addressMapper.toAddress(dto);
+//        address.setEmployee(employee); // Set bidirectional link
+//        return address;
+//    }
 
     private List<Education> createEmployeeEducations(Employee employee, List<EducationDTO> employeeEducationDTOS) {
         return employeeEducationDTOS.stream()
@@ -197,8 +237,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(this::convertToEmployeeDetailDTO)
                 .collect(Collectors.toList());
 
-        var employeeAddressDTOS = employee.getEmployeeAddresses().stream()
-                .map(addressMapper::toEmployeeAddressDTO)
+        var employeeAddressDTOS = employee.getAddresses().stream()
+                .map(addressMapper::toAddressDTO)
                 .collect(Collectors.toList());
 
         var employeeEducationDTOS = employee.getEducations().stream()
@@ -211,7 +251,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         var employeeDTO = employeeMapper.toEmployeeDTO(employee);
         employeeDTO.setEmployeeDetails(employeeDetailDTOS);
-        employeeDTO.setEmployeeAddresses(employeeAddressDTOS);
+        employeeDTO.setAddresses(employeeAddressDTOS);
         employeeDTO.setEducations(employeeEducationDTOS);
         employeeDTO.setEmployeePromotions(employeePromotionDTOS);
         employeeDTO.setEmployeeAppearance(appearanceMapper.toAppearanceDTO(employee.getEmployeeAppearance()));

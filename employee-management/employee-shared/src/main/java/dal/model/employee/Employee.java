@@ -3,6 +3,7 @@ package dal.model.employee;
 
 import dal.model.GenderType;
 import dal.model.MaritalStatus;
+import dal.model.branch.Address;
 import dal.model.branch.Branch;
 import dal.model.department.Department;
 import dal.model.education.Education;
@@ -91,7 +92,7 @@ public class Employee implements Serializable {
     private List<EmployeeEvaluation> employeeEvaluations = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<EmployeeAddress> employeeAddresses = new ArrayList<>();
+    private List<Address> addresses = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<EmployeeDetail> employeeDetails = new ArrayList<>();

@@ -1,9 +1,11 @@
 package dal.dto.employee;
 
+import dal.dto.common.AddressDTO;
 import dal.dto.education.EducationDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,7 +33,7 @@ public class EmployeeDTO {
     private FamilyDTO family;
     private List<EmployeePositionManagementDTO> employeePositionManagements;
     private List<EmployeeEvaluationDTO> employeeEvaluations;
-    private List<EmployeeAddressDTO> employeeAddresses;
+    private List<AddressDTO> addresses = new ArrayList<>();
     private List<EmployeeDetailDTO> employeeDetails;
     private List<EmployeePromotionDTO> employeePromotions;
     private List<EducationDTO> educations;
