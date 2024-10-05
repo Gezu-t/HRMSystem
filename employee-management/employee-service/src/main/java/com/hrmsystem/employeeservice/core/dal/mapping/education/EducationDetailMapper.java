@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.education;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationDetailDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationTypeDTO;
+import dal.dto.education.EducationDetailDTO;
+import dal.dto.education.EducationTypeDTO;
 import dal.model.education.EducationDetail;
 import dal.model.education.EducationType;
 import org.mapstruct.Mapper;

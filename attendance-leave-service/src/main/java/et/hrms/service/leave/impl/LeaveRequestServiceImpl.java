@@ -1,7 +1,7 @@
 package et.hrms.service.leave.impl;
 
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.client.employee.EmployeeClientService;
-import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
 import et.hrms.dal.mapper.leave.LeaveRequestMapper;
@@ -14,7 +14,6 @@ import et.hrms.dal.repository.leave.LeaveRequestTypeRepository;
 import et.hrms.service.leave.LeaveRequestService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -49,8 +48,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         LeaveRequestDTO leaveRequestDTO = LeaveRequestMapper.INSTANCE.leaveRequestToDTO(leaveRequest);
         leaveRequestDTO.setEmployeeId(employee.getId());
-        leaveRequestDTO.setEmployeeName(employee.getName());
-        leaveRequestDTO.setEmployeeDepartment(employee.getDepartment());
+        leaveRequestDTO.setDepartmentId(employee.getDepartmentId());
 
         logger.info("Successfully fetched leave request with employeeprofile details.");
         return leaveRequestDTO;

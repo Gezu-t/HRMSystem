@@ -2,7 +2,7 @@ package attendance;
 
 import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.mapper.attendance.AttendanceMapper;
 import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.model.attendance.AttendanceStatus;
@@ -64,9 +64,7 @@ public class AttendanceServiceTest {
     // Enhanced employeeprofile DTO
     employeeDTO = new EmployeeDTO();
     employeeDTO.setId(1L);
-    employeeDTO.setName("John Doe");
-    employeeDTO.setDepartment("IT");
-    employeeDTO.setPosition("Developer");
+    employeeDTO.setDepartmentId(1L);
     employeeDTO.setStatus("Active");
 
     // Setting up a sample attendance entity

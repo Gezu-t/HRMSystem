@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.department;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
+import dal.dto.department.DepartmentDTO;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;

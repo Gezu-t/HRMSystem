@@ -1,7 +1,7 @@
 package leave;
 
 import et.hrms.client.employee.EmployeeClientService;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.LeaveBalanceDTO;
 import et.hrms.dal.mapper.leave.LeaveBalanceMapper;
 import et.hrms.dal.model.leave.LeaveBalance;
@@ -48,9 +48,6 @@ public class LeaveBalanceServiceTest {
     void testCreateLeaveBalance() {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(1L);
-        employeeDTO.setName("John Doe");
-        employeeDTO.setDepartment("HR");
-        employeeDTO.setPosition("Manager");
         employeeDTO.setStatus("Active");
 
         when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employeeDTO);
@@ -80,9 +77,7 @@ public class LeaveBalanceServiceTest {
     void testUpdateLeaveBalance() {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(1L);
-        employeeDTO.setName("John Doe");
-        employeeDTO.setDepartment("HR");
-        employeeDTO.setPosition("Manager");
+
         employeeDTO.setStatus("Active");
         lenient().when(leaveBalanceRepository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(leaveBalance));
         lenient().when(employeeClientService.getEmployeeById(anyLong())).thenReturn(employeeDTO);

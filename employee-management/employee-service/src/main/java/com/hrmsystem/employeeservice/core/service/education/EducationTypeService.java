@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.education;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationTypeDTO;
+import dal.dto.education.EducationTypeDTO;
 
 import java.util.List;
 

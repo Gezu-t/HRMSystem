@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.controller.organization.impl;
 
 import com.hrmsystem.employeeservice.core.controller.organization.OrganizationController;
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
+import dal.dto.organization.OrganizationDTO;
 import com.hrmsystem.employeeservice.core.service.organization.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

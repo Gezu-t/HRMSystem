@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.department.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
+import dal.dto.department.DepartmentDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
 import com.hrmsystem.employeeservice.core.service.department.DepartmentService;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;

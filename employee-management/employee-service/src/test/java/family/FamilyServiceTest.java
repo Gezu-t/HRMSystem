@@ -1,8 +1,8 @@
 package family;
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.FamilyDTO;
+import dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.FamilyDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.employee.FamilyMapper;
 import com.hrmsystem.employeeservice.core.service.employee.impl.FamilyServiceImpl;
 import dal.model.employee.Employee;

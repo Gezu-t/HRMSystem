@@ -2,7 +2,7 @@ package et.hrms.service.attendance.impl;
 
 import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.mapper.attendance.AttendanceMapper;
 import et.hrms.dal.model.attendance.Attendance;
 import et.hrms.dal.repository.attendance.AttendanceRepository;
@@ -67,8 +67,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
   @Override
   public AttendanceDTO getAttendanceByEmployeeName(EmployeeDTO employeeDTO) {
-    log.info("Fetching attendance by employeeprofile name: {}", employeeDTO.getName());
-    if (!StringUtils.hasText(employeeDTO.getName())) {
+    log.info("Fetching attendance by employee number: {}", employeeDTO.getEmployeeNumber());
+    if (!StringUtils.hasText(employeeDTO.getEmployeeNumber())) {
       throw new IllegalArgumentException("Employee name must not be empty");
     }
     Attendance attendance = new Attendance();

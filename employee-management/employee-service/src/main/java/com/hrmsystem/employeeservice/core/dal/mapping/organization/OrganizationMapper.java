@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.organization;
 
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
+import dal.dto.organization.OrganizationDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
 import dal.model.organization.Organization;

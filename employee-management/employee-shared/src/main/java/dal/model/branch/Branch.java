@@ -44,8 +44,8 @@ public class Branch implements Serializable {
     private Organization organization;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_address_id", referencedColumnName = "id")
-    private Address branchAddress;
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Department> departments;

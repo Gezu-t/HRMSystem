@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.employee;
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeAppearanceDTO;
+import dal.dto.employee.EmployeeAppearanceDTO;
 import lombok.SneakyThrows;
 import org.springframework.data.domain.Sort;
 

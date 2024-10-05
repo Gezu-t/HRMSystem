@@ -1,6 +1,6 @@
 package et.hrms.service.attendance;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;

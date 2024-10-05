@@ -1,11 +1,5 @@
 package com.hrmsystem.employeeservice.core.service.organization.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.common.AddressDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OwnersDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.common.AddressMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
@@ -15,6 +9,13 @@ import com.hrmsystem.employeeservice.core.dal.mapping.organization.OwnersMapper;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;
 import com.hrmsystem.employeeservice.core.service.log.LogService;
 import com.hrmsystem.employeeservice.core.service.organization.OrganizationService;
+import dal.dto.branch.BranchDTO;
+import dal.dto.common.AddressDTO;
+import dal.dto.department.DepartmentDTO;
+import dal.dto.employee.EmployeeDTO;
+import dal.dto.organization.OrganizationDTO;
+import dal.dto.organization.OwnersDTO;
+import dal.model.branch.Address;
 import dal.model.branch.Branch;
 import dal.model.department.Department;
 import dal.model.employee.Employee;
@@ -55,10 +56,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void createOrganization(OrganizationDTO organizationDTO) {
         Organization organization = organizationMapper.toOrganization(organizationDTO);
         organization.setCreatedAt(LocalDateTime.now());
-        organization.setUpdatedAt(LocalDateTime.now());
 
         // Set Address
-        setOrganizationAddress(organization, organizationDTO.getOrganizationAddressDTO());
+        if (organizationDTO.getAddresses() != null) {
+            setAddresses(organization, organizationDTO.getAddresses());
+            log.debug("Address set for organization: {}", organization.getAddress().toString());
+        } else {
+            log.warn("No address DTO provided for organization");
+        }
 
         // Set Other Entities
         setOwners(organization, organizationDTO.getOwners());
@@ -71,10 +76,21 @@ public class OrganizationServiceImpl implements OrganizationService {
         auditService.logAction("username", "Organization", "Create", savedOrganization.getId());
     }
 
-    private void setOrganizationAddress(Organization organization, AddressDTO addressDTO) {
-        if (addressDTO != null) {
-            organization.setOrganizationAddress(addressMapper.toAddress(addressDTO));
+
+    private void setAddresses(Organization organization, List<AddressDTO> addressDTOs) {
+        if (addressDTOs != null) {
+            List<Address> addresses = addressDTOs.stream().map(addressDTO -> {
+                Address address = addressDTO.getId() != null ? organization.getAddress().stream()
+                        .filter(a -> a.getId().equals(addressDTO.getId()))
+                        .findFirst().orElse(new Address())
+                        : new Address();
+                addressMapper.updateAddress(addressDTO, address);
+                address.setOrganization(organization);
+                return address;
+                    }).toList();
+               organization.setAddress(addresses);
         }
+
     }
 
     // Fix: Consistent use of DTO-to-Entity mapping in the updateOwners method
@@ -188,7 +204,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         existingOrganization.setEstablishmentDate(organizationDTO.getEstablishmentDate());
 
         // Update Address
-        updateOrganizationAddress(existingOrganization, organizationDTO.getOrganizationAddressDTO());
+        setAddresses(existingOrganization, organizationDTO.getAddresses());
 
         // Update other entities
         // Update other entities using set methods
@@ -198,40 +214,40 @@ public class OrganizationServiceImpl implements OrganizationService {
         setEmployees(existingOrganization, organizationDTO.getEmployees());
     }
 
-    private void updateOrganizationAddress(Organization organization, AddressDTO addressDTO) {
-        if (addressDTO != null) {
-            if (organization.getOrganizationAddress() == null) {
-                organization.setOrganizationAddress(addressMapper.toAddress(addressDTO));
-            } else {
-                addressMapper.updateAddress(addressDTO, organization.getOrganizationAddress()); // Correct order
-            }
-        } else {
-            organization.setOrganizationAddress(null);
-        }
-    }
+//    private void updateOrganizationAddress(Organization organization, AddressDTO addressDTO) {
+//        if (addressDTO != null) {
+//            if (organization.getAddress() == null) {
+//                organization.setAddress(addressMapper.toAddress(addressDTO));
+//            } else {
+//                addressMapper.updateAddress(addressDTO, organization.getAddress()); // Correct order
+//            }
+//        } else {
+//            organization.setAddress(null);
+//        }
+//    }
 
-    private void updateOwners(Organization organization, List<OwnersDTO> ownersDTOs) {
-        if (ownersDTOs == null) {
-            organization.getOwners().clear();
-        } else {
-            List<Owners> updatedOwners = ownersDTOs.stream()
-                    .map(ownerDTO -> {
-                        Owners owner = ownerDTO.getId() != null
-                                ? organization.getOwners().stream()
-                                .filter(o -> o.getId().equals(ownerDTO.getId()))
-                                .findFirst()
-                                .orElse(new Owners())
-                                : new Owners();
-
-                        ownersMapper.updateOwners(ownerDTO, owner); // Correct order
-                        owner.setOrganization(organization);
-                        return owner;
-                    })
-                    .collect(Collectors.toList());
-            organization.getOwners().clear();
-            organization.getOwners().addAll(updatedOwners);
-        }
-    }
+//    private void updateOwners(Organization organization, List<OwnersDTO> ownersDTOs) {
+//        if (ownersDTOs == null) {
+//            organization.getOwners().clear();
+//        } else {
+//            List<Owners> updatedOwners = ownersDTOs.stream()
+//                    .map(ownerDTO -> {
+//                        Owners owner = ownerDTO.getId() != null
+//                                ? organization.getOwners().stream()
+//                                .filter(o -> o.getId().equals(ownerDTO.getId()))
+//                                .findFirst()
+//                                .orElse(new Owners())
+//                                : new Owners();
+//
+//                        ownersMapper.updateOwners(ownerDTO, owner); // Correct order
+//                        owner.setOrganization(organization);
+//                        return owner;
+//                    })
+//                    .collect(Collectors.toList());
+//            organization.getOwners().clear();
+//            organization.getOwners().addAll(updatedOwners);
+//        }
+//    }
 
     @Override
     public List<OrganizationDTO> getAllOrganization(int page, int size, Sort sort) {

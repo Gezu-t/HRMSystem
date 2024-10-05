@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.controller.education.impl;
 
 import com.hrmsystem.employeeservice.core.controller.education.EducationTypeController;
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationTypeDTO;
+import dal.dto.education.EducationTypeDTO;
 import com.hrmsystem.employeeservice.core.service.education.EducationTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -65,10 +65,11 @@ public class Address implements Serializable {
     @Size(max = 50)
     private String country;
 
-    @OneToOne(mappedBy = "organizationAddress", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    @OneToOne(mappedBy = "branchAddress", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
     private Branch branch;
 
 }

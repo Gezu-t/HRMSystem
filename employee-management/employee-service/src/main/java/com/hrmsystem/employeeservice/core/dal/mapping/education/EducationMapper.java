@@ -1,9 +1,9 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.education;
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationAwardDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationLevelDTO;
+import dal.dto.education.EducationAwardDTO;
+import dal.dto.education.EducationDTO;
+import dal.dto.education.EducationLevelDTO;
 import dal.model.education.Education;
 import dal.model.education.EducationAward;
 import dal.model.education.EducationLevel;

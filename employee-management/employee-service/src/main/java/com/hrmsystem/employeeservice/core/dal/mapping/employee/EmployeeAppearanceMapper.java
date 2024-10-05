@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.employee;
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeAppearanceDTO;
+import dal.dto.employee.EmployeeAppearanceDTO;
 import dal.model.employee.EmployeeAppearance;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

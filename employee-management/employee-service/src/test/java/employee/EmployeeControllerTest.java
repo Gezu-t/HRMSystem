@@ -2,7 +2,7 @@ package employee;
 
 
 import com.hrmsystem.employeeservice.core.controller.employee.imp.EmployeeControllerImpl;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import com.hrmsystem.employeeservice.core.service.employee.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

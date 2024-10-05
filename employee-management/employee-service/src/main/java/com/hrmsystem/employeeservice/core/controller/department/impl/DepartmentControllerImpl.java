@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.department.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.department.DepartmentDTO;
+import dal.dto.department.DepartmentDTO;
 import com.hrmsystem.employeeservice.core.service.department.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -17,7 +17,7 @@ public class DepartmentControllerImpl {
 
     private final DepartmentService departmentService;
 
-    // Create department under a specific branch
+    // Create department under a specific branch (organization + branch)
     @PostMapping("/branch/{branchId}")
     public ResponseEntity<DepartmentDTO> createDepartmentByBranch(
             @PathVariable Long branchId,
@@ -26,7 +26,7 @@ public class DepartmentControllerImpl {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDepartment);
     }
 
-    // Create department under a specific organization
+    // Create department directly under a specific organization (no branch)
     @PostMapping("/organization/{organizationId}")
     public ResponseEntity<DepartmentDTO> createDepartmentByOrganization(
             @PathVariable Long organizationId,

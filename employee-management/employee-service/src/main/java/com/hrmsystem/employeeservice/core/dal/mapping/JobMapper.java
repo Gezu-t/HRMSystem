@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.dal.mapping;
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.job.JobDTO;
+import dal.dto.job.JobDTO;
 import dal.model.job.Job;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

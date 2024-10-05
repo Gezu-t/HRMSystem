@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.branch;
 
-import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
+import dal.dto.branch.BranchDTO;
 import dal.model.branch.Branch;
 import dal.model.organization.Organization;
 import org.mapstruct.AfterMapping;
@@ -17,7 +17,6 @@ public interface BranchMapper {
     BranchMapper INSTANCE = Mappers.getMapper(BranchMapper.class);
 
     @Mapping(target = "organizationId", source = "organization.id")
-    @Mapping(target = "organizationName", source = "organization.organizationName")
     BranchDTO toBranchDTO(Branch entity);
 
     @Mapping(target = "organization", ignore = true)

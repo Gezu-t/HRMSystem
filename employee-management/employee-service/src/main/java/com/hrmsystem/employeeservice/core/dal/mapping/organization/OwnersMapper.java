@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.organization;
 
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OwnersDTO;
+import dal.dto.organization.OwnersDTO;
 import dal.model.organization.Owners;
 import org.mapstruct.Mapper;
 

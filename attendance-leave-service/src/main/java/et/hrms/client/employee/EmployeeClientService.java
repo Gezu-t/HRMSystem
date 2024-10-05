@@ -1,6 +1,6 @@
 package et.hrms.client.employee;
 
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

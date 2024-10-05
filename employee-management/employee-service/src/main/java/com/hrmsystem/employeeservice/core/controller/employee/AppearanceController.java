@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.employee;
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeAppearanceDTO;
+import dal.dto.employee.EmployeeAppearanceDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;

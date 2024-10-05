@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.controller.branch.impl;
 
 import com.hrmsystem.employeeservice.core.controller.branch.BranchController;
-import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
+import dal.dto.branch.BranchDTO;
 import com.hrmsystem.employeeservice.core.service.branch.BranchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

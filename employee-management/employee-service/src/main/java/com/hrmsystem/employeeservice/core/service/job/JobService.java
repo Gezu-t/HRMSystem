@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.job;
 
-import com.hrmsystem.employeeservice.core.dal.dto.job.JobDTO;
+import dal.dto.job.JobDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

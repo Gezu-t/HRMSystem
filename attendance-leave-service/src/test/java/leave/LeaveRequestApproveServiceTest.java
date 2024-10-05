@@ -1,7 +1,10 @@
 package leave;
 
+import dal.dto.employee.EmployeeDTO;
+import dal.model.branch.Branch;
+import dal.model.department.Department;
+import dal.model.organization.Organization;
 import et.hrms.client.employee.EmployeeClientService;
-import et.hrms.dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.LeaveRequestApproveDTO;
 import et.hrms.dal.mapper.leave.LeaveRequestApproveMapper;
 import et.hrms.dal.model.leave.LeaveRequest;
@@ -49,6 +52,9 @@ public class LeaveRequestApproveServiceTest {
     private EmployeeDTO inactiveEmployee;
     private LeaveRequestApproveDTO leaveRequestApproveDTO;
     private LeaveRequest leaveRequest;
+    private Department department;
+    private Branch branch;
+    private Organization organization;
 
     @Before
     public void setUp() {
@@ -65,16 +71,13 @@ public class LeaveRequestApproveServiceTest {
         // Enhanced employeeprofile DTO
         activeEmployee = new EmployeeDTO();
         activeEmployee.setId(1L);
-        activeEmployee.setName("John Doe");
-        activeEmployee.setDepartment("IT");
-        activeEmployee.setPosition("Developer");
+        activeEmployee.setFirstName("John Doe");
+        activeEmployee.setDepartmentId(1L);
         activeEmployee.setStatus("Active");
 
         inactiveEmployee = new EmployeeDTO();
         inactiveEmployee.setId(1L);
-        inactiveEmployee.setName("John Doe");
-        inactiveEmployee.setDepartment("IT");
-        inactiveEmployee.setPosition("Developer");
+
         inactiveEmployee.setStatus("InActive");
 
         leaveRequest = new LeaveRequest();
@@ -113,7 +116,6 @@ public class LeaveRequestApproveServiceTest {
 
     @Test
     public void shouldThrowExceptionWhenLeaveRequestNotFound() {
-        when(employeeClientService.getEmployeeById(1L)).thenReturn(activeEmployee);
         when(leaveRequestRepository.findById(1L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(RuntimeException.class, () ->

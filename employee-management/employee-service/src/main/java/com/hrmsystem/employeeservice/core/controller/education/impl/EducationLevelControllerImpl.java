@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.controller.education.impl;
 
 import com.hrmsystem.employeeservice.core.controller.education.EducationLevelController;
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationLevelDTO;
+import dal.dto.education.EducationLevelDTO;
 import com.hrmsystem.employeeservice.core.service.education.EducationLevelService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.employee;
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.FamilyDTO;
+import dal.dto.employee.FamilyDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

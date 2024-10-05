@@ -2,7 +2,7 @@ package et.hrms.dal.dto.attendance;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.model.attendance.AttendanceStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

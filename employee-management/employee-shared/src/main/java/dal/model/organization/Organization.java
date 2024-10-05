@@ -39,9 +39,8 @@ public class Organization implements Serializable {
     @Column(nullable = false)
     private LocalDate establishmentDate;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_address_id", referencedColumnName = "id")
-    private Address organizationAddress;
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private List<Address> address;
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private List<Branch> branches;
@@ -58,17 +57,4 @@ public class Organization implements Serializable {
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
 
-    @PrePersist
-    private void prePersist() {
-        if (organizationAddress != null) {
-            organizationAddress.setOrganization(this);
-        }
-    }
-
-    @PreUpdate
-    private void preUpdate() {
-        if (organizationAddress != null) {
-            organizationAddress.setOrganization(this);
-        }
-    }
 }

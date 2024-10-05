@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.service.employee.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.*;
+import dal.dto.education.EducationDTO;
+import dal.dto.employee.*;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.employee.*;

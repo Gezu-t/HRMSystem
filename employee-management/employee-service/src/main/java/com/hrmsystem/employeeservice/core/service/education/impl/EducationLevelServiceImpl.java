@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.education.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationLevelDTO;
+import dal.dto.education.EducationLevelDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeservice.core.service.education.EducationLevelService;
 import dal.model.education.EducationLevel;

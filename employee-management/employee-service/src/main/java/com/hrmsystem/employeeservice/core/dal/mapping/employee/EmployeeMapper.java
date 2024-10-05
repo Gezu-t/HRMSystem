@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.employee;
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import dal.model.GenderType;
 import dal.model.MaritalStatus;

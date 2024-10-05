@@ -2,7 +2,7 @@ package com.hrmsystem.employeeservice.core.service.job.impl;
 
 
 
-import com.hrmsystem.employeeservice.core.dal.dto.job.JobDTO;
+import dal.dto.job.JobDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.JobMapper;
 import com.hrmsystem.employeeservice.core.service.job.JobService;
 import dal.model.job.Job;

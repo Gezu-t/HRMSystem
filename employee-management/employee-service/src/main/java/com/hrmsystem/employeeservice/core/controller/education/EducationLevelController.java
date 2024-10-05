@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.education;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationLevelDTO;
+import dal.dto.education.EducationLevelDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

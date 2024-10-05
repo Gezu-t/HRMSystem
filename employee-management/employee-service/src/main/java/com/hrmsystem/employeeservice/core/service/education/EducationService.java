@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.education;
 
-import com.hrmsystem.employeeservice.core.dal.dto.education.EducationDTO;
+import dal.dto.education.EducationDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

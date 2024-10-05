@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.organization;
 
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
+import dal.dto.organization.OrganizationDTO;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;

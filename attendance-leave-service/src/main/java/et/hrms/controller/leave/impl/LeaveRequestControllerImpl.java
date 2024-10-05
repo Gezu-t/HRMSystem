@@ -1,7 +1,7 @@
 package et.hrms.controller.leave.impl;
 
 import et.hrms.controller.leave.LeaveRequestController;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
 import et.hrms.service.leave.LeaveRequestService;

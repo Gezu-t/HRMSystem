@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.job;
 
-import com.hrmsystem.employeeservice.core.dal.dto.job.JobDTO;
+import dal.dto.job.JobDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

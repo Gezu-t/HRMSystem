@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.employee;
 
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

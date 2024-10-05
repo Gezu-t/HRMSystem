@@ -24,4 +24,5 @@ public class EmployeeDTO {
     private Long departmentId;
     private Long branchId;
     private Long organizationId;
+    private String status;
 }

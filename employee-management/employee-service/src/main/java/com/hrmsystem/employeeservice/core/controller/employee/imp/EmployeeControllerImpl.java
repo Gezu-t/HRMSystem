@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.controller.employee.imp;
 
 import com.hrmsystem.employeeservice.core.controller.employee.EmployeeController;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import com.hrmsystem.employeeservice.core.service.employee.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.hrmsystem.employeeservice.core.service.branch.impl;
 
-import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
-import com.hrmsystem.employeeservice.core.dal.dto.common.AddressDTO;
+import dal.dto.branch.BranchDTO;
+import dal.dto.common.AddressDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.common.AddressMapper;
 import com.hrmsystem.employeeservice.core.service.branch.BranchService;
@@ -64,7 +64,7 @@ public class BranchServiceImpl implements BranchService {
         List<Branch> branchList = branchDTOs.stream()
                 .map(branchDTO -> {
                     Branch branch = branchMapper.toBranch(branchDTO);
-                    setBranchAddress(branch, branchDTO.getBranchAddressDTO());  // Updated to use AddressDTO
+                    setAddress(branch, branchDTO.getBranchAddressDTO());  // Updated to use AddressDTO
                     branch.setOrganization(organization);
                     return branch;
                 })
@@ -81,7 +81,7 @@ public class BranchServiceImpl implements BranchService {
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
 
         BranchDTO branchDTO = branchMapper.toBranchDTO(branch);
-        branchDTO.setBranchAddressDTO(addressMapper.toAddressDTO(branch.getBranchAddress()));  // Updated to use AddressDTO
+        branchDTO.setBranchAddressDTO(addressMapper.toAddressDTO(branch.getAddress()));  // Updated to use AddressDTO
         branchDTO.setOrganizationId(branch.getOrganization().getId());
 
         return branchDTO;
@@ -105,30 +105,30 @@ public class BranchServiceImpl implements BranchService {
         return branchMapper.toBranchDTO(updatedBranch);
     }
 
-    private void setBranchAddress(Branch branch, AddressDTO addressDTO) {
+    private void setAddress(Branch branch, AddressDTO addressDTO) {
         if (addressDTO != null) {
             Address address = addressMapper.toAddress(addressDTO);  // Use Address entity
             address = addressRepository.save(address);  // Ensure address is persisted
-            branch.setBranchAddress(address);
+            branch.setAddress(address);
             address.setBranch(branch);  // Ensure bidirectional relationship
         }
     }
 
     private void updateBranchAddress(Branch branch, AddressDTO addressDTO) {
         if (addressDTO != null) {
-            Address address = branch.getBranchAddress();
+            Address address = branch.getAddress();
 
             if (address == null) {
                 // If no existing address, create and associate a new one
-                setBranchAddress(branch, addressDTO);
+                setAddress(branch, addressDTO);
             } else {
                 // If address exists, update it using the mapper
                 addressMapper.updateAddress(addressDTO, address);  // Use Address entity and AddressMapper
-                branch.setBranchAddress(address);
+                branch.setAddress(address);
             }
         } else {
             // If no AddressDTO is provided, disassociate the address
-            branch.setBranchAddress(null);
+            branch.setAddress(null);
         }
     }
 

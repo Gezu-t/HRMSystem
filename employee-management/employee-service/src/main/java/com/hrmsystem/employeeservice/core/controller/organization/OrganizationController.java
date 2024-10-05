@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.organization;
 
-import com.hrmsystem.employeeservice.core.dal.dto.organization.OrganizationDTO;
+import dal.dto.organization.OrganizationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

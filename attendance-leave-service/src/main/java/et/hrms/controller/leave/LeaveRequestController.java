@@ -1,6 +1,6 @@
 package et.hrms.controller.leave;
 
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
 import org.springframework.http.ResponseEntity;

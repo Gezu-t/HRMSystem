@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = {
         "com.hrmsystem.employeeservice",
         "dal.repository",
-        "dal.model"
+        "dal.model",
+        "dal.dto"
 })
 public class EmployeeServiceApplication {
 

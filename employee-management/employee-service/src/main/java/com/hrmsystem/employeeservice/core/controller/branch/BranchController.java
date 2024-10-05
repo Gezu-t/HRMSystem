@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.controller.branch;
 
-import com.hrmsystem.employeeservice.core.dal.dto.branch.BranchDTO;
+import dal.dto.branch.BranchDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

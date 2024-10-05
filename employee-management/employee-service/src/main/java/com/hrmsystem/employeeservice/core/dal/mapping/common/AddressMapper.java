@@ -1,6 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.common;
 
-import com.hrmsystem.employeeservice.core.dal.dto.common.AddressDTO;
+import dal.dto.common.AddressDTO;
 import dal.model.branch.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,8 +13,8 @@ public interface AddressMapper {
     AddressMapper INSTANCE = Mappers.getMapper(AddressMapper.class);
 
     // Mapping from DTO to Entity
-    @Mapping(target = "organization", ignore = true) // Ignoring cyclic relationships
-    @Mapping(target = "branch", ignore = true) // Ignoring cyclic relationships
+    @Mapping(target = "organization", ignore = true)
+    @Mapping(target = "branch", ignore = true)
     Address toAddress(AddressDTO addressDTO);
 
     // Mapping from Entity to DTO

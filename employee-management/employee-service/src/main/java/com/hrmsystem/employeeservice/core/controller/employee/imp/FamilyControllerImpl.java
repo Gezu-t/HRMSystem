@@ -2,7 +2,7 @@ package com.hrmsystem.employeeservice.core.controller.employee.imp;
 
 
 import com.hrmsystem.employeeservice.core.controller.employee.FamilyController;
-import com.hrmsystem.employeeservice.core.dal.dto.employee.FamilyDTO;
+import dal.dto.employee.FamilyDTO;
 import com.hrmsystem.employeeservice.core.service.employee.FamilyService;
 import exceptions.EntityNotFoundException;
 import jakarta.validation.Valid;

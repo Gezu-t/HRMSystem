@@ -1,7 +1,7 @@
 package et.hrms.service.leave.impl;
 
 import et.hrms.client.employee.EmployeeClientService;
-import et.hrms.dal.dto.employee.EmployeeDTO;
+import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.dto.leave.LeaveRequestApproveDTO;
 import et.hrms.dal.mapper.leave.LeaveRequestApproveMapper;
 import et.hrms.dal.model.leave.LeaveRequest;
