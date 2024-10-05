@@ -60,16 +60,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         // Set Address
         if (organizationDTO.getAddresses() != null) {
             setAddresses(organization, organizationDTO.getAddresses());
-            log.debug("Address set for organization: {}", organization.getAddress().toString());
         } else {
             log.warn("No address DTO provided for organization");
         }
-
         // Set Other Entities
         setOwners(organization, organizationDTO.getOwners());
-        setBranches(organization, organizationDTO.getBranches());
-        setDepartments(organization, organizationDTO.getDepartments());
-        setEmployees(organization, organizationDTO.getEmployees());
 
         Organization savedOrganization = organizationRepository.save(organization);
         log.info("Saved organization object: {}", savedOrganization);
@@ -78,20 +73,25 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
     private void setAddresses(Organization organization, List<AddressDTO> addressDTOs) {
-        if (addressDTOs != null) {
+        if (addressDTOs != null && organization.getAddress() != null) {
             List<Address> addresses = addressDTOs.stream().map(addressDTO -> {
-                Address address = addressDTO.getId() != null ? organization.getAddress().stream()
+                // Find the existing address if it exists, otherwise create a new Address
+                Address address = addressDTO.getId() != null
+                        ? organization.getAddress().stream()
                         .filter(a -> a.getId().equals(addressDTO.getId()))
                         .findFirst().orElse(new Address())
                         : new Address();
+
+                // Map the fields from addressDTO to the Address entity
                 addressMapper.updateAddress(addressDTO, address);
                 address.setOrganization(organization);
                 return address;
-                    }).toList();
-               organization.setAddress(addresses);
-        }
+            }).collect(Collectors.toList()); // Ensure compatibility across Java versions
 
+            organization.setAddress(addresses);
+        }
     }
+
 
     // Fix: Consistent use of DTO-to-Entity mapping in the updateOwners method
     private void setOwners(Organization organization, List<OwnersDTO> ownersDTOs) {
@@ -209,9 +209,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         // Update other entities
         // Update other entities using set methods
         setOwners(existingOrganization, organizationDTO.getOwners());
-        setBranches(existingOrganization, organizationDTO.getBranches());
-        setDepartments(existingOrganization, organizationDTO.getDepartments());
-        setEmployees(existingOrganization, organizationDTO.getEmployees());
+
+//        setBranches(existingOrganization, organizationDTO.getBranches());
+//        setDepartments(existingOrganization, organizationDTO.getDepartments());
+//        setEmployees(existingOrganization, organizationDTO.getEmployees());
     }
 
 //    private void updateOrganizationAddress(Organization organization, AddressDTO addressDTO) {

@@ -1,10 +1,7 @@
 package dal.dto.organization;
 
 
-import dal.dto.branch.BranchDTO;
 import dal.dto.common.AddressDTO;
-import dal.dto.department.DepartmentDTO;
-import dal.dto.employee.EmployeeDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
@@ -31,7 +28,8 @@ public class OrganizationDTO {
     private LocalDate establishmentDate;
     private List<AddressDTO> addresses = new ArrayList<>();
     private List<OwnersDTO> owners = new ArrayList<>();
-    private List<BranchDTO> branches = new ArrayList<>();
-    private List<DepartmentDTO> departments = new ArrayList<>();
-    private List<EmployeeDTO> employees = new ArrayList<>();
+
+//    private List<BranchDTO> branches = new ArrayList<>();
+//    private List<DepartmentDTO> departments = new ArrayList<>();
+//    private List<EmployeeDTO> employees = new ArrayList<>();
 }
