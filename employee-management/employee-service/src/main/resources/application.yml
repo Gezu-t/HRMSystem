@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: employee-service # Service name registered with Eureka
+  datasource:
+    url: jdbc:mysql://localhost:3306/employee?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 10000
+      max-lifetime: 200000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # Auto schema update, adjust based on your needs (validate, create, etc.)
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true # Show SQL queries in the logs
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true # Nicely formats the SQL queries for better readability
+  cache:
+    type: simple
+    cache-names: educationLevels # Example of caching; adjust based on your use case
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Eureka server URL
+  instance:
+    prefer-ip-address: true
+
+server:
+  port: 8081 # Port where the employee-service is running

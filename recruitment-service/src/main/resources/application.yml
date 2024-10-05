@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: recruitment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/recruitment?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 10000
+      max-lifetime: 200000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 0
