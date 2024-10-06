@@ -16,12 +16,16 @@ public interface BranchMapper {
 
     BranchMapper INSTANCE = Mappers.getMapper(BranchMapper.class);
 
+    @Mapping(target = "addresses", ignore = true)
     @Mapping(target = "organizationId", source = "organization.id")
+    @Mapping(target = "organizationName", source = "organization.organizationName")
     BranchDTO toBranchDTO(Branch entity);
 
+    @Mapping(target = "addresses", ignore = true)
     @Mapping(target = "organization", ignore = true)
     Branch toBranch(BranchDTO dto);
 
+    @Mapping(target = "addresses", ignore = true)
     @Mapping(target = "organization", ignore = true)
     void updateBranch(BranchDTO dto, @MappingTarget Branch entity);
 

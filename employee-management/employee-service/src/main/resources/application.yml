@@ -14,7 +14,7 @@ spring:
       connection-timeout: 30000
   jpa:
     hibernate:
-      ddl-auto: create-drop # Auto schema update, adjust based on your needs (validate, create, etc.)
+      ddl-auto: update # Auto schema update, adjust based on your needs (validate, create, etc.)
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true # Show SQL queries in the logs

@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/branches")
-@CrossOrigin(origins = "http://localhost:8081")
 public class BranchControllerImpl implements BranchController {
 
     private final BranchService branchService;
@@ -26,7 +25,7 @@ public class BranchControllerImpl implements BranchController {
     @PostMapping("/{organizationId}")
     public ResponseEntity<Void> createBranch(
             @PathVariable Long organizationId,
-            @RequestBody List<BranchDTO> branchDTOS) {
+            @RequestBody BranchDTO branchDTOS) {
         branchService.createBranch(organizationId, branchDTOS);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -1,17 +1,16 @@
 package com.hrmsystem.employeeservice.core.service.branch.impl;
 
-import dal.dto.branch.BranchDTO;
-import dal.dto.common.AddressDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.common.AddressMapper;
 import com.hrmsystem.employeeservice.core.service.branch.BranchService;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;
 import com.hrmsystem.employeeservice.core.service.log.LogService;
+import dal.dto.branch.BranchDTO;
+import dal.dto.common.AddressDTO;
 import dal.model.branch.Address;
 import dal.model.branch.Branch;
 import dal.model.organization.Organization;
 import dal.repository.branch.BranchRepository;
-import dal.repository.common.AddressRepository;
 import dal.repository.organization.OrganizationRepository;
 import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,8 +46,7 @@ public class BranchServiceImpl implements BranchService {
     private final BranchRepository branchRepository;
     private final OrganizationRepository organizationRepository;
     private final AuditService auditService;
-    private final AddressMapper addressMapper;  // Updated to use AddressMapper
-    private final AddressRepository addressRepository;  // Updated to use AddressRepository
+    private final AddressMapper addressMapper;
     private final LogService logService;
     private static final Logger log = LoggerFactory.getLogger(BranchServiceImpl.class);
 
@@ -59,36 +58,34 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void createBranch(long organizationId, List<BranchDTO> branchDTOs) {
+    public void createBranch(long organizationId, BranchDTO branchDTO) {
         Organization organization = organizationRepository.findById(organizationId)
                 .orElseThrow(() -> new EntityNotFoundException("Organization not found by id: " + organizationId));
 
-        List<Branch> branchList = branchDTOs.stream()
-                .map(branchDTO -> {
-                    Branch branch = branchMapper.toBranch(branchDTO);
-                    setAddresses(branch, branchDTO.getAddresses());  // Updated to use AddressDTO
-                    branch.setOrganization(organization);
-                    return branch;
-                })
-                .collect(Collectors.toList());
+        Branch branch = branchMapper.toBranch(branchDTO);
+        branch.setOrganization(organization);
+        branch.setCreatedAt(LocalDateTime.now());
+        setAddresses(branch, branchDTO.getAddresses());
 
-
-        branchRepository.saveAll(branchList);
-        branchList.forEach(branch -> auditService.logAction(USERNAME, BRANCH, CREATE, branch.getId()));
-    }
+        branchRepository.save(branch);
+     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public BranchDTO getDetailOfBranchById(long branchId) {
-        Branch branch = branchRepository.findById(branchId)
+        Branch branch = branchRepository.findByIdWithAddressesAndOrganization(branchId)
                 .orElseThrow(() -> new EntityNotFoundException("Branch not found by id: " + branchId));
 
         BranchDTO branchDTO = branchMapper.toBranchDTO(branch);
-
-        // Set Address
-        setAddresses(branch, branchDTO.getAddresses());
-//        branchDTO.setBranchAddressDTO(addressMapper.toAddressDTO(branch.getAddresses()));  // Updated to use AddressDTO
-        branchDTO.setOrganizationId(branch.getOrganization().getId());
+        if (branch.getAddresses() != null) {
+            branchDTO.setAddresses(branch.getAddresses().stream()
+                    .map(addressMapper::toAddressDTO)
+                    .collect(Collectors.toList()));
+        }
+        if (branch.getOrganization() != null) {
+            branchDTO.setOrganizationId(branch.getOrganization().getId());
+            branchDTO.setOrganizationName(branch.getOrganization().getOrganizationName());
+        }
 
         return branchDTO;
     }
@@ -116,15 +113,15 @@ public class BranchServiceImpl implements BranchService {
         log.debug("Received addressDTOs: {}", addressDTOs);
 
         if (addressDTOs != null) {
-            if (branch.getAddress() == null) {
-                branch.setAddress(new ArrayList<>());
+            if (branch.getAddresses() == null) {
+                branch.setAddresses(new ArrayList<>());
             }
 
             List<Address> addresses = addressDTOs.stream()
                     .filter(Objects::nonNull)  // Filter out null DTOs
                     .map(addressDTO -> {
                         Address address = addressDTO.getId() != null
-                                ? branch.getAddress().stream()
+                                ? branch.getAddresses().stream()
                                 .filter(a -> a.getId().equals(addressDTO.getId()))
                                 .findFirst().orElse(new Address())
                                 : new Address();
@@ -136,40 +133,13 @@ public class BranchServiceImpl implements BranchService {
 
             log.debug("Mapped addresses: {}", addresses);
 
-            branch.getAddress().clear();
-            branch.getAddress().addAll(addresses);
+            branch.getAddresses().clear();
+            branch.getAddresses().addAll(addresses);
         } else {
             log.debug("AddressDTOs is null, setting branch address to null");
-            branch.setAddress(null);
+            branch.setAddresses(null);
         }
     }
-
-//    private void setAddresses(Branch branch, AddressDTO addressDTO) {
-//        if (addressDTO != null) {
-//            Address address = addressMapper.toAddress(addressDTO);  // Use Address entity
-//            address = addressRepository.save(address);  // Ensure address is persisted
-//            branch.setAddresses(address);
-//            address.setBranch(branch);  // Ensure bidirectional relationship
-//        }
-//    }
-
-//    private void updateBranchAddress(Branch branch, AddressDTO addressDTO) {
-//        if (addressDTO != null) {
-//            Address address = branch.getAddresses();
-//
-//            if (address == null) {
-//                // If no existing address, create and associate a new one
-//                setAddresses(branch, addressDTO);
-//            } else {
-//                // If address exists, update it using the mapper
-//                addressMapper.updateAddress(addressDTO, address);  // Use Address entity and AddressMapper
-//                branch.setAddresses(address);
-//            }
-//        } else {
-//            // If no AddressDTO is provided, disassociate the address
-//            branch.setAddresses(null);
-//        }
-//    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

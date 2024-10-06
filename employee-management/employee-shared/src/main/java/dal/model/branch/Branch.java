@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -44,7 +45,7 @@ public class Branch implements Serializable {
     private Organization organization;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> address;
+    private List<Address> addresses;
 
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Department> departments;
@@ -52,6 +53,8 @@ public class Branch implements Serializable {
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Employee> employees;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 
 }

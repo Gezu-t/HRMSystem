@@ -26,7 +26,7 @@ public class BranchDTO implements Serializable {
   private String branchCode;
   private String branchName;
   private Long organizationId;
-  private List<DepartmentDTO> departments = new ArrayList<>();
+  private String organizationName;
   private List<AddressDTO> addresses = new ArrayList<>();
 
 }

@@ -14,7 +14,7 @@ public interface BranchController {
 
     ResponseEntity<Void> createBranch(
             @PathVariable Long organizationId,
-            @RequestBody List<BranchDTO> branchDTOS);
+            @RequestBody BranchDTO branchDTOS);
     ResponseEntity<BranchDTO> getDetailOfBranchById(@PathVariable Long id);
     ResponseEntity<BranchDTO> updateBranch(
             @PathVariable Long id,
