@@ -1,3 +1,6 @@
+server:
+  port: 8081 # Port where the employee-service is running
+
 spring:
   application:
     name: employee-service # Service name registered with Eureka
@@ -33,5 +36,4 @@ eureka:
   instance:
     prefer-ip-address: true
 
-server:
-  port: 8081 # Port where the employee-service is running
+

@@ -12,10 +12,8 @@ public interface JobMapper {
 
     JobMapper INSTANCE = Mappers.getMapper(JobMapper.class);
 
-
     Job toJob(JobDTO jobDTO);
     JobDTO toJobDTO(Job job);
-
 
 
 }

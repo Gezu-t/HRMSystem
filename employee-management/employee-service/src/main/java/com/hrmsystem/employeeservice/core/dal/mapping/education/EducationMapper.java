@@ -20,11 +20,7 @@ public interface EducationMapper {
     Education toEducation(EducationDTO educationDTO);
 
     EducationLevelDTO toEducationLevelDTO(EducationLevel educationLevel);
+
     EducationLevel toEducationLevel(EducationLevelDTO educationLevelDTO);
-
-
-
-    EducationAwardDTO toEducationAwardDTO(EducationAward educationAward);
-    EducationAward toEducationAward(EducationAwardDTO educationAwardDTO);
 
 }

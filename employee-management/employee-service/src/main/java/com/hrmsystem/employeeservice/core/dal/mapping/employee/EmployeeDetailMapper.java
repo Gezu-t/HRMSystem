@@ -14,8 +14,8 @@ public interface EmployeeDetailMapper {
 
 
     EmployeeDetail toEmployeeDetail(EmployeeDetailDTO employeeDetailDTO);
-    EmployeeDetailDTO toEmployeeDetailDTO(EmployeeDetail employeeDetail);
 
+    EmployeeDetailDTO toEmployeeDetailDTO(EmployeeDetail employeeDetail);
 
     List<EmployeeDetailDTO> toEmployeeDetailDTOs (List<EmployeeDetail> employeeDetails);
 }

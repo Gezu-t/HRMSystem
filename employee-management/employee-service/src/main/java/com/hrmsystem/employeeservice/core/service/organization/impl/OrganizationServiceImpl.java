@@ -143,26 +143,26 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
     }
 
-    // Fix: Consistent use of DTO-to-Entity mapping in the updateDepartments method
-    private void setDepartments(Organization organization, List<DepartmentDTO> departmentDTOs) {
-        if (departmentDTOs != null) {
-            List<Department> departments = departmentDTOs.stream()
-                    .map(departmentDTO -> {
-                        Department department = departmentDTO.getId() != null
-                                ? organization.getDepartments().stream()
-                                .filter(d -> d.getId().equals(departmentDTO.getId()))
-                                .findFirst()
-                                .orElse(new Department())
-                                : new Department();
-
-                        departmentMapper.updateDepartment(departmentDTO, department); // Correct order
-                        department.setOrganization(organization); // Maintain relationship
-                        return department;
-                    })
-                    .collect(Collectors.toList());
-            organization.setDepartments(departments);
-        }
-    }
+//    // Fix: Consistent use of DTO-to-Entity mapping in the updateDepartments method
+//    private void setDepartments(Organization organization, List<DepartmentDTO> departmentDTOs) {
+//        if (departmentDTOs != null) {
+//            List<Department> departments = departmentDTOs.stream()
+//                    .map(departmentDTO -> {
+//                        Department department = departmentDTO.getId() != null
+//                                ? organization.getDepartments().stream()
+//                                .filter(d -> d.getId().equals(departmentDTO.getId()))
+//                                .findFirst()
+//                                .orElse(new Department())
+//                                : new Department();
+//
+//                        departmentMapper.updateDepartment(departmentDTO, department); // Correct order
+//                        department.setOrganization(organization); // Maintain relationship
+//                        return department;
+//                    })
+//                    .collect(Collectors.toList());
+//            organization.setDepartments(departments);
+//        }
+//    }
 
     // Fix: Consistent use of DTO-to-Entity mapping in the updateEmployees method
     private void setEmployees(Organization organization, List<EmployeeDTO> employeeDTOs) {

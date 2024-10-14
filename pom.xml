@@ -14,12 +14,11 @@
     <modules>
         <module>employee-management</module>
         <module>recruitment-service</module>
-        <module>attendance-leave-service</module>
+        <module>attendance-leave-management</module>
         <module>api-gateway</module>
         <module>performance_management-service</module>
         <module>user-management</module>
         <module>eureka-server</module>
-        <module>employee-management/employee-shared</module>
     </modules>
 
     <properties>

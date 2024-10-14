@@ -16,10 +16,6 @@ public interface EducationDetailMapper {
   EducationDetailMapper INSTANCE = Mappers.getMapper(EducationDetailMapper.class);
 
   EducationDetailDTO toEducationDetailDTO(EducationDetail educationDetail);
-  @Mappings({
-          @Mapping(target = "id", source = "educationDetailDTO.educationTypeId"),
-          @Mapping(target = "education", ignore = true)
-  })
   EducationDetail toEducationDetail(EducationDetailDTO educationDetailDTO);
 
   EducationTypeDTO toEducationTypeDTO(EducationType educationType);

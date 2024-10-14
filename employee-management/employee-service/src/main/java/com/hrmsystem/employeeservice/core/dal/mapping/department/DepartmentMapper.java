@@ -1,5 +1,6 @@
 package com.hrmsystem.employeeservice.core.dal.mapping.department;
 
+import com.hrmsystem.employeeservice.core.dal.mapping.employee.EmployeeMapper;
 import dal.dto.department.DepartmentDTO;
 import dal.model.branch.Branch;
 import dal.model.department.Department;
@@ -12,22 +13,29 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+
+@Mapper(componentModel = "spring", uses = {EmployeeMapper.class})
 public interface DepartmentMapper {
 
     DepartmentMapper INSTANCE = Mappers.getMapper(DepartmentMapper.class);
 
+    // Mapping entity to DTO
     @Mapping(target = "branchId", source = "branch.id")
     @Mapping(target = "organizationId", source = "organization.id")
     DepartmentDTO toDepartmentDTO(Department entity);
 
     @Mapping(target = "branch", ignore = true)
     @Mapping(target = "organization", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "employees", ignore = true)
     Department toDepartment(DepartmentDTO dto);
 
+    // Update method to handle partial updates of the entity
     @Mapping(target = "branch", ignore = true)
     @Mapping(target = "organization", ignore = true)
-    void updateDepartment(DepartmentDTO dto, @MappingTarget Department entity);
+    @Mapping(target = "employees", ignore = true)
+    void updateDepartmentFromDTO(DepartmentDTO dto, @MappingTarget Department entity);
 
     List<DepartmentDTO> toDepartmentDTOList(List<Department> entities);
 
@@ -38,7 +46,6 @@ public interface DepartmentMapper {
             branch.setId(dto.getBranchId());
             entity.setBranch(branch);
 
-            // If department is under a branch, set the organization from the branch
             Organization organization = new Organization();
             organization.setId(dto.getOrganizationId());
             branch.setOrganization(organization);
@@ -48,11 +55,11 @@ public interface DepartmentMapper {
             organization.setId(dto.getOrganizationId());
             entity.setOrganization(organization);
 
-            // If department is directly under an organization, ensure branch is null
             entity.setBranch(null);
         }
     }
 
+    // After mapping logic for additional fields
     @AfterMapping
     default void setAdditionalFields(Department entity, @MappingTarget DepartmentDTO dto) {
         if (entity.getBranch() != null) {

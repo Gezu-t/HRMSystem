@@ -12,11 +12,4 @@ public interface EmployeeAddressMapper {
 
     EmployeeAddressMapper INSTANCE = Mappers.getMapper(EmployeeAddressMapper.class);
 
-
-    EmployeeAddress toEmployeeAddress(EmployeeAddressDTO employeeAddressDTO);
-
-    EmployeeAddressDTO toEmployeeAddressDTO(EmployeeAddress employeeAddress);
-
-
-
 }

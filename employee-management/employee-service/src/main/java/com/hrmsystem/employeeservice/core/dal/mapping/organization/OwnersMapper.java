@@ -20,5 +20,5 @@ public interface OwnersMapper {
 
     void updateOwners(OwnersDTO ownersDTO, @MappingTarget Owners owners);
 
-    List<OwnersDTO> toOwnersDTOList(List<Owners> owners);  // List mapping helper
+    List<OwnersDTO> toOwnersDTOList(List<Owners> owners);
 }
