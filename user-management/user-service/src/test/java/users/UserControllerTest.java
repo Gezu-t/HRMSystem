@@ -1,25 +1,28 @@
 package users;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import et.hrms.controller.user.UserControllerImpl;
-import et.hrms.dal.dto.UserDTO;
-import et.hrms.service.user.UserService;
+import et.hrms.controller.UserControllerImpl;
+import et.hrms.dal.dto.UserRequestDTO;
+import et.hrms.dal.dto.UserResponseDTO;
+import et.hrms.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class UserControllerTest {
 
@@ -34,37 +37,50 @@ public class UserControllerTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(userController)
+                .build();
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void createUserTest() throws Exception {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(1L);
-        userDTO.setUsername("testUser");
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(1L);
+        userResponseDTO.setUsername("testUser");
+        userResponseDTO.setEmail("test@example.com");
+        userResponseDTO.setRoles(Set.of("ROLE_USER"));
 
-        when(userService.createUser(any(UserDTO.class))).thenReturn(userDTO);
+        UserRequestDTO userRequestDTO = new UserRequestDTO();
+        userRequestDTO.setUsername("testUser");
+        userRequestDTO.setPassword("password123");
+        userRequestDTO.setEmail("test@example.com");
+
+        when(userService.createUser(any(UserRequestDTO.class))).thenReturn(userResponseDTO);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonUserDTO = objectMapper.writeValueAsString(userDTO);
+        String jsonUserRequestDTO = objectMapper.writeValueAsString(userRequestDTO);
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonUserDTO))
-                .andExpect(status().isCreated())
+                        .content(jsonUserRequestDTO))
+                .andExpect(status().isOk()) // Assuming the controller returns 200 OK
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.username").value("testUser"));
 
-        verify(userService, times(1)).createUser(any(UserDTO.class));
+        verify(userService, times(1)).createUser(any(UserRequestDTO.class));
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_USER"})
     public void getUserByIdTest() throws Exception {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(1L);
-        userDTO.setUsername("testUser");
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(1L);
+        userResponseDTO.setUsername("testUser");
+        userResponseDTO.setEmail("test@example.com");
+        userResponseDTO.setRoles(Set.of("ROLE_USER"));
 
-        when(userService.getUserById(1L)).thenReturn(userDTO);
+        when(userService.getUserById(1L)).thenReturn(userResponseDTO);
 
         mockMvc.perform(get("/api/users/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -76,27 +92,34 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_USER"})
     public void updateUserTest() throws Exception {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(1L);
-        userDTO.setUsername("updatedUser");
+        UserRequestDTO userRequestDTO = new UserRequestDTO();
+        userRequestDTO.setEmail("updated@example.com");
 
-        when(userService.updateUser(any(UserDTO.class))).thenReturn(userDTO);
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(1L);
+        userResponseDTO.setUsername("testUser");
+        userResponseDTO.setEmail("updated@example.com");
+        userResponseDTO.setRoles(Set.of("ROLE_USER"));
+
+        when(userService.updateUser(eq(1L), any(UserRequestDTO.class))).thenReturn(userResponseDTO);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonUserDTO = objectMapper.writeValueAsString(userDTO);
+        String jsonUserRequestDTO = objectMapper.writeValueAsString(userRequestDTO);
 
         mockMvc.perform(put("/api/users/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonUserDTO))
+                        .content(jsonUserRequestDTO))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.username").value("updatedUser"));
+                .andExpect(jsonPath("$.email").value("updated@example.com"));
 
-        verify(userService, times(1)).updateUser(any(UserDTO.class));
+        verify(userService, times(1)).updateUser(eq(1L), any(UserRequestDTO.class));
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void deleteUserTest() throws Exception {
         doNothing().when(userService).deleteUser(1L);
 
@@ -107,16 +130,21 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"ROLE_ADMIN"})
     public void getAllUsersTest() throws Exception {
-        UserDTO user1 = new UserDTO();
+        UserResponseDTO user1 = new UserResponseDTO();
         user1.setId(1L);
         user1.setUsername("user1");
+        user1.setEmail("user1@example.com");
+        user1.setRoles(Set.of("ROLE_USER"));
 
-        UserDTO user2 = new UserDTO();
+        UserResponseDTO user2 = new UserResponseDTO();
         user2.setId(2L);
         user2.setUsername("user2");
+        user2.setEmail("user2@example.com");
+        user2.setRoles(Set.of("ROLE_USER"));
 
-        List<UserDTO> users = Arrays.asList(user1, user2);
+        List<UserResponseDTO> users = Arrays.asList(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(users);
 

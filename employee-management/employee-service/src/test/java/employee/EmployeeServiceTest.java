@@ -1,7 +1,6 @@
 package employee;
 
 import dal.dto.common.AddressDTO;
-import dal.dto.employee.EmployeeAddressDTO;
 import dal.dto.employee.EmployeeDTO;
 import dal.dto.employee.EmployeeDetailDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.department.DepartmentMapper;

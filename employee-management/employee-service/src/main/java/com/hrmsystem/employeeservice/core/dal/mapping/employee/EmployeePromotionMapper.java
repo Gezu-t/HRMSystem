@@ -5,7 +5,6 @@ import dal.dto.employee.EmployeePromotionDTO;
 import dal.model.employee.EmployeePromotion;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
 public interface EmployeePromotionMapper {

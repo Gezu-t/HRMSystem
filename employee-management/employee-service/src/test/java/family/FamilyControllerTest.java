@@ -1,4 +1,4 @@
-package com.hrmsystem.employeeservice.core.controller.employee;
+package family;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hrmsystem.employeeservice.core.controller.employee.imp.FamilyControllerImpl;
