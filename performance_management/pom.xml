@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>performance_management-service</artifactId>
+    <artifactId>performance_management</artifactId>
 
     <properties>
         <java.version>17</java.version>

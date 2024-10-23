@@ -7,12 +7,14 @@
     <!-- Parent HRMS System -->
     <parent>
         <groupId>et.hrms</groupId>
-        <artifactId>HRMSystem</artifactId>
+        <artifactId>attendance-leave-management</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath> <!-- Path to the parent POM -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>attendance-service</artifactId>
+    <name>Attendance  Service</name>
+    <description>Service for handling attendance in HRMS.</description>
 
     <dependencies>
         <!-- HRMS Shared Module -->
@@ -58,7 +60,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -100,21 +101,25 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -133,14 +138,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId> <!-- If you don't want Lombok during build -->
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
 
             <!-- Maven Compiler Plugin -->

@@ -1,4 +1,4 @@
-package exceptions;
+package com.hrmsystem.employeeservice.core.exceptions;
 
 
 import org.springframework.http.HttpStatus;

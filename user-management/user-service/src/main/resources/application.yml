@@ -26,15 +26,18 @@ spring:
     type: simple
     cache-names: educationLevels
 
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          # Point to the JWK set URI exposed by your auth-service
           jwk-set-uri: http://localhost:8084/oauth2/jwks
+          issuer-uri: http://localhost:8084
+
 
 server:
   port: 8083
+
 eureka:
   client:
     service-url:

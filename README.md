@@ -8,8 +8,8 @@ HRMSuite is a comprehensive Human Resource Management System built with a micros
 
 ### User Management
 
-- **user-service**: Manages user accounts and their basic information.
-- **user-management-service**: Handles detailed user profiles and settings.
+- **userAccount-service**: Manages userAccount accounts and their basic information.
+- **userAccount-management-service**: Handles detailed userAccount profiles and settings.
 - **auth-service**: Manages authentication processes (if handled separately).
 
 ### Employee Management

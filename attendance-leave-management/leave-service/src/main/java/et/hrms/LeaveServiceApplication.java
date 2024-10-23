@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "et.hrms.dal.model")
 public class LeaveServiceApplication {
     public static void main(String[] args) {
-
         SpringApplication.run(LeaveServiceApplication.class, args);
     }
 }

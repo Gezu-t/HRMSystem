@@ -2,11 +2,13 @@ package et.hrms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class UserApplicationManager {
+@ComponentScan(basePackages = {"et.hrms.dal.repository"})
+public class UserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserApplicationManager.class, args);
+        SpringApplication.run(UserApplication.class, args);
     }
 }

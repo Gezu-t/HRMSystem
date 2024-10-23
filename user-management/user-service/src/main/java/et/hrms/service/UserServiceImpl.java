@@ -5,7 +5,7 @@ import et.hrms.dal.dto.UserResponseDTO;
 import et.hrms.dal.mapper.UserMapper;
 import et.hrms.dal.model.Role;
 import et.hrms.dal.model.RoleName;
-import et.hrms.dal.model.User;
+import et.hrms.dal.model.UserAccount;
 import et.hrms.dal.repository.RoleRepository;
 import et.hrms.dal.repository.UserRepository;
 import et.hrms.exception.ResourceAlreadyExistsException;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,26 +40,31 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExistsException("Email is already in use");
         }
 
-        User user = userMapper.toEntity(userRequest);
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        user.setCreatedAt(Instant.now());
-        user.setUpdatedAt(Instant.now());
-        user.setActive(true);
+        UserAccount userAccount = userMapper.toEntity(userRequest);
+        userAccount.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
+        userAccount.setCreatedAt(Instant.now());
+        userAccount.setUpdatedAt(Instant.now());
+        userAccount.setActive(true);
 
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new ResourceNotFoundException("Default role not found"));
-        user.getRoles().add(userRole);
+        // Assign roles based on the request
+        Set<Role> roles = userRequest.getRoles().stream()
+                .map(roleName -> roleRepository.findByName(RoleName.valueOf(roleName))
+                        .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName)))
+                .collect(Collectors.toSet());
 
-        User savedUser = userRepository.save(user);
-        return userMapper.toDto(savedUser);
+        userAccount.setRoles(roles);
+
+        UserAccount savedUserAccount = userRepository.save(userAccount);
+        return userMapper.toDto(savedUserAccount);
     }
+
 
     @Override
     @Transactional(readOnly = true)
     public UserResponseDTO getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        return userMapper.toDto(user);
+        UserAccount userAccount = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("UserAccount not found with id: " + id));
+        return userMapper.toDto(userAccount);
     }
 
     @Override
@@ -71,28 +77,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO updateUser(Long id, UserRequestDTO userRequest) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        UserAccount userAccount = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("UserAccount not found with id: " + id));
 
-        if (!user.getEmail().equals(userRequest.getEmail()) && userRepository.existsByEmail(userRequest.getEmail())) {
+        if (!userAccount.getEmail().equals(userRequest.getEmail()) && userRepository.existsByEmail(userRequest.getEmail())) {
             throw new ResourceAlreadyExistsException("Email is already in use");
         }
 
-        userMapper.updateUserFromDto(userRequest, user);
-        user.setUpdatedAt(Instant.now());
+        userMapper.updateUserFromDto(userRequest, userAccount);
+        userAccount.setUpdatedAt(Instant.now());
 
         if (userRequest.getPassword() != null && !userRequest.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            userAccount.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
         }
 
-        User updatedUser = userRepository.save(user);
-        return userMapper.toDto(updatedUser);
+        UserAccount updatedUserAccount = userRepository.save(userAccount);
+        return userMapper.toDto(updatedUserAccount);
     }
 
     @Override
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User not found with id: " + id);
+            throw new ResourceNotFoundException("UserAccount not found with id: " + id);
         }
         userRepository.deleteById(id);
     }

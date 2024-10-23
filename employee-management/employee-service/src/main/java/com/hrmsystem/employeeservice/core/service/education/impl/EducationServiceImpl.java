@@ -1,5 +1,6 @@
 package com.hrmsystem.employeeservice.core.service.education.impl;
 
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import dal.dto.education.EducationDTO;
 import dal.dto.education.EducationDetailDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationDetailMapper;
@@ -12,7 +13,6 @@ import dal.repository.education.EducationLevelRepository;
 import dal.repository.education.EducationRepository;
 import dal.repository.education.EducationTypeRepository;
 import dal.repository.employee.EmployeeRepository;
-import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

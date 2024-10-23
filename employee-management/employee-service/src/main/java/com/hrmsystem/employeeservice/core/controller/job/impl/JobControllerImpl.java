@@ -1,9 +1,9 @@
 package com.hrmsystem.employeeservice.core.controller.job.impl;
 
 import com.hrmsystem.employeeservice.core.controller.job.JobController;
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import dal.dto.job.JobDTO;
 import com.hrmsystem.employeeservice.core.service.job.JobService;
-import exceptions.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

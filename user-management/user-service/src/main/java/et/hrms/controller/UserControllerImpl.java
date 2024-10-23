@@ -19,51 +19,58 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserControllerImpl {
+public class UserControllerImpl implements UserController {
 
     private final UserService userService;
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequest) {
         log.info("Creating new user with username: {}", userRequest.getUsername());
         UserResponseDTO userResponse = userService.createUser(userRequest);
-        log.info("User created successfully with id: {}", userResponse.getId());
+        log.info("UserAccount created successfully with id: {}", userResponse.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    @Override
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         log.info("Fetching user with id: {}", id);
         UserResponseDTO userResponse = userService.getUserById(id);
         return ResponseEntity.ok(userResponse);
     }
 
+
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         log.info("Fetching all users");
         List<UserResponseDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    @Override
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id,
                                                       @Valid @RequestBody UserRequestDTO userRequest) {
         log.info("Updating user with id: {}", id);
         UserResponseDTO updatedUser = userService.updateUser(id, userRequest);
-        log.info("User updated successfully");
+        log.info("UserAccount updated successfully");
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Override
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         log.info("Deleting user with id: {}", id);
         userService.deleteUser(id);
-        log.info("User deleted successfully");
+        log.info("UserAccount deleted successfully");
         return ResponseEntity.noContent().build();
     }
 

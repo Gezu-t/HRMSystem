@@ -1,13 +1,13 @@
 package com.hrmsystem.employeeservice.core.service.employee.impl;
 
 
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import dal.dto.employee.FamilyDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.employee.FamilyMapper;
 import com.hrmsystem.employeeservice.core.service.employee.FamilyService;
 import dal.model.employee.Family;
 import dal.repository.employee.EmployeeRepository;
 import dal.repository.employee.FamilyRepository;
-import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

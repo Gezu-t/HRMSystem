@@ -1,4 +1,4 @@
-package exceptions;
+package com.hrmsystem.employeeservice.core.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

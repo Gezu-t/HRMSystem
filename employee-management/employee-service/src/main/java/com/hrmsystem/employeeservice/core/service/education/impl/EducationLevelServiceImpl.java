@@ -1,11 +1,11 @@
 package com.hrmsystem.employeeservice.core.service.education.impl;
 
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import dal.dto.education.EducationLevelDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
 import com.hrmsystem.employeeservice.core.service.education.EducationLevelService;
 import dal.model.education.EducationLevel;
 import dal.repository.education.EducationLevelRepository;
-import exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

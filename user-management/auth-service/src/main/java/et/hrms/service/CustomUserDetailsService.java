@@ -1,42 +1,39 @@
 package et.hrms.service;
 
-import et.hrms.client.UserServiceClient;
-import et.hrms.dal.dto.UserResponseDTO;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import et.hrms.model.AuthUser;
+import et.hrms.repository.AuthUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserServiceClient userServiceClient;
+    private final AuthUserRepository authUserRepository;
 
-    public CustomUserDetailsService(UserServiceClient userServiceClient) {
-        this.userServiceClient = userServiceClient;
+    public CustomUserDetailsService(AuthUserRepository authUserRepository) {
+        this.authUserRepository = authUserRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            UserResponseDTO userDto = userServiceClient.getUserByUsername(username);
-            return new User(
-                    userDto.getUsername(),
-                    userDto.getPassword(),
-                    userDto.isActive(),
-                    true, // accountNonExpired
-                    true, // credentialsNonExpired
-                    true, // accountNonLocked
-                    userDto.getRoles().stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toList())
-            );
-        } catch (Exception e) {
-            throw new UsernameNotFoundException("User not found", e);
-        }
+        // Fetch the user by username from the repository
+        AuthUser authUser = authUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        // Map the AuthUser to Spring Security's UserDetails
+        return User.builder()
+                .username(authUser.getUsername())
+                .password(authUser.getPassword()) // Use the password stored in AuthUser
+                .authorities(authUser.getAuthorities()) // Map roles/authorities
+                .accountExpired(!authUser.isAccountNonExpired()) // Check if the account is expired
+                .accountLocked(!authUser.isAccountNonLocked()) // Check if the account is locked
+                .credentialsExpired(!authUser.isCredentialsNonExpired()) // Check if credentials are expired
+                .disabled(!authUser.isEnabled()) // Check if the user is active
+                .build();
     }
+
+
 }

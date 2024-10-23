@@ -1,12 +1,12 @@
 package com.hrmsystem.employeeservice.core.service.education.impl;
 
 
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import dal.dto.education.EducationTypeDTO;
 import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationDetailMapper;
 import com.hrmsystem.employeeservice.core.service.education.EducationTypeService;
 import dal.model.education.EducationType;
 import dal.repository.education.EducationTypeRepository;
-import exceptions.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

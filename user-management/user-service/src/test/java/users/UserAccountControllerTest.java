@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class UserControllerTest {
+public class UserAccountControllerTest {
 
     private MockMvc mockMvc;
 
@@ -64,7 +64,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUserRequestDTO))
-                .andExpect(status().isOk()) // Assuming the controller returns 200 OK
+                .andExpect(status().isCreated()) // Change to 201 Created
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.username").value("testUser"));
 
@@ -124,7 +124,7 @@ public class UserControllerTest {
         doNothing().when(userService).deleteUser(1L);
 
         mockMvc.perform(delete("/api/users/{id}", 1L))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent()); // 204 No Content
 
         verify(userService, times(1)).deleteUser(1L);
     }

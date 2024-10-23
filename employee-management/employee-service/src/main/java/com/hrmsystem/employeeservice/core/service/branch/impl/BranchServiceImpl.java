@@ -2,6 +2,7 @@ package com.hrmsystem.employeeservice.core.service.branch.impl;
 
 import com.hrmsystem.employeeservice.core.dal.mapping.branch.BranchMapper;
 import com.hrmsystem.employeeservice.core.dal.mapping.common.AddressMapper;
+import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
 import com.hrmsystem.employeeservice.core.service.branch.BranchService;
 import com.hrmsystem.employeeservice.core.service.log.AuditService;
 import com.hrmsystem.employeeservice.core.service.log.LogService;
@@ -12,7 +13,6 @@ import dal.model.branch.Branch;
 import dal.model.organization.Organization;
 import dal.repository.branch.BranchRepository;
 import dal.repository.organization.OrganizationRepository;
-import exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

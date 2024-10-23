@@ -1,0 +1,5 @@
+POST http://localhost:8084/oauth2/token
+Authorization: Basic bXktY2xpZW50LWlkOm15LWNsaWVudC1zZWNyZXQ=
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+
+grant_type=client_credentials&scope=read write

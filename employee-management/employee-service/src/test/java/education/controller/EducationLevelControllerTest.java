@@ -2,9 +2,9 @@ package education.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hrmsystem.employeeservice.core.controller.education.impl.EducationLevelControllerImpl;
+import com.hrmsystem.employeeservice.core.exceptions.GlobalExceptionHandler;
 import dal.dto.education.EducationLevelDTO;
 import com.hrmsystem.employeeservice.core.service.education.EducationLevelService;
-import exceptions.GlobalExceptionHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
