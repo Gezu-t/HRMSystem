@@ -1,0 +1,10 @@
+# src/test/resources/bootstrap.yml
+spring:
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true

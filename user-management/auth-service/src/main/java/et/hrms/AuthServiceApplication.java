@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"et.hrms.client"})
-@ComponentScan(basePackages = {"et.hrms.repository"})
+@ComponentScan(basePackages = {"et.hrms.dal", "et.hrms.config.security", "et.hrms.service"})
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
