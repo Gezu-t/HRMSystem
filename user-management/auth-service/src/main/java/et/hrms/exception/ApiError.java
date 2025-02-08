@@ -1,11 +1,13 @@
 package et.hrms.exception;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ApiError {
     private LocalDateTime timestamp;

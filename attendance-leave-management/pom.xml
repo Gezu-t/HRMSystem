@@ -7,7 +7,8 @@
     <parent>
         <groupId>et.hrms</groupId>
         <artifactId>HRMSystem</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1.0</version>  <!-- Change this from 0.0.1-SNAPSHOT to 0.1.0 -->
+        <relativePath>../pom.xml</relativePath>  <!-- Add this line -->
     </parent>
 
     <artifactId>attendance-leave-management</artifactId>

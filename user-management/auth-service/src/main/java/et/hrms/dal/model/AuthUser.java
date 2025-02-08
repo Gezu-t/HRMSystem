@@ -1,9 +1,7 @@
 package et.hrms.dal.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,14 +9,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "auth_user")
+@ToString(exclude = "password") // Prevent logging password accidentally
 public class AuthUser implements UserDetails, Serializable {
 
     @Serial
@@ -49,8 +51,12 @@ public class AuthUser implements UserDetails, Serializable {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    // NEW: Map the "active" column from the database.
+    @Column(nullable = false)
+    private boolean active = true;
+
     // Roles relationship
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Change to LAZY to improve performance
     @JoinTable(
             name = "auth_user_roles",
             joinColumns = @JoinColumn(name = "auth_user_id"),
@@ -58,18 +64,19 @@ public class AuthUser implements UserDetails, Serializable {
     )
     private Set<Role> roles;
 
-    // Constructors
-    public AuthUser(String username, String password, String email, Set<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    /**
+     * Helper method to return role names.
+     */
+    public List<String> getRoleNames() {
         return roles.stream()
                 .map(Role::getName)
+                .collect(Collectors.toList());
+    }
+
+    /** Optimized getAuthorities() method */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoleNames().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }

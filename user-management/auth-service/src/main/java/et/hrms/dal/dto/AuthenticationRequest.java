@@ -1,15 +1,10 @@
 package et.hrms.dal.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@Getter@AllArgsConstructor@NoArgsConstructor
 public class AuthenticationRequest {
     @NotBlank(message = "Username is required")
     private String username;

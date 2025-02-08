@@ -1,8 +1,11 @@
 package dal.dto.department;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentDTO {
     private Long id;
     private String departmentNumber;

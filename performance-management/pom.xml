@@ -6,10 +6,11 @@
     <parent>
         <groupId>et.hrms</groupId>
         <artifactId>HRMSystem</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.1.0</version>  <!-- Change this from 0.0.1-SNAPSHOT to 0.1.0 -->
+        <relativePath>../pom.xml</relativePath>  <!-- Add this line -->
     </parent>
 
-    <artifactId>performance_management</artifactId>
+    <artifactId>performance-management</artifactId>
 
     <properties>
         <java.version>17</java.version>
@@ -32,10 +33,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>

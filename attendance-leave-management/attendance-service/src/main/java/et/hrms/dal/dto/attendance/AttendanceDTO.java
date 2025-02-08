@@ -6,13 +6,16 @@ import dal.dto.employee.EmployeeDTO;
 import et.hrms.dal.model.AttendanceStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AttendanceDTO implements Serializable {
 
 

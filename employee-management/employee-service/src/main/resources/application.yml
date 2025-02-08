@@ -33,7 +33,11 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/ # Eureka server URL
-  instance:
-    prefer-ip-address: true
+
+logging:
+  level:
+    com.netflix.eureka: DEBUG
+    org.springframework.cloud.netflix.eureka: DEBUG
+
 
 

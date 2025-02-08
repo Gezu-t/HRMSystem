@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import et.hrms.dal.model.LeaveRequestEvents;
 import et.hrms.dal.model.LeaveRequestStates;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LeaveRequestDTO  implements Serializable {
 
   @Serial

@@ -3,104 +3,98 @@ package et.hrms.controller;
 import et.hrms.dal.dto.AuthenticationRequest;
 import et.hrms.dal.dto.AuthenticationResponse;
 import et.hrms.dal.dto.RegisterRequest;
-import et.hrms.service.AuthenticationService;
+import et.hrms.dal.model.AuthUser;
+import et.hrms.dal.model.Role;
+import et.hrms.service.JwtUtil;
+import et.hrms.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/api/auth")
-@Tag(name = "Authentication", description = "Authentication endpoints")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Authentication API for login, registration, and JWT handling")
 public class AuthController {
 
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
 
-    @Operation(
-            summary = "Register new user",
-            description = "Create a new user account"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "User registered successfully",
-                    content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid input",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Username or email already exists",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            )
-    })
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @Parameter(description = "Registration details", required = true)
-            @Valid @RequestBody RegisterRequest request
-    ) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    @Operation(summary = "Register a new user", description = "Creates a new user and returns a JWT token.")
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
+        // Register new user
+        AuthUser user = userService.registerNewUser(
+                request.getUsername(),
+                request.getPassword(),
+                request.getEmail()
+        );
+
+        // Safely handle roles
+        List<String> roles = Optional.ofNullable(user)
+                .map(AuthUser::getRoles)
+                .map(roleSet -> roleSet.stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+
+        // Generate JWT token
+        assert user != null;
+        String token = jwtUtil.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(createAuthResponse(user, token, roles));
     }
 
-    @Operation(
-            summary = "Authenticate user",
-            description = "Login with username and password to receive JWT token"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Authentication successful",
-                    content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Invalid credentials",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            )
-    })
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @Parameter(description = "Login credentials", required = true)
-            @Valid @RequestBody AuthenticationRequest request
-    ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    @Operation(summary = "User login", description = "Authenticates a user and returns a JWT token.")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
+        // Authenticate
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        // Get user details
+        AuthUser user = userService.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + request.getUsername()));
+
+        // Safely handle roles
+        List<String> roles = Optional.ofNullable(user.getRoles())
+                .map(roleSet -> roleSet.stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+
+        // Generate token
+        String token = jwtUtil.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(createAuthResponse(user, token, roles));
     }
 
-    @Operation(
-            summary = "Refresh token",
-            description = "Get new access token using refresh token",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Token refreshed successfully",
-                    content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Invalid refresh token",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            )
-    })
-    @PostMapping("/refresh")
-    public ResponseEntity<AuthenticationResponse> refreshToken(
-            @Parameter(description = "Refresh token (with Bearer prefix)", required = true)
-            @RequestHeader("Authorization") String refreshToken
-    ) {
-        return ResponseEntity.ok(authenticationService.refreshToken(refreshToken));
+    // Helper method to create AuthenticationResponse
+    private AuthenticationResponse createAuthResponse(AuthUser user, String token, List<String> roles) {
+        return AuthenticationResponse.builder()
+                .token(token)
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .roles(roles)
+                .expiresAt(System.currentTimeMillis() + jwtUtil.getExpirationTime())
+                .build();
     }
 }

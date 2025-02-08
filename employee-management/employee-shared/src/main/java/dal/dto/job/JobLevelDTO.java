@@ -1,12 +1,15 @@
 package dal.dto.job;
 
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobLevelDTO implements Serializable {
 
     @Serial

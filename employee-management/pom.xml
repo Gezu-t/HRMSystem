@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>et.hrms</groupId>
-        <artifactId>HRMSystem</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+   <parent>
+    <groupId>et.hrms</groupId>
+    <artifactId>HRMSystem</artifactId>
+    <version>0.1.0</version>  <!-- Change this from 0.0.1-SNAPSHOT to 0.1.0 -->
+    <relativePath>../pom.xml</relativePath>  <!-- Add this line -->
+</parent>
 
     <artifactId>employee-management</artifactId>
     <packaging>pom</packaging>

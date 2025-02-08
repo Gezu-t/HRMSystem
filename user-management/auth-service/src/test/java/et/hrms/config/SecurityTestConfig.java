@@ -1,7 +1,6 @@
 package et.hrms.config;
 
 
-import et.hrms.service.JwtService;
 import et.hrms.service.UserService;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +19,4 @@ public class SecurityTestConfig {
     @MockBean
     public UserService userService;
 
-    @MockBean
-    public JwtService jwtService;
 }

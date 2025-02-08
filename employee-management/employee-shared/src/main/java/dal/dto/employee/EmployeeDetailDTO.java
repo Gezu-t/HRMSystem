@@ -1,9 +1,12 @@
 package dal.dto.employee;
 
-import lombok.Data;
+import lombok.*;
 
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDetailDTO {
 
     private Long id;

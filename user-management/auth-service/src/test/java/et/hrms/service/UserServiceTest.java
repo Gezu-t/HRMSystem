@@ -1,79 +1,193 @@
 package et.hrms.service;
 
-
-import et.hrms.config.SecurityTestConfig;
 import et.hrms.dal.model.AuthUser;
-import et.hrms.dal.model.Role;
 import et.hrms.dal.repository.AuthUserRepository;
-import et.hrms.exception.UserAlreadyExistsException;
+import et.hrms.exception.EmailAlreadyExistsException;
+import et.hrms.exception.UsernameAlreadyExistsException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@Import(SecurityTestConfig.class)
-@TestPropertySource(properties = {
-        "eureka.client.enabled=false",
-        "spring.cloud.compatibility-verifier.enabled=false"
-})
+/**
+ * A minimal test class with just enough to verify that
+ * your stubs and service calls align.
+ *
+ * Make sure:
+ *  - The same strings are used in your service calls and stubs.
+ *  - 'UserService' is the same instance being tested.
+ *  - 'AuthUserRepository' method names match exactly.
+ */
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    @Autowired
+    @Mock
+    private AuthUserRepository authUserRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
+    @InjectMocks
     private UserService userService;
 
-    @MockBean
-    private AuthUserRepository userRepository;
+    // Test data constants
+    private static final String VALID_USERNAME = "testuser";
+    private static final String VALID_PASSWORD = "Password123!";
+    private static final String VALID_EMAIL = "test@example.com";
+    private static final String ENCODED_PASSWORD = "encodedPassword123";
 
     @Test
-    void whenRegisterNewUser_thenSuccess() {
-        when(userRepository.existsByUsername(any())).thenReturn(false);
-        when(userRepository.existsByEmail(any())).thenReturn(false);
-        when(userRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+    void registerNewUser_WithValidData_ShouldCreateUser() {
+        // Arrange
+        when(authUserRepository.existsByUsername(VALID_USERNAME)).thenReturn(false);
+        when(authUserRepository.existsByEmail(VALID_EMAIL)).thenReturn(false);
+        when(passwordEncoder.encode(VALID_PASSWORD)).thenReturn(ENCODED_PASSWORD);
+        when(authUserRepository.save(any(AuthUser.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        AuthUser user = userService.registerNewUser(
-                "newuser",
-                "password123",
-                "new@example.com",
-                Set.of(new Role("ROLE_USER"))
+        // Act
+        AuthUser result = userService.registerNewUser(VALID_USERNAME, VALID_PASSWORD, VALID_EMAIL);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(VALID_USERNAME, result.getUsername());
+        assertEquals(ENCODED_PASSWORD, result.getPassword());
+        assertEquals(VALID_EMAIL, result.getEmail());
+        assertTrue(result.isActive());
+        assertTrue(result.isEnabled());
+        assertTrue(result.isAccountNonExpired());
+        assertTrue(result.isAccountNonLocked());
+        assertTrue(result.isCredentialsNonExpired());
+
+        // Verify interactions
+        verify(authUserRepository).existsByUsername(VALID_USERNAME);
+        verify(authUserRepository).existsByEmail(VALID_EMAIL);
+        verify(passwordEncoder).encode(VALID_PASSWORD);
+        verify(authUserRepository).save(any(AuthUser.class));
+    }
+
+    @Test
+    void registerNewUser_WithExistingUsername_ShouldThrowException() {
+        // Arrange
+        when(authUserRepository.existsByUsername(VALID_USERNAME)).thenReturn(true);
+
+        // Act & Assert
+        UsernameAlreadyExistsException exception = assertThrows(
+                UsernameAlreadyExistsException.class,
+                () -> userService.registerNewUser(VALID_USERNAME, VALID_PASSWORD, VALID_EMAIL)
         );
 
-        assertNotNull(user);
-        assertEquals("newuser", user.getUsername());
-        assertTrue(user.isEnabled());
+        // Assert exception message
+        assertEquals("Username already exists: " + VALID_USERNAME, exception.getMessage());
+
+        // Verify interactions
+        verify(authUserRepository).existsByUsername(VALID_USERNAME);
+        verify(authUserRepository, never()).existsByEmail(any());
+        verify(authUserRepository, never()).save(any());
+        verify(passwordEncoder, never()).encode(any());
     }
 
     @Test
-    void whenRegisterExistingUsername_thenThrowsException() {
-        when(userRepository.existsByUsername("existing")).thenReturn(true);
+    void registerNewUser_WithExistingEmail_ShouldThrowException() {
+        // Arrange
+        when(authUserRepository.existsByUsername(VALID_USERNAME)).thenReturn(false);
+        when(authUserRepository.existsByEmail(VALID_EMAIL)).thenReturn(true);
 
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.registerNewUser(
-                    "existing",
-                    "password123",
-                    "new@example.com",
-                    Set.of(new Role("ROLE_USER"))
-            );
-        });
+        // Act & Assert
+        EmailAlreadyExistsException exception = assertThrows(
+                EmailAlreadyExistsException.class,
+                () -> userService.registerNewUser(VALID_USERNAME, VALID_PASSWORD, VALID_EMAIL)
+        );
+
+        // Assert exception message
+        assertEquals("Email already exists: " + VALID_EMAIL, exception.getMessage());
+
+        // Verify interactions
+        verify(authUserRepository).existsByUsername(VALID_USERNAME);
+        verify(authUserRepository).existsByEmail(VALID_EMAIL);
+        verify(authUserRepository, never()).save(any());
+        verify(passwordEncoder, never()).encode(any());
     }
 
     @Test
-    void whenLoadNonExistentUser_thenThrowsException() {
-        when(userRepository.findByUsername("nonexistent"))
-                .thenReturn(Optional.empty());
+    void loadUserByUsername_WithExistingUser_ShouldReturnUser() {
+        // Arrange
+        AuthUser existingUser = createValidUser();
+        when(authUserRepository.findByUsername(VALID_USERNAME)).thenReturn(Optional.of(existingUser));
 
-        assertThrows(UsernameNotFoundException.class, () -> {
-            userService.loadUserByUsername("nonexistent");
-        });
+        // Act
+        UserDetails result = userService.loadUserByUsername(VALID_USERNAME);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(VALID_USERNAME, result.getUsername());
+        verify(authUserRepository).findByUsername(VALID_USERNAME);
+    }
+
+    @Test
+    void loadUserByUsername_WithNonExistentUser_ShouldThrowException() {
+        // Arrange
+        when(authUserRepository.findByUsername(VALID_USERNAME)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        UsernameNotFoundException exception = assertThrows(
+                UsernameNotFoundException.class,
+                () -> userService.loadUserByUsername(VALID_USERNAME)
+        );
+
+        assertEquals("User not found: " + VALID_USERNAME, exception.getMessage());
+        verify(authUserRepository).findByUsername(VALID_USERNAME);
+    }
+
+    @Test
+    void findByUsername_WithExistingUser_ShouldReturnOptionalUser() {
+        // Arrange
+        AuthUser existingUser = createValidUser();
+        when(authUserRepository.findByUsername(VALID_USERNAME)).thenReturn(Optional.of(existingUser));
+
+        // Act
+        Optional<AuthUser> result = userService.findByUsername(VALID_USERNAME);
+
+        // Assert
+        assertTrue(result.isPresent());
+        assertEquals(VALID_USERNAME, result.get().getUsername());
+        verify(authUserRepository).findByUsername(VALID_USERNAME);
+    }
+
+    @Test
+    void findByUsername_WithNonExistentUser_ShouldReturnEmptyOptional() {
+        // Arrange
+        when(authUserRepository.findByUsername(VALID_USERNAME)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<AuthUser> result = userService.findByUsername(VALID_USERNAME);
+
+        // Assert
+        assertTrue(result.isEmpty());
+        verify(authUserRepository).findByUsername(VALID_USERNAME);
+    }
+
+    // Helper method to create a valid user
+    private AuthUser createValidUser() {
+        return AuthUser.builder()
+                .username(VALID_USERNAME)
+                .password(ENCODED_PASSWORD)
+                .email(VALID_EMAIL)
+                .active(true)
+                .enabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .build();
     }
 }

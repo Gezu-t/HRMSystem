@@ -1,20 +1,19 @@
 package et.hrms.dal.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
+@Setter
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AuthenticationResponse {
-    private String accessToken;
-    private String refreshToken;
-    private String username;
-    private String email;
-    private List<String> roles;
+    private String token;         // JWT Token
+    private String refreshToken;  // Refresh token (if applicable)
+    private String username;      // Authenticated username
+    private String email;         // User email for profile display
+    private List<String> roles;   // List of assigned roles
+    private long expiresAt;       // Expiration timestamp (Unix epoch in ms)
 }

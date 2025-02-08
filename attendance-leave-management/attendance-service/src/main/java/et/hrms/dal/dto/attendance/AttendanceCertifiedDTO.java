@@ -2,13 +2,16 @@ package et.hrms.dal.dto.attendance;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import et.hrms.dal.model.AttendanceCertifiedStatus;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AttendanceCertifiedDTO implements Serializable {
 
   @Serial

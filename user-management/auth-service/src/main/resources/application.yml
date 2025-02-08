@@ -4,17 +4,20 @@ server:
 spring:
   application:
     name: auth-service
+
   security:
     jwt:
-      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      expiration: 1000 # a day
+      secret-key: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"  # Replace with a strong key
+      expiration: 86400000         # 1 day in milliseconds
       refresh-token:
-        expiration: 3000 # 7 days
+        expiration: 604800000      # 7 days in milliseconds
+
   datasource:
     url: jdbc:mysql://localhost:3306/authdb?useSSL=true&serverTimezone=UTC
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,42 +26,26 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+
   main:
     allow-bean-definition-overriding: true
 
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          custom-client:
-#            provider: spring
-#            client-id: my-client-id
-#            client-secret: my-client-secret
-#            authorization-grant-type: client_credentials
-#            scope: read,write
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:8084
-
-app:
-  jwtSecret: ${JWT_SECRET:defaultsecret}
-  cors:
-    allowed-origins:
-      - https://example.com
-      - https://anotherdomain.com
-
-
-user-service:
-  url: http://localhost:8083
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  enable-spring-security: true
 
 eureka:
   client:
+    register-with-eureka: false
+    fetch-registry: false
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 30
-
 
 management:
   endpoints:
@@ -75,5 +62,3 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: TRACE
     org.springframework.web: DEBUG
-
-

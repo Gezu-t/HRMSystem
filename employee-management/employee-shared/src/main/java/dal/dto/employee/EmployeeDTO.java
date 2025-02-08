@@ -2,13 +2,16 @@ package dal.dto.employee;
 
 import dal.dto.common.AddressDTO;
 import dal.dto.education.EducationDTO;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
     private Long id;
     private String employeeNumber;

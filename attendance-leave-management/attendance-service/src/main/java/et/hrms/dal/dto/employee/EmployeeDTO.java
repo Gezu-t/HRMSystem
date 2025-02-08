@@ -1,10 +1,13 @@
 package et.hrms.dal.dto.employee;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
     private Long id;
     private String employeeNumber;
