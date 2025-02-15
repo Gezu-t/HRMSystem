@@ -19,24 +19,9 @@ public interface DepartmentMapper {
 
     DepartmentMapper INSTANCE = Mappers.getMapper(DepartmentMapper.class);
 
-    // Mapping entity to DTO
-    @Mapping(target = "branchId", source = "branch.id")
-    @Mapping(target = "organizationId", source = "organization.id")
     DepartmentDTO toDepartmentDTO(Department entity);
-
-    @Mapping(target = "branch", ignore = true)
-    @Mapping(target = "organization", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "employees", ignore = true)
     Department toDepartment(DepartmentDTO dto);
-
-    // Update method to handle partial updates of the entity
-    @Mapping(target = "branch", ignore = true)
-    @Mapping(target = "organization", ignore = true)
-    @Mapping(target = "employees", ignore = true)
     void updateDepartmentFromDTO(DepartmentDTO dto, @MappingTarget Department entity);
-
     List<DepartmentDTO> toDepartmentDTOList(List<Department> entities);
 
     @AfterMapping

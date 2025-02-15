@@ -33,7 +33,6 @@ public enum MaritalStatus {
      * -- GETTER --
      *  Returns the human-readable display name for the enumeration value.
      *
-     * @return the display name
      */
     private String displayName;
 

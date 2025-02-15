@@ -13,10 +13,8 @@ public interface EmployeeAppearanceMapper {
     EmployeeAppearanceMapper INSTANCE = Mappers.getMapper(EmployeeAppearanceMapper.class);
 
 
-    @Mapping(target = "employee.id", source = "employeeId")
     EmployeeAppearance toAppearance(EmployeeAppearanceDTO employeeAppearanceDTO);
 
-    @Mapping(target = "employeeId", source = "employee.id")
     EmployeeAppearanceDTO toAppearanceDTO(EmployeeAppearance employeeAppearance);
 
 

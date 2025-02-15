@@ -22,21 +22,11 @@ import org.mapstruct.*;
 })
 public interface EmployeeMapper {
 
-    @Mapping(target = "departmentId", source = "department.id")
-    @Mapping(target = "branchId", source = "branch.id")
-    @Mapping(target = "organizationId", source = "organization.id")
     EmployeeDTO toEmployeeDTO(Employee employee);
 
-    @InheritInverseConfiguration
-    @Mapping(target = "genderStatus", ignore = true)
-    @Mapping(target = "maritalStatus", ignore = true)
-    @Mapping(target = "employeeType", ignore = true)
-    @Mapping(target = "department", ignore = true)
-    @Mapping(target = "branch", ignore = true)
-    @Mapping(target = "organization", ignore = true)
+
     Employee toEmployee(EmployeeDTO employeeDTO);
 
-    @InheritConfiguration(name = "toEmployee")
     void updateEmployee(EmployeeDTO employeeDTO, @MappingTarget Employee employee);
 
     @AfterMapping

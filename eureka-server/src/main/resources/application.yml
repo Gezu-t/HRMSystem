@@ -1,6 +1,10 @@
 spring:
   application:
     name: eureka-server
+  security:
+    user:
+      name: eureka
+      password: password
   main:
     allow-bean-definition-overriding: true
 
@@ -10,31 +14,16 @@ server:
 eureka:
   server:
     enable-self-preservation: false
-    renewal-percent-threshold: 0.85
-    renewal-threshold-update-interval-ms: 900000
-    eviction-interval-timer-in-ms: 15000
     wait-time-in-ms-when-sync-empty: 0
     response-cache-update-interval-ms: 3000
   client:
     register-with-eureka: false
     fetch-registry: false
   instance:
-    lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-  health:
-    status:
-      order: LIVENESS, READINESS, OUT_OF_SERVICE, DOWN, UNKNOWN
-
-logging:
-  level:
-    com.netflix.eureka: DEBUG
-    org.springframework.cloud.netflix.eureka: DEBUG
+    hostname: localhost
+    prefer-ip-address: false
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    home-page-url: http://${eureka.instance.hostname}:${server.port}/
+    status-page-url: http://${eureka.instance.hostname}:${server.port}/info
+    health-check-url: http://${eureka.instance.hostname}:${server.port}/health

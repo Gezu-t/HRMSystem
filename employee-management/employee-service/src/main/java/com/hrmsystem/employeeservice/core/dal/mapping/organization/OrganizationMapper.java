@@ -13,10 +13,8 @@ public interface OrganizationMapper {
 
     OrganizationMapper INSTANCE = Mappers.getMapper(OrganizationMapper.class);
 
-    @Mapping(source = "addresses", target = "addresses")
     OrganizationDTO toOrganizationDTO(Organization organization);
 
-    @Mapping(source = "addresses", target = "addresses")
     Organization toOrganization(OrganizationDTO organizationDTO);
 
     void updateOrganization(OrganizationDTO dto, @MappingTarget Organization entity);

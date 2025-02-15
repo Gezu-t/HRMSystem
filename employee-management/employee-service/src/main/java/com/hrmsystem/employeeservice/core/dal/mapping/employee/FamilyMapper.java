@@ -14,12 +14,8 @@ public interface FamilyMapper {
 
     FamilyMapper INSTANCE = Mappers.getMapper(FamilyMapper.class);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "employeeId", source = "employee.id")
     FamilyDTO toFamilyDTO(Family family);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "employee.id", source = "employeeId")
     Family toFamily(FamilyDTO familyDTO);
 
 

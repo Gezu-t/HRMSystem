@@ -4,13 +4,12 @@ server:
 spring:
   application:
     name: auth-service
-
   security:
     jwt:
-      secret-key: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"  # Replace with a strong key
-      expiration: 86400000         # 1 day in milliseconds
+      secret-key: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+      expiration: 86400000
       refresh-token:
-        expiration: 604800000      # 7 days in milliseconds
+        expiration: 604800000
 
   datasource:
     url: jdbc:mysql://localhost:3306/authdb?useSSL=true&serverTimezone=UTC
@@ -21,14 +20,41 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect  # Updated dialect
+    show-sql: false
 
   main:
     allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    instance-id: ${spring.application.name}:${random.uuid}
+    metadata-map:
+      username: ${spring.security.user.name:eureka}
+      password: ${spring.security.user.password:password}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when_authorized
+  info:
+    env:
+      enabled: true
 
 springdoc:
   swagger-ui:
@@ -37,28 +63,12 @@ springdoc:
     path: /v3/api-docs
   enable-spring-security: true
 
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 30
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: when_authorized
-
 logging:
   level:
     root: INFO
+    et.hrms: DEBUG
     org.springframework.security: DEBUG
-    org.springframework.security.oauth2: TRACE
-    org.springframework.web: DEBUG
+    org.springframework.web: INFO
+    org.springframework.cloud.netflix.eureka: DEBUG
+    com.netflix.eureka: DEBUG
+    com.netflix.discovery: DEBUG

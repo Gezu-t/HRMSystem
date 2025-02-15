@@ -12,18 +12,8 @@ public interface AddressMapper {
 
     AddressMapper INSTANCE = Mappers.getMapper(AddressMapper.class);
 
-    // Mapping from DTO to Entity
-    @Mapping(target = "organization", ignore = true)
-    @Mapping(target = "branch", ignore = true)
-    @Mapping(target = "employee", ignore = true)
     Address toAddress(AddressDTO addressDTO);
 
-    // Mapping from Entity to DTO
     AddressDTO toAddressDTO(Address address);
-
-    // Updating existing Address entity from DTO
-    @Mapping(target = "organization", ignore = true)
-    @Mapping(target = "branch", ignore = true)
-    @Mapping(target = "employee", ignore = true)
     void updateAddress(AddressDTO addressDTO, @MappingTarget Address address);
 }
