@@ -9,21 +9,31 @@ import com.hrms.employee.core.dal.model.department.Department;
 import com.hrms.employee.core.dal.model.education.Education;
 import com.hrms.employee.core.dal.model.organization.Organization;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-@Setter
-@Getter
 @Entity
-@Table(name = "employeeprofile")
+@Table(name = "employee", indexes = {
+        @Index(name = "idx_employee_number", columnList = "employeeNumber", unique = true)
+})
+@Getter
+@Setter
 public class Employee implements Serializable {
 
     @Serial
@@ -36,10 +46,12 @@ public class Employee implements Serializable {
     @Column(nullable = false, unique = true)
     private String employeeNumber;
 
-    @Column(nullable = false)
+    @NotNull
+    @Size(min = 2, max = 50)
     private String firstName;
 
-    @Column(nullable = false)
+    @NotNull
+    @Size(min = 2, max = 50)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
@@ -49,6 +61,7 @@ public class Employee implements Serializable {
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
 
+    @Past
     private LocalDate dateOfBirth;
 
     private LocalDate dateOfJoining;
@@ -85,23 +98,48 @@ public class Employee implements Serializable {
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Family family;
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EmployeePositionManagement> employeePositionManagements = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EmployeeEvaluation> employeeEvaluations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeeDetail> employeeDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeePromotion> employeePromotions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> educations = new ArrayList<>();
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    private String updatedBy;
+
+    private boolean deleted = false;
+
+    public int getAge() {
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
+    }
+
+    public int getTenureInYears() {
+        return Period.between(dateOfJoining, LocalDate.now()).getYears();
+    }
+
 
 
 }

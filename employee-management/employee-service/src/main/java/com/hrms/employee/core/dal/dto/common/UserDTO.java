@@ -3,9 +3,22 @@ package com.hrms.employee.core.dal.dto.common;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class UserDTO {
+import java.io.Serial;
+import java.io.Serializable;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDTO implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -6887597556478156088L;
     private Long id;
     @NotNull(message = "user name must not be null")
     @Max(150)

@@ -2,6 +2,7 @@ package com.hrms.employee.core.dal.model;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@Builder
 @Entity
 @Table(name = "audit", schema = "public")
 public class AuditData {

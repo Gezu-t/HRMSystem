@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.hrms.employee.core.dal.repository")
 @EntityScan(basePackages = "com.hrms.employee.core.dal.model")
 @ComponentScan(basePackages = {
-        "com.hrmsystem.employeeservice",
         "com.hrms.employee.core.dal.repository",
         "com.hrms.employee.core.dal.model",
         "com.hrms.employee.core.dal.dto"

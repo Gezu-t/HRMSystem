@@ -16,7 +16,6 @@
 
     <modules>
         <module>employee-service</module>
-        <module>employee-shared</module>
     </modules>
 
 </project>
