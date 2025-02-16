@@ -1,6 +1,6 @@
 package et.hrms.client.validation;
 
-import dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.EmployeeAttendanceDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ public class EmployeeValidationService {
      * @param employee The employeeprofile data transferred object (DTO) to validate.
      * @throws IllegalStateException if the employeeprofile status is not active.
      */
-    public void validateEmployeeStatus(EmployeeDTO employee) {
+    public void validateEmployeeStatus(EmployeeAttendanceDTO employee) {
         // Null check for the entire employeeprofile object to prevent NullPointerException
         if (employee == null) {
             logger.error("Attempted to validate employeeprofile status but employeeprofile data is null");

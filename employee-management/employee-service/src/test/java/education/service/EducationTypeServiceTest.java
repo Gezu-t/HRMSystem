@@ -1,11 +1,11 @@
 package education.service;
 
 
-import dal.dto.education.EducationTypeDTO;
-import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationDetailMapper;
-import com.hrmsystem.employeeservice.core.service.education.impl.EducationTypeServiceImpl;
-import dal.model.education.EducationType;
-import dal.repository.education.EducationTypeRepository;
+import com.hrms.employee.core.dal.dto.education.EducationTypeDTO;
+import com.hrms.employee.core.dal.mapping.education.EducationDetailMapper;
+import com.hrms.employee.core.service.education.impl.EducationTypeServiceImpl;
+import com.hrms.employee.core.dal.model.education.EducationType;
+import com.hrms.employee.core.dal.repository.education.EducationTypeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

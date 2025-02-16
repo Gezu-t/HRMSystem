@@ -1,19 +1,19 @@
 package education.service;
 
 
-import dal.dto.education.*;
-import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationDetailMapper;
-import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
-import com.hrmsystem.employeeservice.core.service.education.impl.EducationServiceImpl;
-import dal.model.education.Education;
-import dal.model.education.EducationDetail;
-import dal.model.education.EducationLevel;
-import dal.model.education.EducationType;
-import dal.model.employee.Employee;
-import dal.repository.education.EducationLevelRepository;
-import dal.repository.education.EducationRepository;
-import dal.repository.education.EducationTypeRepository;
-import dal.repository.employee.EmployeeRepository;
+import com.hrms.employee.core.dal.dto.education.*;
+import com.hrms.employee.core.dal.mapping.education.EducationDetailMapper;
+import com.hrms.employee.core.dal.mapping.education.EducationMapper;
+import com.hrms.employee.core.service.education.impl.EducationServiceImpl;
+import com.hrms.employee.core.dal.model.education.Education;
+import com.hrms.employee.core.dal.model.education.EducationDetail;
+import com.hrms.employee.core.dal.model.education.EducationLevel;
+import com.hrms.employee.core.dal.model.education.EducationType;
+import com.hrms.employee.core.dal.model.employee.Employee;
+import com.hrms.employee.core.dal.repository.education.EducationLevelRepository;
+import com.hrms.employee.core.dal.repository.education.EducationRepository;
+import com.hrms.employee.core.dal.repository.education.EducationTypeRepository;
+import com.hrms.employee.core.dal.repository.employee.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

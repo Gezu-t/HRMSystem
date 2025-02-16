@@ -1,7 +1,7 @@
 package et.hrms.service.impl;
 
 import et.hrms.client.employee.EmployeeClientService;
-import dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.EmployeeLeaveDTO;
 import et.hrms.dal.dto.leave.LeaveRequestApproveDTO;
 import et.hrms.dal.mapper.LeaveRequestApproveMapper;
 import et.hrms.dal.model.LeaveRequest;
@@ -44,7 +44,7 @@ public class LeaveRequestApproveServiceImpl implements LeaveRequestApproveServic
     LeaveRequest leaveRequest = leaveRequestRepository.findById(leaveRequestId)
             .orElseThrow(() -> new RuntimeException("Leave request not found: " + leaveRequestId));
 
-    EmployeeDTO approvedBy = employeeClientService.getEmployeeById(employeeId);
+    EmployeeLeaveDTO approvedBy = employeeClientService.getEmployeeById(employeeId);
     validateEmployeeStatus(approvedBy);
 
     LeaveRequestApprove leaveRequestApprove = leaveRequestApproveMapper.toEntity(leaveRequestApproveDTO);
@@ -62,7 +62,7 @@ public class LeaveRequestApproveServiceImpl implements LeaveRequestApproveServic
     LeaveRequest leaveRequest = leaveRequestRepository.findById(leaveRequestId)
             .orElseThrow(() -> new RuntimeException("Leave request not found: " + leaveRequestId));
 
-    EmployeeDTO approvedBy = employeeClientService.getEmployeeById(employeeId);
+    EmployeeLeaveDTO approvedBy = employeeClientService.getEmployeeById(employeeId);
     validateEmployeeStatus(approvedBy);
 
     LeaveRequestApprove leaveRequestApprove = leaveRequestApproveRepository.findById(leaveRequestApproveDTO.getLeaveRequestApproveId())
@@ -76,7 +76,7 @@ public class LeaveRequestApproveServiceImpl implements LeaveRequestApproveServic
     return leaveRequestApproveMapper.toDTO(leaveRequestApprove);
   }
 
-  private void validateEmployeeStatus(EmployeeDTO employee) {
+  private void validateEmployeeStatus(EmployeeLeaveDTO employee) {
     if (employee.getStatus() == null || !employee.getStatus().equalsIgnoreCase("Active")) {
       logger.error("Employee status is not active. EmployeeId: {}", employee.getId());
       throw new IllegalStateException("Employee status is not active for approval");

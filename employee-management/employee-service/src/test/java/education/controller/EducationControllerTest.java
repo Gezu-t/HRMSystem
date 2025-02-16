@@ -1,9 +1,9 @@
 package education.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hrmsystem.employeeservice.core.controller.education.impl.EducationControllerImpl;
-import dal.dto.education.EducationDTO;
-import com.hrmsystem.employeeservice.core.service.education.EducationService;
+import com.hrms.employee.core.controller.education.impl.EducationControllerImpl;
+import com.hrms.employee.core.dal.dto.education.EducationDTO;
+import com.hrms.employee.core.service.education.EducationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,12 +1,12 @@
 package education.service;
 
 
-import com.hrmsystem.employeeservice.core.exceptions.EntityNotFoundException;
-import dal.dto.education.EducationLevelDTO;
-import com.hrmsystem.employeeservice.core.dal.mapping.education.EducationMapper;
-import com.hrmsystem.employeeservice.core.service.education.impl.EducationLevelServiceImpl;
-import dal.model.education.EducationLevel;
-import dal.repository.education.EducationLevelRepository;
+import com.hrms.employee.core.exceptions.EntityNotFoundException;
+import com.hrms.employee.core.dal.dto.education.EducationLevelDTO;
+import com.hrms.employee.core.dal.mapping.education.EducationMapper;
+import com.hrms.employee.core.service.education.impl.EducationLevelServiceImpl;
+import com.hrms.employee.core.dal.model.education.EducationLevel;
+import com.hrms.employee.core.dal.repository.education.EducationLevelRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

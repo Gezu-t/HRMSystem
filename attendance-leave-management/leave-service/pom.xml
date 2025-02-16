@@ -15,12 +15,7 @@
     <artifactId>leave-service</artifactId>
 
     <dependencies>
-        <!-- HRMS Shared Module -->
-        <dependency>
-            <groupId>et.hrms</groupId>
-            <artifactId>employee-shared</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
 
         <!-- Spring Boot Web Starter -->
         <dependency>

@@ -1,7 +1,7 @@
 package et.hrms.controller.impl;
 
 import et.hrms.controller.LeaveRequestController;
-import dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.EmployeeLeaveDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
 import et.hrms.service.LeaveRequestService;
@@ -30,13 +30,13 @@ public class LeaveRequestControllerImpl implements LeaveRequestController {
     /**
      * Get employee details based on employee name.
      * @param employeeId The employee name to search for.
-     * @return ResponseEntity containing EmployeeDTO or not found status.
+     * @return ResponseEntity containing EmployeeLeaveDTO or not found status.
      */
     @GetMapping("/employee/{employeeId}")
     @Override
-    public ResponseEntity<EmployeeDTO> getEmployeeDetails(@PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeLeaveDTO> getEmployeeDetails(@PathVariable Long employeeId) {
         try {
-            EmployeeDTO employee = leaveRequestService.handleLeaveRequestForEmployee(employeeId)
+            EmployeeLeaveDTO employee = leaveRequestService.handleLeaveRequestForEmployee(employeeId)
                     .orElseThrow(() -> new RuntimeException("No employeeprofile found with the ID: " + employeeId));
             return ResponseEntity.ok(employee);
         } catch (IllegalArgumentException e) {
@@ -49,10 +49,10 @@ public class LeaveRequestControllerImpl implements LeaveRequestController {
 //    /**
 //     * Get employeeprofile details asynchronously based on employeeprofile name.
 //     * @param employeeName The employeeprofile's name to search for.
-//     * @return A CompletableFuture wrapped in ResponseEntity containing EmployeeDTO.
+//     * @return A CompletableFuture wrapped in ResponseEntity containing EmployeeLeaveDTO.
 //     */
 //    @GetMapping("/employeeprofile/{employeeName}")
-//    public CompletableFuture<ResponseEntity<EmployeeDTO>> getEmployeeDetails(@PathVariable String employeeName) {
+//    public CompletableFuture<ResponseEntity<EmployeeLeaveDTO>> getEmployeeDetails(@PathVariable String employeeName) {
 //        return leaveRequestService.handleLeaveRequestForEmployeeAsync(employeeName)
 //                .thenApply(employeeprofile -> ResponseEntity.ok(employeeprofile))
 //                .exceptionally(ex -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());

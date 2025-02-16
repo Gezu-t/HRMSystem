@@ -2,7 +2,7 @@ package et.hrms.dal.dto.attendance;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import dal.dto.employee.EmployeeDTO;
+import et.hrms.dal.dto.employee.EmployeeAttendanceDTO;
 import et.hrms.dal.model.AttendanceStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -49,6 +49,6 @@ public class AttendanceDTO implements Serializable {
   private Long employeeId;
   private AttendanceStatus attendanceStatus;
   private String forDepartment;
-  private EmployeeDTO employee;
+  private EmployeeAttendanceDTO employee;
 
 }

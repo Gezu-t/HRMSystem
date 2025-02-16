@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableFeignClients
 @EnableEurekaClient
-@ComponentScan(basePackages = "et.hrms.dal.model")
+@ComponentScan(basePackages = "et.hrms.com.hrms.employee.core.dal.model")
 public class AttendanceServiceApplication {
     public static void main(String[] args) {
 

@@ -1,10 +1,10 @@
 package family;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hrmsystem.employeeservice.core.controller.employee.imp.FamilyControllerImpl;
-import dal.dto.employee.FamilyDTO;
-import com.hrmsystem.employeeservice.core.service.employee.FamilyService;
-import dal.model.employee.Family;
+import com.hrms.employee.core.controller.employee.imp.FamilyControllerImpl;
+import com.hrms.employee.core.dal.dto.employee.FamilyDTO;
+import com.hrms.employee.core.service.employee.FamilyService;
+import com.hrms.employee.core.dal.model.employee.Family;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

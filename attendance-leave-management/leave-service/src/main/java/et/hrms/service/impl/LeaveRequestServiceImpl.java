@@ -1,7 +1,7 @@
 package et.hrms.service.impl;
 
-import dal.dto.employee.EmployeeDTO;
 import et.hrms.client.employee.EmployeeClientService;
+import et.hrms.dal.dto.employee.EmployeeLeaveDTO;
 import et.hrms.dal.dto.leave.CreateLeaveRequestDTO;
 import et.hrms.dal.dto.leave.LeaveRequestDTO;
 import et.hrms.dal.mapper.LeaveRequestMapper;
@@ -42,7 +42,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         LeaveRequest leaveRequest = leaveRequestRepository.findById(leaveRequestId)
                 .orElseThrow(() -> new EntityNotFoundException("Leave request not found for ID: " + leaveRequestId));
 
-        EmployeeDTO employee = employeeClientService.getEmployeeById(leaveRequest.getEmployeeId());
+        EmployeeLeaveDTO employee = employeeClientService.getEmployeeById(leaveRequest.getEmployeeId());
 
         LeaveRequestDTO leaveRequestDTO = LeaveRequestMapper.INSTANCE.leaveRequestToDTO(leaveRequest);
         leaveRequestDTO.setEmployeeId(employee.getId());
@@ -82,17 +82,17 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
      * Handles leave requests for an employee based on the employee's ID.
      *
      * @param employeeId The ID of the employee to search for and process a leave request.
-     * @return Optional<EmployeeDTO> The employee details if found and processed.
+     * @return Optional<EmployeeLeaveDTO> The employee details if found and processed.
      * @throws IllegalArgumentException if no employee is found or the employee ID is not provided.
      */
     @Override
-    public Optional<EmployeeDTO> handleLeaveRequestForEmployee(Long employeeId) {
+    public Optional<EmployeeLeaveDTO> handleLeaveRequestForEmployee(Long employeeId) {
         if (employeeId == null || employeeId <= 0) {
             throw new IllegalArgumentException("Employee ID must not be empty or invalid");
         }
 
         // Assuming this fetches a single employee by ID
-        EmployeeDTO employee = employeeClientService.getEmployeeById(employeeId);
+        EmployeeLeaveDTO employee = employeeClientService.getEmployeeById(employeeId);
         if (employee == null) {
             throw new IllegalArgumentException("No employee found with the ID: " + employeeId);
         }
@@ -101,15 +101,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         return Optional.of(employee);
     }
 
-//    public CompletableFuture<EmployeeDTO> handleLeaveRequestForEmployeeAsync(String employeeName) {
-//        return CompletableFuture.supplyAsync(() -> {
-//            EmployeeDTO[] foundEmployees = employeeClientService.searchEmployeesByName(employeeName);
-//            if (foundEmployees.length == 0) {
-//                throw new RuntimeException("No employeeprofile found with the name: " + employeeName);
-//            }
-//            // For simplicity, assume processing the first found employeeprofile
-//            return foundEmployees[0];
-//        });
-//    }
+
 
 }

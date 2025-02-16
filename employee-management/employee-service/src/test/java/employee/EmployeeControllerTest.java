@@ -1,9 +1,9 @@
 package employee;
 
 
-import com.hrmsystem.employeeservice.core.controller.employee.imp.EmployeeControllerImpl;
-import dal.dto.employee.EmployeeDTO;
-import com.hrmsystem.employeeservice.core.service.employee.EmployeeService;
+import com.hrms.employee.core.controller.employee.imp.EmployeeControllerImpl;
+import com.hrms.employee.core.dal.dto.employee.EmployeeDTO;
+import com.hrms.employee.core.service.employee.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

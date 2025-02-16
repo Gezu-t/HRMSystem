@@ -1,8 +1,8 @@
 package et.hrms.service.impl;
 
-import dal.dto.employee.EmployeeDTO;
 import et.hrms.client.employee.EmployeeClientService;
 import et.hrms.dal.dto.attendance.AttendanceDTO;
+import et.hrms.dal.dto.employee.EmployeeAttendanceDTO;
 import et.hrms.dal.mapper.AttendanceMapper;
 import et.hrms.dal.model.Attendance;
 import et.hrms.dal.repository.AttendanceRepository;
@@ -42,11 +42,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         log.info("Saving attendance for employee ID: {}", employeeId);
         validateAttendanceDTO(attendanceDTO);
 
-        EmployeeDTO employee = employeeClientService.getEmployeeById(employeeId);
-        if (employee == null) {
-            throw new CustomEntityNotFoundException("Employee not found by this ID: " + employeeId);
-        }
-
+        EmployeeAttendanceDTO employee = new EmployeeAttendanceDTO();
         Attendance attendance = attendanceMapper.toEntity(attendanceDTO);
         attendance.setEmployeeId(employee.getId());
         attendance.setCreatedAt(LocalDateTime.now());

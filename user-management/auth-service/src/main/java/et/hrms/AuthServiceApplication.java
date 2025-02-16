@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
         "et.hrms.config",
         "et.hrms.service",
-        "et.hrms.dal",
+        "et.hrms.com.hrms.employee.core.dal",
         "et.hrms.controller"
 })
 @EnableDiscoveryClient
