@@ -1,10 +1,10 @@
 package vacancy_notice;
 
-import et.hrms.dal.dto.VacancyNoticeDTO;
-import et.hrms.dal.mapper.VacancyNoticeMapper;
-import et.hrms.dal.model.VacancyNotice;
-import et.hrms.dal.repository.VacancyNoticeRepository;
-import et.hrms.service.impl.VacancyNoticeServiceImpl;
+import com.gtltek.messaging.dto.VacancyNoticeDTO;
+import com.gtltek.messaging.mapper.VacancyNoticeMapper;
+import com.gtltek.messaging.model.VacancyNotice;
+import com.gtltek.messaging.repository.VacancyNoticeRepository;
+import com.gtltek.service.impl.VacancyNoticeServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
